@@ -1,2 +1,2 @@
-config.json
-connectToMongo.js
+./config.json
+./connectToMongo.js
