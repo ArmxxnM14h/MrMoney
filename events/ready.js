@@ -1,6 +1,8 @@
-client.once('ready', () => {
+module.exports = {
+    name: 'ready',
+    once: true,
+    execute(client) {
 require('./connectToMongo.js')
-console.log('online')
      const activities = [
     `/help`,
     `money`,
@@ -10,3 +12,6 @@ console.log('online')
   let i = 0;
   setInterval(() => client.user.setActivity(`${activities[i++ % activities.length]}`, { type: `LISTENING` }), 5000);
 });
+
+    },
+};
