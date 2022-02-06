@@ -27,23 +27,13 @@ module.exports = {
         if (err) console.log(err);
 
         if (!res) {
-          const newDoc = new schema({
-            userID: interaction.user.id,
-            userName: interaction.user.username,
-            serverID: interaction.guild.id,
-            coins: 100
-          });
-          newDoc.save().catch(err => console.log(err));
-
-          const balEmbed = new MessageEmbed()
-            .setColor("GREEN")
-            .setTitle(`${user.tag}'s Balance'`)
-
-            .setDescription(`$${res.coins}`)
+          const errEmbed = new MessageEmbed()
+            .setColor("RED")
+            .setDescription(`${user.tag} hasn't used the bot yet!!`)
             .setTimestamp();
 
           // Reply to the entire interaction
-          await interaction.reply({ embeds: [balEmbed] });
+          await interaction.reply({ embeds: [errEmbed] });
         } else {
 
           const balEmbed = new MessageEmbed()
@@ -74,7 +64,7 @@ module.exports = {
           const balEmbed = new MessageEmbed()
             .setColor("GREEN")
             .setTitle(`${interaction.user.tag}'s Balance'`)
-            .setDescription(`$${res.coins}`)
+            .setDescription("$100")
             .setTimestamp();
 
           // Reply to the entire interaction
