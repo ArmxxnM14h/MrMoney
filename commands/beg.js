@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const db = require('quick.db')
+const schema = require("../userschema.js");
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('beg')
@@ -13,6 +14,14 @@ const responses = ["After a successful day of begging on the streets you managed
 let Result = responses[Math.floor(Math.random() * responses.length)];
 let amount = Math.floor(Math.random() * Math.floor(99));
 db.add(`${interaction.user.username}_wallet`, amount)
+const coinstoadd = amount
+schema.findOne({
+  userID: interaction.user.id
+}, (err, res) => {
+  if(err) console.log(err);
+  res.coins = res.coins + coinstoadd;
+  res.save();
+});
         const pingy = new MessageEmbed()
 	.setColor('RANDOM')
 	.setTitle("You begged!")
