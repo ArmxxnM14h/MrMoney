@@ -1,2 +1,3 @@
-./config.json
-./connectToMongo.js
+config.json
+connectToMongo.js
+/node_modules

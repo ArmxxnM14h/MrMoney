@@ -13,23 +13,23 @@ module.exports = {
         .setDescription("choose the words you want the bot to say")
         .setRequired(true)
     ),
-cooldowns : new Set(),
-cooldown : 5, 
-// Executing the interaction and defining nessessery stuff
+  cooldowns: new Set(),
+  cooldown: 5,
+  // Executing the interaction and defining nessessery stuff
   async execute(interaction) {
-const user = interaction.options.getUser("user")
-  
-   const say = interaction.options.getString("words");
+    const user = interaction.options.getUser("user")
 
-// Entirely new embed
-      const balEmbed = new MessageEmbed()
-        .setColor("RANDOM")
-        .setTitle(`Hm, A user has executed /say`)
-        .setDescription(`User: **${interaction.user.username}** 
+    const say = interaction.options.getString("words");
+
+    // Entirely new embed
+    const balEmbed = new MessageEmbed()
+      .setColor("RANDOM")
+      .setTitle(`Hm, A user has executed /say`)
+      .setDescription(`User: **${interaction.user.username}** 
 
 Content: ${say}`)
-        .setTimestamp();
-        
-      await interaction.reply({ embeds: [balEmbed] });
+      .setTimestamp();
+
+    await interaction.reply({ embeds: [balEmbed] });
   }
 }

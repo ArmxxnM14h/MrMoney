@@ -21,36 +21,71 @@ module.exports = {
 
 
     if (user) {
-schema.findOne({
+      schema.findOne({
         userID: user.id
       }, async (err, res) => {
         if (err) console.log(err);
 
-if(!res){
+        if (!res) {
           const newDoc = new schema({
             userID: interaction.user.id,
             userName: interaction.user.username,
             serverID: interaction.guild.id,
             coins: 100
           });
-newDoc.save().catch(err => console.log(err));
+          newDoc.save().catch(err => console.log(err));
 
           const balEmbed = new MessageEmbed()
-          .setColor("GREEN")
-          .setTitle(`${user.tag}'s Balance'`)
+            .setColor("GREEN")
+            .setTitle(`${user.tag}'s Balance'`)
 
-          .setDescription(`$${res.coins}`)
-          .setTimestamp();
+            .setDescription(`$${res.coins}`)
+            .setTimestamp();
 
           // Reply to the entire interaction
           await interaction.reply({ embeds: [balEmbed] });
         } else {
 
           const balEmbed = new MessageEmbed()
-          .setColor("GREEN")
-          .setTitle(`${user.tag}'s Balance'`)
-          .setDescription(`:purse: Wallet: $${res.coins}`)
-          .setTimestamp();
+            .setColor("GREEN")
+            .setTitle(`${user.tag}'s Balance'`)
+            .setDescription(`:purse: Wallet: $${res.coins}`)
+            .setTimestamp();
+
+          // Reply to the entire interaction
+          await interaction.reply({ embeds: [balEmbed] });
+        }
+      });
+    } else {
+      schema.findOne({
+        userID: interaction.user.id
+      }, async (err, res) => {
+        if (err) console.log(err);
+
+        if (!res) {
+          const newDoc = new schema({
+            userID: interaction.user.id,
+            userName: interaction.user.username,
+            serverID: interaction.guild.id,
+            coins: 100
+          });
+          newDoc.save().catch(err => console.log(err));
+
+          const balEmbed = new MessageEmbed()
+            .setColor("GREEN")
+            .setTitle(`${interaction.user.tag}'s Balance'`)
+            .setDescription(`$${res.coins}`)
+            .setTimestamp();
+
+          // Reply to the entire interaction
+          await interaction.reply({ embeds: [balEmbed] });
+        } else {
+
+          const balEmbed = new MessageEmbed()
+            .setColor("GREEN")
+            .setTitle(`${interaction.user.tag}'s Balance'`)
+            .setDescription(`:purse: Wallet: $${res.coins}`)
+            .setTimestamp();
 
           // Reply to the entire interaction
           await interaction.reply({ embeds: [balEmbed] });
