@@ -39,7 +39,8 @@ module.exports = {
           const balEmbed = new MessageEmbed()
             .setColor("GREEN")
             .setTitle(`${user.tag}'s Balance'`)
-            .setDescription(`:purse: Wallet: $${res.coins}`)
+            .setDescription(`:purse: Wallet: $${res.coins}
+:bank: Bank: $${res.bank} `)
             .setTimestamp();
 
           // Reply to the entire interaction
@@ -57,14 +58,15 @@ module.exports = {
             userID: interaction.user.id,
             userName: interaction.user.username,
             serverID: interaction.guild.id,
-            coins: 100
+            coins: 100,
+            bank: 0
           });
           newDoc.save().catch(err => console.log(err));
 
           const balEmbed = new MessageEmbed()
             .setColor("GREEN")
-            .setTitle(`${interaction.user.tag}'s Balance'`)
-            .setDescription("$100")
+            .setTitle(`Please Wait...`)
+            .setDescription("We are creating your account")
             .setTimestamp();
 
           // Reply to the entire interaction
@@ -74,7 +76,9 @@ module.exports = {
           const balEmbed = new MessageEmbed()
             .setColor("GREEN")
             .setTitle(`${interaction.user.tag}'s Balance'`)
-            .setDescription(`:purse: Wallet: $${res.coins}`)
+            .setDescription(`:purse: Wallet: $${res.coins}
+
+:bank: $${res.bank}`)
             .setTimestamp();
 
           // Reply to the entire interaction
