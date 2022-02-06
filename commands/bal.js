@@ -1,4 +1,4 @@
-const schema = require("../userschema.js");
+const schema = require("../models/userschema.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 // All the command info will be listed here

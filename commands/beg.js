@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const db = require('quick.db')
-const schema = require("../userschema.js");
+const schema = require("../models/userschema.js");
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('beg')
