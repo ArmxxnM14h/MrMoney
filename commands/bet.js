@@ -1,9 +1,8 @@
 // Defining Random Stuff
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
+const schema = require("../models/userschema.js");
 const wait = require('util').promisify(setTimeout);
-const db = require("quick.db");
-
 // All the command info will be listed here
 module.exports = {
   data: new SlashCommandBuilder()
@@ -20,15 +19,26 @@ module.exports = {
   // Executing the interaction and defining nessessery stuff
   async execute(interaction) {
     const amount = interaction.options.getInteger("amount");
-    const bal = db.fetch(`${interaction.user.username}_wallet`);
     const chance = Math.floor(Math.random() * Math.floor(100));
+schema.findOne({
+        userID: interaction.user.id
+      }, async (err, res) => {
+        if (err) console.log(err);
+
+if(!res){
+const errEmbed = new MessageEmbed()
+.setTitle('Error...')
+.setDescription('First time users must execute the bal command before using other commands')
+.setColor('RANDOM')
+}
     if (amount <= 0) {
       const Abuser = new MessageEmbed()
         .setTitle('Lmao you tried abusing the system')
         .setDescription('Why you tryna abuse the system dude... What have i done to you')
         .setColor('RANDOM')
       await interaction.reply({ embeds: [Abuser], ephemeral: true })
-    } else if (bal < amount) {
+
+    } else if (res.coins < amount) {
       const AnotherOne = new MessageEmbed()
         .setTitle("Bruh..")
         .setDescription(
@@ -39,7 +49,7 @@ module.exports = {
       await interaction.reply({ embeds: [AnotherOne], ephemeral: true });
 
     } else if (chance < 50) {
-
+   res.coins = res.coins - amount;
       //Checking if you won or not, reduce a bit of ping with this ig
       const OOF = new MessageEmbed()
         .setTitle('You bet some cash, hope you win')
@@ -52,13 +62,19 @@ module.exports = {
       const OOF1 = new MessageEmbed()
         //Lmao they lost LOOOOOSERS
         .setTitle('Your bet failed')
-        .setDescription(`Unfortunately you failed your bet meaning you lost $${amount}`)
+        .setDescription(`Betting Info
+
+Amount bet: ${amount}
+
+Status: Lost
+
+Current Balance: ${res.coins}`)
         .setColor('RANDOM')
       await interaction.editReply({ embeds: [OOF1] });
-      db.subtract(`${interaction.user.username}_wallet`, amount)
+  res.save();
 
     } else if (chance > 50) {
-
+res.coins = res.coins + amount;
       const winningBet = new MessageEmbed()
         .setTitle('You bet some cash, hope you win')
         .setDescription(`Checking your bet...`)
@@ -69,10 +85,19 @@ module.exports = {
 
       const winningBet1 = new MessageEmbed()
         .setTitle('Your bet WON!')
-        .setDescription(`Your bet won which means that you won $${amount}, enjoy your cash!`)
+        .setDescription(`
+Betting Info
+
+Amount bet: ${amount}
+
+Status: Won
+
+Current Balance: ${res.coins}`)
+
         .setColor('RANDOM')
       await interaction.editReply({ embeds: [winningBet1] });
-      db.add(`${interaction.user.username}_wallet`, amount)
+  res.save();
     }
+    });
   },
 };
