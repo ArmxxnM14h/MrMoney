@@ -29,18 +29,20 @@ module.exports = {
         if (!res) {
           const errEmbed = new MessageEmbed()
             .setColor("RED")
-            .setDescription(`${user.tag} hasn't used the bot yet!!`)
+            .setDescription(`${user.username} hasn't used the bot yet!!`)
             .setTimestamp();
 
           // Reply to the entire interaction
           await interaction.reply({ embeds: [errEmbed] });
         } else {
-
+const networth = res.bank + res.coins
           const balEmbed = new MessageEmbed()
             .setColor("GREEN")
-            .setTitle(`${user.tag}'s Balance'`)
-            .setDescription(`:purse: Wallet: $${res.coins}
-:bank: Bank: $${res.bank} `)
+            .setTitle(`${user.username}'s Balance`)
+            .setDescription(`:purse: Wallet: **$${res.coins}**
+:bank: Bank: **$${res.bank}** 
+
+:money_mouth: Networth **$${networth}**`)
             .setTimestamp();
 
           // Reply to the entire interaction
@@ -72,13 +74,15 @@ module.exports = {
           // Reply to the entire interaction
           await interaction.reply({ embeds: [balEmbed] });
         } else {
-
+ const nw = res.coins + res.bank
           const balEmbed = new MessageEmbed()
             .setColor("GREEN")
-            .setTitle(`${interaction.user.tag}'s Balance'`)
-            .setDescription(`:purse: Wallet: $${res.coins}
+            .setTitle(`${interaction.user.username}'s Balance`)
+            .setDescription(`:purse: Wallet: **$${res.coins}**
 
-:bank: $${res.bank}`)
+:bank: Bank: **$${res.bank}**
+
+:money_mouth: Networth: **$${nw}**`)
             .setTimestamp();
 
           // Reply to the entire interaction
