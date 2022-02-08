@@ -1,34 +1,94 @@
+const schema = require("../models/userschema.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-const db = require('quick.db')
-const schema = require("../models/userschema.js");
+// All the command info will be listed here
 module.exports = {
-	data: new SlashCommandBuilder()
-		.setName('beg')
-		.setDescription('Beg to random people on the streets'),
-	cooldowns: new Set(),
-	cooldown: 15,
-	async execute(interaction) {
-		const user = interaction.options.getUser("user");
-		const responses = ["After a successful day of begging on the streets you managed to pull out a few coins", "A rich lady gave you a small amount of cash", "Pop Smoke gave you a bit of cash when he saw you at starbucks", "Your uncle gave you a early christmas present! "]
-		let Result = responses[Math.floor(Math.random() * responses.length)];
-		let amount = Math.floor(Math.random() * Math.floor(99));
-		db.add(`${interaction.user.username}_wallet`, amount)
-		const coinstoadd = amount
-		schema.findOne({
-			userID: interaction.user.id
-		}, (err, res) => {
-			if (err) console.log(err);
-			res.coins = res.coins + coinstoadd;
-			res.save();
-		});
-		const pingy = new MessageEmbed()
-			.setColor('RANDOM')
-			.setTitle("You begged!")
-			.setDescription(`**What happened:** ${Result}
+  data: new SlashCommandBuilder()
+    .setName("bal")
+    .setDescription("Get your balance or another user's balance!")
+    .addUserOption((option) =>
+      option
+        .setName("user")
+        .setDescription("Get another user's balance!")
+        .setRequired(false),
 
-**Earnings:** $${amount}`)
-			.setTimestamp()
-		return interaction.reply({ embeds: [pingy] });
-	},
-};
+    ),
+  cooldowns: new Set(),
+  cooldown: 5,
+  // Executing the interaction and defining nessessery stuff
+  async execute(interaction) {
+    const user = interaction.options.getUser("user");
+
+
+    if (user) {
+      schema.findOne({
+        userID: user.id
+      }, async (err, res) => {
+        if (err) console.log(err);
+
+        if (!res) {
+          const errEmbed = new MessageEmbed()
+            .setColor("RED")
+            .setDescription(`${user.username} hasn't used the bot yet!!`)
+            .setTimestamp();
+
+          // Reply to the entire interaction
+          await interaction.reply({ embeds: [errEmbed] });
+        } else {
+const networth = res.bank + res.coins
+          const balEmbed = new MessageEmbed()
+            .setColor("GREEN")
+            .setTitle(`${user.username}'s Balance`)
+            .setDescription(`:purse: Wallet: **$${res.coins}**
+:bank: Bank: **$${res.bank}** 
+
+:money_mouth: Networth **$${networth}**`)
+            .setTimestamp();
+
+          // Reply to the entire interaction
+          await interaction.reply({ embeds: [balEmbed] });
+        }
+      });
+    } else {
+      schema.findOne({
+        userID: interaction.user.id
+      }, async (err, res) => {
+        if (err) console.log(err);
+
+        if (!res) {
+          const newDoc = new schema({
+            userID: interaction.user.id,
+            userName: interaction.user.username,
+            serverID: interaction.guild.id,
+            coins: 100,
+            bank: 0
+          });
+          newDoc.save().catch(err => console.log(err));
+
+          const balEmbed = new MessageEmbed()
+            .setColor("GREEN")
+            .setTitle(`Please Wait...`)
+            .setDescription("We are creating your account")
+            .setTimestamp();
+
+          // Reply to the entire interaction
+          await interaction.reply({ embeds: [balEmbed] });
+        } else {
+ const nw = res.coins + res.bank
+          const balEmbed = new MessageEmbed()
+            .setColor("GREEN")
+            .setTitle(`${interaction.user.username}'s Balance`)
+            .setDescription(`:purse: Wallet: **$${res.coins}**
+
+:bank: Bank: **$${res.bank}**
+
+:money_mouth: Networth: **$${nw}**`)
+            .setTimestamp();
+
+          // Reply to the entire interaction
+          await interaction.reply({ embeds: [balEmbed] });
+        }
+      });
+    }
+  }
+}
