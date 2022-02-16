@@ -46,7 +46,7 @@ const ErrorEmbed = new MessageEmbed()
       return interaction.reply({ embeds: [ErrorEmbed], ephemeral: true})
     }
 
- else if (res.bank > subtract) {
+ else if (res.bank >= subtract) {
 // Entirely new embed
       res.coins = res.coins + subtract
       res.bank = res.bank - subtract
