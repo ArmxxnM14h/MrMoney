@@ -1,7 +1,7 @@
 // Defining Random Stuff
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
-const db = require("quick.db");
+const schema = require("../models/userschema.js");
 
 // All the command info will be listed here
 module.exports = {
@@ -26,7 +26,12 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.options.getUser("user");
     const given = interaction.options.getInteger("amount");
-    const bal = db.fetch(`${interaction.user.username}_wallet`);
+ schema.findOne({
+        userID: interaction.user.id
+      }, async (err, res) => {
+        if (err) console.log(err);
+
+    const bal = res.coins
 
     if (given <= 0) {
       const AnotherOne = new MessageEmbed()
@@ -48,9 +53,24 @@ module.exports = {
       await interaction.reply({ embeds: [ErrorEmbed], ephemeral: true });
     } else if (bal > given) {
       // Entirely new embed
-      const deposit =
-        db.subtract(`${interaction.user.username}_wallet`, given) || 0;
-      const bank = db.add(`${user}_wallet`, given) || 0;
+
+res.coins = res.coins - given
+const deposit = res.coins
+ schema.findOne({
+        userID: user.id
+      }, async (err, res) => {
+        if (err) console.log(err);
+if (!res){
+const resInvalid = new MessageEmbed()
+.setTitle("Unable to donate")
+.setDescription(`This user needs to use the bal command to get cash from you`)
+.setColor('RANDOM')
+return interaction.reply({ embeds: [resInvalid] })
+}
+res.coins = res.coins + given
+
+ });
+       
       const balEmbed = new MessageEmbed()
         .setColor("GREEN")
         .setTitle(`${interaction.user.username} has donated to ${user.tag}`)
@@ -58,8 +78,9 @@ module.exports = {
           `**Phone:** $${given}  has been added to ${user.tag} wallet, Your wallet has been deducted to $${deposit}`
         )
         .setTimestamp();
-
-      await interaction.reply({ embeds: [balEmbed] });
+      return interaction.reply({ embeds: [balEmbed] });
+    } 
+})
     }
-  },
-};
+ }
+  
