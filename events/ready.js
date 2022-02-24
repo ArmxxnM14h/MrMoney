@@ -3,7 +3,6 @@ module.exports = {
   once: true,
   execute(client) {
     require('./connectToMongo.js')
-    require('./deploy-commands.js')
     const activities = [
       `/help`,
       `money`,
