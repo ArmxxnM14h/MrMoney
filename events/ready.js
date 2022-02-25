@@ -2,7 +2,7 @@ module.exports = {
   name: 'ready',
   once: true,
   execute(client) {
-    require('./connectToMongo.js')
+    require('../connectToMongo.js')
     const activities = [
       `/help`,
       `money`,
