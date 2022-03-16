@@ -10,12 +10,14 @@ cooldowns : new Set(),
 	    cooldown : 8,
 	async execute(interaction, client) {
 const gay = Math.floor(Math.random() * Math.floor(100));
-if(interaction.user.id === "465945329968218144" gay = "0%")
+if(interaction.user.id === "465945329968218144"){
+const gay = Math.floor(Math.random() * Math.floor(0));
         const pingy = new MessageEmbed()
 	.setColor('RANDOM')
 	.setTitle("Gay Scale...")
 	.setDescription(`You are scientificly proven to be ${gay}% gay`)
 	.setTimestamp()
 		return interaction.reply({ embeds: [pingy] });
+}
 	},
 };
