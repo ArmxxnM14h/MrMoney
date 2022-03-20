@@ -20,9 +20,9 @@ module.exports = {
 			if (err) console.log(err);
 			res.coins = res.coins + coinstoadd;
 			res.save();
-if(!res){
-return interaction.reply({content: "First time users need to use the bal command to start"})
-}
+			if (!res) {
+				return interaction.reply({ content: "First time users need to use the bal command to start" })
+			}
 		});
 
 		const pingy = new MessageEmbed()

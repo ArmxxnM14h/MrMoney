@@ -35,7 +35,7 @@ module.exports = {
           // Reply to the entire interaction
           await interaction.reply({ embeds: [errEmbed] });
         } else {
-const networth = res.bank + res.coins
+          const networth = res.bank + res.coins
           const balEmbed = new MessageEmbed()
             .setColor("GREEN")
             .setTitle(`${user.username}'s Balance`)
@@ -74,7 +74,7 @@ const networth = res.bank + res.coins
           // Reply to the entire interaction
           await interaction.reply({ embeds: [balEmbed] });
         } else {
- const nw = res.coins + res.bank
+          const nw = res.coins + res.bank
           const balEmbed = new MessageEmbed()
             .setColor("GREEN")
             .setTitle(`${interaction.user.username}'s Balance`)

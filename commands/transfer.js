@@ -26,70 +26,70 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.options.getUser("user");
     const given = interaction.options.getInteger("amount");
- schema.findOne({
-        userID: interaction.user.id
-      }, async (err, res) => {
-        if (err) console.log(err);
+    schema.findOne({
+      userID: interaction.user.id
+    }, async (err, res) => {
+      if (err) console.log(err);
 
-    const bal = res.bank
+      const bal = res.bank
 
-    if (given <= 0) {
-      const AnotherOne = new MessageEmbed()
-        .setTitle("Haha you tried!")
-        .setDescription(
-          `Don't try abuse the system or we will be forced to blacklist you!`
-        )
-        .setColor("RANDOM");
+      if (given <= 0) {
+        const AnotherOne = new MessageEmbed()
+          .setTitle("Haha you tried!")
+          .setDescription(
+            `Don't try abuse the system or we will be forced to blacklist you!`
+          )
+          .setColor("RANDOM");
 
-      await interaction.reply({ embeds: [AnotherOne], ephemeral: true });
-    } else if(user.id === interaction.user.id){
-      const embed = new MessageEmbed()
-      .setTitle('Transfer Failed')
-      .setDescription('You cannot transfer cash to yourself')
-      .setColor('RANDOM')
-     await interaction.reply({embeds: [embed]})
-    } else if (bal < given) {
-      const ErrorEmbed = new MessageEmbed()
-        .setTitle("Error In Transaction")
-        .setDescription(
-          "**Phone:** Your balance is too low to transfer your money to another user!"
-        )
-        .setColor("RANDOM");
+        await interaction.reply({ embeds: [AnotherOne], ephemeral: true });
+      } else if (user.id === interaction.user.id) {
+        const embed = new MessageEmbed()
+          .setTitle('Transfer Failed')
+          .setDescription('You cannot transfer cash to yourself')
+          .setColor('RANDOM')
+        await interaction.reply({ embeds: [embed] })
+      } else if (bal < given) {
+        const ErrorEmbed = new MessageEmbed()
+          .setTitle("Error In Transaction")
+          .setDescription(
+            "**Phone:** Your balance is too low to transfer your money to another user!"
+          )
+          .setColor("RANDOM");
 
-      await interaction.reply({ embeds: [ErrorEmbed], ephemeral: true });
-    } else if (bal > given) {
-      // Entirely new embed
+        await interaction.reply({ embeds: [ErrorEmbed], ephemeral: true });
+      } else if (bal > given) {
+        // Entirely new embed
 
-res.bank = res.bank - given
-const deposit = res.bank
+        res.bank = res.bank - given
+        const deposit = res.bank
         schema.findOne({
           userID: user.id
         }, async (err, res) => {
           if (err) console.log(err);
-  
+
           if (!res) {
             const errEmbed = new MessageEmbed()
               .setColor("RED")
               .setDescription(`${user.username} hasn't used the bot yet!!`)
               .setTimestamp();
-  
+
             // Reply to the entire interaction
             return interaction.reply({ embeds: [errEmbed] });
           } else {
-res.bank = res.bank + given
+            res.bank = res.bank + given
           }
- });
-} else {  
-      const balEmbed = new MessageEmbed()
-        .setColor("GREEN")
-        .setTitle(`${interaction.user.username} has donated to ${user.tag}`)
-        .setDescription(
-          `**Phone:** $${given}  has been added to ${user.tag}'s bank, Your bank balance has been deducted to $${deposit}`
-        )
-        .setTimestamp();
-      interaction.reply({ embeds: [balEmbed] });
-        
-    } 
-})
-    }
- }
+        });
+      } else {
+        const balEmbed = new MessageEmbed()
+          .setColor("GREEN")
+          .setTitle(`${interaction.user.username} has donated to ${user.tag}`)
+          .setDescription(
+            `**Phone:** $${given}  has been added to ${user.tag}'s bank, Your bank balance has been deducted to $${deposit}`
+          )
+          .setTimestamp();
+        interaction.reply({ embeds: [balEmbed] });
+
+      }
+    })
+  }
+}

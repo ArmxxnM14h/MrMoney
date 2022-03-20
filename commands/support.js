@@ -5,16 +5,16 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('support')
 		.setDescription('join the support server'),
-     cooldowns : new Set(),
-	    cooldown : 5,
+	cooldowns: new Set(),
+	cooldown: 5,
 	async execute(interaction) {
- const botAdd = `[Join our support server!](https://discord.gg/kw4YZJ5j3u
+		const botAdd = `[Join our support server!](https://discord.gg/kw4YZJ5j3u
 )`
-        const pingy = new MessageEmbed()
-	.setColor('RANDOM')
-	.setTitle("Official Support!")
-	.setDescription(botAdd)
-	.setTimestamp()
+		const pingy = new MessageEmbed()
+			.setColor('RANDOM')
+			.setTitle("Official Support!")
+			.setDescription(botAdd)
+			.setTimestamp()
 		return interaction.reply({ embeds: [pingy] });
 	},
 };
