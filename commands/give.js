@@ -56,15 +56,24 @@ module.exports = {
 
 res.coins = res.coins - given
 const deposit = res.coins
- schema.findOne({
-        userID: user.id
-      }, async (err, res) => {
-        if (err) console.log(err);
-if (!res) return;
+        schema.findOne({
+          userID: user.id
+        }, async (err, res) => {
+          if (err) console.log(err);
+  
+          if (!res) {
+            const errEmbed = new MessageEmbed()
+              .setColor("RED")
+              .setDescription(`${user.username} hasn't used the bot yet!!`)
+              .setTimestamp();
+  
+            // Reply to the entire interaction
+            return interaction.reply({ embeds: [errEmbed] });
+          } else {
 res.coins = res.coins + given
-
+          }
  });
-       
+} else {  
       const balEmbed = new MessageEmbed()
         .setColor("GREEN")
         .setTitle(`${interaction.user.username} has donated to ${user.tag}`)
@@ -72,9 +81,9 @@ res.coins = res.coins + given
           `**Phone:** $${given}  has been added to ${user.tag} wallet, Your wallet has been deducted to $${deposit}`
         )
         .setTimestamp();
-      return interaction.reply({ embeds: [balEmbed] });
+      interaction.reply({ embeds: [balEmbed] });
+        
     } 
 })
     }
  }
-  
