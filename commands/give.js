@@ -59,17 +59,14 @@ module.exports = {
           .setColor("RANDOM");
 
         await interaction.reply({ embeds: [ErrorEmbed], ephemeral: true });
-      } else if (bal > given) {
+      } else if (bal >= given) {
         // Entirely new embed
-
-        res.coins = res.coins - given
-        const deposit = res.coins
         schema.findOne({
           userID: user.id
-        }, async (err, res) => {
-          if (err) console.log(err);
+        }, async (err2, res2) => {
+          if (err2) console.log(err);
 
-          if (!res) {
+          if (!res2) {
             const errEmbed = new MessageEmbed()
               .setColor("RED")
               .setDescription(`${user.username} hasn't used the bot yet!!`)
@@ -78,19 +75,21 @@ module.exports = {
             // Reply to the entire interaction
             return interaction.reply({ embeds: [errEmbed] });
           } else {
-            res.coins = res.coins + given
+            res2.coins = res2.coins + given
+            res2.save().catch((err) => console.log(err));
+            res.coins = res.coins - given
+            res.save().catch(err => console.log(err));
+            const deposit = res.coins
+            const balEmbed = new MessageEmbed()
+              .setColor("GREEN")
+              .setTitle(`${interaction.user.username} has donated to ${user.tag}`)
+              .setDescription(
+                `**Phone:** $${given}  has been added to ${user.tag} wallet, Your wallet has been deducted to $${deposit}`
+              )
+              .setTimestamp();
+            interaction.reply({ embeds: [balEmbed] });
           }
         });
-      } else {
-        const balEmbed = new MessageEmbed()
-          .setColor("GREEN")
-          .setTitle(`${interaction.user.username} has donated to ${user.tag}`)
-          .setDescription(
-            `**Phone:** $${given}  has been added to ${user.tag} wallet, Your wallet has been deducted to $${deposit}`
-          )
-          .setTimestamp();
-        interaction.reply({ embeds: [balEmbed] });
-
       }
     })
   }
