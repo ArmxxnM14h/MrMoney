@@ -7,7 +7,7 @@ const schema = require("../models/userschema.js");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("transfer")
-    .setDescription("transfer cash to other banks")
+    .setDescription("transfer cash to others")
     .addUserOption((option) =>
       option
         .setName("user")
@@ -42,6 +42,12 @@ module.exports = {
         .setColor("RANDOM");
 
       await interaction.reply({ embeds: [AnotherOne], ephemeral: true });
+    } else if(user.id === interaction.user.id){
+      const embed = new MessageEmbed()
+      .setTitle('Transfer Failed')
+      .setDescription('You cannot transfer cash to yourself')
+      .setColor('RANDOM')
+     await interaction.reply({embeds: [embed]})
     } else if (bal < given) {
       const ErrorEmbed = new MessageEmbed()
         .setTitle("Error In Transaction")
