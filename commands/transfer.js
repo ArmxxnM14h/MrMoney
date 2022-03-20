@@ -1,17 +1,17 @@
 // Defining Random Stuff
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
-const db = require("quick.db");
+const schema = require("../models/userschema.js");
 
 // All the command info will be listed here
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("transfer")
-    .setDescription("transfer cash from bank to other peoples banks")
+    .setDescription("transfer cash to other banks")
     .addUserOption((option) =>
       option
         .setName("user")
-        .setDescription("The person you want to transfer to")
+        .setDescription("The person you want to give to")
         .setRequired(true)
     )
     .addIntegerOption((option) =>
@@ -20,13 +20,18 @@ module.exports = {
         .setDescription("choose the amount you want to give")
         .setRequired(true)
     ),
-cooldowns : new Set(),
-cooldown : 10,
+  cooldowns: new Set(),
+  cooldown: 10,
   // Executing the interaction and defining nessessery stuff
   async execute(interaction) {
     const user = interaction.options.getUser("user");
     const given = interaction.options.getInteger("amount");
-    const bal = db.fetch(`${interaction.user.username}_bank`);
+ schema.findOne({
+        userID: interaction.user.id
+      }, async (err, res) => {
+        if (err) console.log(err);
+
+    const bal = res.bank
 
     if (given <= 0) {
       const AnotherOne = new MessageEmbed()
@@ -48,24 +53,37 @@ cooldown : 10,
       await interaction.reply({ embeds: [ErrorEmbed], ephemeral: true });
     } else if (bal > given) {
       // Entirely new embed
-      const deposit =
-        db.subtract(`${interaction.user.username}_bank`, given) || 0;
-      const bank = db.add(`${user.username}_bank`, given) || 0;
+
+res.bank = res.bank - given
+const deposit = res.bank
+        schema.findOne({
+          userID: user.id
+        }, async (err, res) => {
+          if (err) console.log(err);
+  
+          if (!res) {
+            const errEmbed = new MessageEmbed()
+              .setColor("RED")
+              .setDescription(`${user.username} hasn't used the bot yet!!`)
+              .setTimestamp();
+  
+            // Reply to the entire interaction
+            return interaction.reply({ embeds: [errEmbed] });
+          } else {
+res.bank = res.bank + given
+          }
+ });
+} else {  
       const balEmbed = new MessageEmbed()
         .setColor("GREEN")
-        .setTitle(`You donated to ${user.username}!`)
+        .setTitle(`${interaction.user.username} has donated to ${user.tag}`)
         .setDescription(
-          `**Bank Statements:**
-
-**Given to:** ${user.username}
-
-**Amount given:** ${given}
-
-**Money in wallet now:** ${bal}`
+          `**Phone:** $${given}  has been added to ${user.tag}'s bank, Your bank balance has been deducted to $${deposit}`
         )
         .setTimestamp();
-
-      await interaction.reply({ embeds: [balEmbed] });
+      interaction.reply({ embeds: [balEmbed] });
+        
+    } 
+})
     }
-  },
-};
+ }
