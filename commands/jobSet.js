@@ -36,7 +36,7 @@ cooldowns : new Set(),
 const choice = interaction.options.getString('category');
 
 if (choice === "banker") {
-    if (res.workxp < 100) {
+    if (res.workxp < 300) {
         const work = new MessageEmbed()
         .setColor('RANDOM')
         .setTitle("Unable to employ")
@@ -55,7 +55,7 @@ if (choice === "banker") {
     }   
 
 } else if (choice === "accountant") {
-    if (res.workxp < 200) {
+    if (res.workxp < 1000) {
         const work = new MessageEmbed()
         .setColor('RANDOM')
         .setTitle("Unable to employ")
@@ -84,7 +84,7 @@ else if (choice === "streamer") {
     return await interaction.reply({embeds: [streamerEmbed]})
 }
 else if (choice === "taxi") {
-    if (res.workxp < 10) {
+    if (res.workxp < 200) {
         const work = new MessageEmbed()
         .setColor('RANDOM')
         .setTitle("Unable to employ")
@@ -97,7 +97,7 @@ else if (choice === "taxi") {
     const taxiEmbed = new MessageEmbed()
     .setTitle('Taxi')
     .setDescription(`:moneybag: **Taxi:** :moneybag:
-    you have been hired as a taxi!`)
+    you have been hired as a Taxi driver!`)
     .setColor('RANDOM')
     return await interaction.reply({embeds: [taxiEmbed]})
     }
