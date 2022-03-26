@@ -18,6 +18,13 @@ const gay = Math.floor(Math.random() * Math.floor(0));
 	.setDescription(`You are scientificly proven to be ${gay}% gay`)
 	.setTimestamp()
 		return interaction.reply({ embeds: [pingy] });
+} else {
+ const pingy = new MessageEmbed()
+	.setColor('RANDOM')
+	.setTitle("Gay Scale...")
+	.setDescription(`You are scientificly proven to be ${gay}% gay`)
+	.setTimestamp()
+		return interaction.reply({ embeds: [pingy] });
 }
 	},
 };
