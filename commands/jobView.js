@@ -17,21 +17,21 @@ schema.findOne({
     }
     if (err) console.log(err);
   if(res.workxp < 300) {
-bankEmoji = ":no_entry:"
+bankEmoji = "<:red:903369899093680169>"
   } else {
-bankEmoji = ":white_check_mark:"
+bankEmoji = "<:green:903369570100850688>"
   } if (res.workxp < 1000) {
-accountantEmoji = ":no_entry:"
+accountantEmoji = "<:red:903369899093680169>"
   } else {
-  accountantEmoji = ":white_check_mark:"
+  accountantEmoji = "<:green:903369570100850688>"
   } if (res.workxp < 200){
-   taxiEmoji = ":no_entry:"
+   taxiEmoji = "<:red:903369899093680169>"
   } else {
-    taxiEmoji = ":white_check_mark:"
+    taxiEmoji = "<:green:903369570100850688>"
     } if (res.workxp < 150){
-    policeEmoji = ":no_entry:"
+    policeEmoji = "<:red:903369899093680169>"
     } else {
-    policeEmoji = ":white_check_mark:"
+    policeEmoji = "<:green:903369570100850688>"
     } 
 
 const viewJob = new MessageEmbed()
@@ -44,13 +44,13 @@ If a job is unavailable the emoji will be :no_entry:
 
 2) **Accountant** - 40XP per Hour, 600 Coins per Hour - ${accountantEmoji}
 
-3) **Streamer** - 5XP per Hour, 100 Coins per Hour - :white_check_mark:
+3) **Streamer** - 5XP per Hour, 100 Coins per Hour - <:green:903369570100850688>
 
 4) **Taxi Driver** - 20XP per Hour, 200 Coins per Hour - ${taxiEmoji}
 
 5) **Police** - 15XP per Hour, 200 Coins per Hour - ${policeEmoji}
 
-6) Cashier - 5XP per Hour, 100 Coins per Hour - :white_check_mark:`) 
+6) **Cashier** - 5XP per Hour, 100 Coins per Hour - <:green:903369570100850688>`) 
 .setTimestamp()
 interaction.reply({ embeds: [viewJob] });
     }
