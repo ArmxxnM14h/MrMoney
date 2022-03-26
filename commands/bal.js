@@ -19,7 +19,6 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.options.getUser("user");
 
-
     if (user) {
       schema.findOne({
         userID: user.id
