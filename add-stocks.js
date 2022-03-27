@@ -10,3 +10,4 @@ const newDoc = new schema({
   volume: 0
 });
 newDoc.save().catch(err => console.log(err));
+console.log("Added Monke Coin to database");

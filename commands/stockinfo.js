@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const schema = require("../models/stockschema.js");
+const Chart = require('quickchart-js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -20,14 +21,46 @@ module.exports = {
     if(!stockinfo) {
 			schema.find({}, async (err, res) => {
 				if (err) console.log(err);
-				const stockembed = new MessageEmbed();
+				const stockembed = new MessageEmbed()
+					.setTitle("Stock Info")
+					.setColor("#0099ff")
+					.setDescription("**Here are the current stocks:**");
 
 				for(let i = 0; i < res.length; i++) {
-					stockembed.addField(`${res[i].stockID}`, `${res[i].currentprice}`);
+					stockembed.addField(`${i + 1}. ${res[i].stockName}`, `Stock ID: ${res[i].stockID}\nCurrent Price: $${res[i].currentprice}\nChange Percent: ${res[i].changePercent}%\nVolume: ${res[i].volume}`);
 				}
 
 				return await interaction.reply({ embeds: [stockembed] });
 			});
+		} else if(stockinfo) {
+			schema.findOne({
+				stockName: stockinfo
+			}, async (err, res) => {
+				if (err) console.log(err);
+
+				if(!res) {
+					return await interaction.reply("That stock does not exist.");
+				}
+
+				const stockembed = new MessageEmbed()
+					.setTitle(res.stockName)
+					.setColor("#0099ff")
+					.setDescription(`**Stock ID:** ${res.stockID}\n**Current Price:** $${res.currentprice}\n**Change Percent:** ${res.changePercent}%\n**Volume:** ${res.volume}`);
+				
+				const chart = new Chart();
+				chart
+					.setConfig({
+						type: 'line',
+						data: { labels: ['Yesterday', 'Today'], datasets: [{data: res.priceTable }] },
+					})
+					.setWidth(400)
+					.setHeight(200)
+					.setBackgroundColor('white');
+					
+				stockembed.setImage(chart.getUrl());
+
+				return await interaction.reply({ embeds: [stockembed] });
+			})
 		}
 	},
 };
