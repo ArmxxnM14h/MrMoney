@@ -51,7 +51,7 @@ module.exports = {
 				chart
 					.setConfig({
 						type: 'line',
-						data: { labels: ['Yesterday', 'Today'], datasets: [{data: res.priceTable }] },
+						data: { datasets: [{label: "Monke Coin", data: res.priceTable }] },
 					})
 					.setWidth(400)
 					.setHeight(200)
