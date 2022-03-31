@@ -71,9 +71,17 @@ const networth = res.bank + res.coins
             .setTitle(`Please Wait...`)
             .setDescription("We are creating your account")
             .setTimestamp();
-
-          // Reply to the entire interaction
           await interaction.reply({ embeds: [balEmbed] });
+
+ await wait(1000);
+
+const balEmbed2 = new MessageEmbed()
+.setColor("GREEN")
+.setTitle("Account created")
+.setDescription("Your account has been created")
+.setTimestamp()
+await interaction.editReply({ embeds: [balEmbed2] });
+
         } else {
  const nw = res.coins + res.bank
           const balEmbed = new MessageEmbed()
