@@ -4,7 +4,7 @@ const { MessageEmbed } = require('discord.js');
 // All the command info will be listed here
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("quitjob")
+    .setName("jobQuit")
     .setDescription("quit your job"),
     cooldowns: new Set(),
     cooldown: 5,
