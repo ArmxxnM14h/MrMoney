@@ -5,10 +5,13 @@ const newDoc = new schema({
   stockID: "MC",
   stockName: "Monke Coin",
   currentprice: 10,
-  priceTable: [0, 10],
+  priceTable: [0, 10, 11, 12, 9, 7, ],
   changePercent: 0,
   volume: 0,
   health: 100,
   instability: 3,
 });
-newDoc.save().catch(err => console.log(err)).then(() => console.log("Added Monke Coin to database"));
+newDoc.save().catch(err => console.log(err)).then(() => {
+  console.log("Added Monke Coin to database");
+  process.exit();
+});

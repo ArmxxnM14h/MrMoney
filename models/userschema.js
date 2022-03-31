@@ -6,7 +6,8 @@ const userschema = mongoose.Schema({
   coins: { type: Number, default: 100 },
   bank: { type: Number,  default: 0 },
   job: { type: String, default: "Unemployed" },
-  workxp: { type: Number, default: 0 }
+  workxp: { type: Number, default: 0 },
+  inventory: [{ name: String, count: Number }]
 });
 
 module.exports = mongoose.model("User", userschema);
