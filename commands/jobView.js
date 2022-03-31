@@ -44,7 +44,7 @@ If a job is unavailable the emoji will be :no_entry:
 
 2) **Accountant** - 40XP per Hour, 600 Coins per Hour - ${accountantEmoji}
 
-3) **Streamer** - 5XP per Hour, 100 Coins per Hour - <:green:903369570100850688>
+3) <:money_streamer:958783889478938644> **Streamer** - 5XP per Hour, 100 Coins per Hour - <:green:903369570100850688>
 
 4) **Taxi Driver** - 20XP per Hour, 200 Coins per Hour - ${taxiEmoji}
 
