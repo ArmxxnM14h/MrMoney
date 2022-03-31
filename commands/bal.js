@@ -1,6 +1,7 @@
 const schema = require("../models/userschema.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
+const wait = require('util').promisify(setTimeout);
 // All the command info will be listed here
 module.exports = {
   data: new SlashCommandBuilder()
