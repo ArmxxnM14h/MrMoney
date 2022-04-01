@@ -21,7 +21,7 @@ module.exports = {
     if(!user) {
       schema.findOne({
         userID: interaction.user.id
-      }, (err, res) => {
+      }, async (err, res) => {
         if(err) console.log(err);
 
         if(!res) {
@@ -41,7 +41,7 @@ module.exports = {
     } else if(user) {
       schema.findOne({
         userID: user.id
-      }, (err, res) => {
+      }, async (err, res) => {
         if(err) console.log(err);
 
         if(!res) {

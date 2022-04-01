@@ -4,7 +4,7 @@ const schema = require("../models/stockschema.js");
 const newDoc = new schema({
   stockID: "MC",
   stockName: "Monke Coin",
-  currentprice: 10,
+  currentPrice: 10,
   priceTable: [0, 10],
   changePercent: 0,
   volume: 0,
