@@ -30,6 +30,8 @@ module.exports = {
           .setTitle('Error...')
           .setDescription('First time users must execute the bal command before using other commands')
           .setColor('RANDOM')
+        
+        await interaction.reply({ embeds: [errEmbed] });
       }
       if (amount <= 0) {
         const Abuser = new MessageEmbed()
