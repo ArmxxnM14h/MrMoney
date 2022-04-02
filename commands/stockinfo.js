@@ -27,7 +27,7 @@ module.exports = {
 					.setDescription("**Here are the current stocks:**");
 
 				for (let i = 0; i < res.length; i++) {
-					stockembed.addField(`${i + 1}. ${res[i].stockName}`, `Stock ID: ${res[i].stockID}\nCurrent Price: $${res[i].currentprice}\nChange Percent: ${res[i].changePercent}%\nVolume: ${res[i].volume}`);
+					stockembed.addField(`${i + 1}. ${res[i].stockName}`, `Stock ID: ${res[i].stockID}\nCurrent Price: $${res[i].currentPrice}\nChange Percent: ${res[i].changePercent}%\nVolume: ${res[i].volume}`);
 				}
 
 				return await interaction.reply({ embeds: [stockembed] });
@@ -45,7 +45,7 @@ module.exports = {
 				const stockembed = new MessageEmbed()
 					.setTitle(res.stockName)
 					.setColor("#0099ff")
-					.setDescription(`**Stock ID:** ${res.stockID}\n**Current Price:** $${res.currentprice}\n**Change Percent:** ${res.changePercent}%\n**Volume:** ${res.volume}`);
+					.setDescription(`**Stock ID:** ${res.stockID}\n**Current Price:** $${res.currentPrice}\n**Change Percent:** ${res.changePercent}%\n**Volume:** ${res.volume}`);
 
 				const chart = new Chart();
 				chart

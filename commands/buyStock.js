@@ -7,7 +7,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("buystock")
     .setDescription("Buy stocks or cryptos from the market!")
-    .addStringOption((option) => 
+    .addStringOption((option) =>
       option
         .setName("stockname")
         .setDescription("The stock or crypto you want to buy.")
@@ -33,45 +33,62 @@ module.exports = {
     stockschema.findOne({
       stockName: stockname
     }, async (err, res) => {
-      if(err) console.log(err);
+      if (err) console.log(err);
 
-      if(!res) {
+      if (!res) {
         const errEmbed = new MessageEmbed()
-        .setTitle('Error...')
-        .setDescription('That stock or crypto does not exist!')
-        .setColor('RED');
+          .setTitle('Error...')
+          .setDescription('That stock or crypto does not exist!')
+          .setColor('RED');
         return await interaction.reply({ embeds: [errEmbed] });
       }
 
       userschema.findOne({
         userID: interaction.user.id
       }, async (usererr, userres) => {
-        if(usererr) console.log(usererr);
+        if (usererr) console.log(usererr);
 
-        if(!userres) {
+        if (!userres) {
           const errEmbed = new MessageEmbed()
-          .setTitle('Error...')
-          .setDescription('First time users must execute the bal command before using other commands')
-          .setColor('RED');
+            .setTitle('Error...')
+            .setDescription('First time users must execute the bal command before using other commands')
+            .setColor('RED');
           return await interaction.reply({ embeds: [errEmbed] });
         }
 
         const totalPrice = res.currentPrice * quantity;
 
-        if(userres.coins < totalPrice) {
+        if (userres.coins < totalPrice) {
           const errEmbed = new MessageEmbed()
-          .setTitle('Error...')
-          .setDescription('You do not have enough coins to buy this stock!')
-          .setColor('RED');
+            .setTitle('Error...')
+            .setDescription('You do not have enough coins to buy this stock!')
+            .setColor('RED');
           return await interaction.reply({ embeds: [errEmbed] });
         }
 
-        userres.coins -= totalPrice;
-        userres.inventory.push({
-          name: stockname,
-          count: quantity
-        });
-        userres.save().catch(err => console.log(err));
+        userres.coins = userres.coins - totalPrice;  
+
+        if (userres.inventory.some(item => item.name == stockname)) {
+          userres.inventory.forEach(item => {
+            if (item.name == stockname) {
+              item.count = item.count + quantity;
+            }
+          });
+          userres.save().catch(err => console.log(err));
+        } else {
+          userres.inventory.push({
+            name: stockname,
+            count: quantity,
+            itemType: "Stock"
+          });
+          userres.save().catch(err => console.log(err));
+        }
+
+        const successEmbed = new MessageEmbed()
+          .setTitle('Success!')
+          .setDescription(`You have successfully bought ${quantity}x ${stockname} for $${totalPrice}!`)
+          .setColor('GREEN');
+        return await interaction.reply({ embeds: [successEmbed] });
       });
     });
   }

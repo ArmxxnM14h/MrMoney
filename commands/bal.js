@@ -60,7 +60,10 @@ module.exports = {
             userName: interaction.user.username,
             serverID: interaction.guild.id,
             coins: 100,
-            bank: 0
+            bank: 0,
+            job: "Unemployed",
+            workxp: 0,
+            inventory: [{ name: "Poop", count: 1 , itemType: "Consumable" }]
           });
           newDoc.save().catch(err => console.log(err));
 
