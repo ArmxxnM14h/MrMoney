@@ -5,45 +5,36 @@ function updateStocks() {
     if (err) console.log(err);
 
     if (!res) {
-      console.log("No stocks found");
-      return;
+      console.log("Maybe this might help https://www.youtube.com/watch?v=xvFZjo5PgG0")
     }
 
     res.forEach(stock => {
-      const stockID = stock.stockID;
-      const stockName = stock.stockName;
-      const currentPrice = stock.currentPrice;
-      const priceTable = stock.priceTable;
-      const changePercent = stock.changePercent;
-      const volume = stock.volume;
-      const health = stock.health;
-      const volatility = stock.volatility;
+      const oldPrice = stock.currentPrice;
+      const random = Math.random();
+      let changePercent = 2 * stock.volatility * random;
+      if (changePercent > stock.volatility) {
+        changePercent -= (2 * stock.volatility);
+      }
+      const changeAmount = (oldPrice / 100) * changePercent;
+      const newPrice = Math.round(oldPrice + changeAmount);
 
-      const newPrice = Math.floor(Math.random() * (currentPrice + volatility) + currentPrice - volatility);
-      const newChangePercent = Math.floor((newPrice - currentPrice) / currentPrice * 100);
-      const newVolume = Math.floor(Math.random() * (volume + volatility) + volume - volatility);
-      const newHealth = Math.floor(Math.random() * (health + volatility) + health - volatility);
+      stock.changePercent = (newPrice - oldPrice) / oldPrice * 100;
+      stock.changePercent = Math.round(stock.changePercent * 100) / 100;
+      stock.currentPrice = newPrice;
+      stock.priceTable.push(newPrice);
 
-      stockschema.updateOne({
-        stockID: stockID
-      }, {
-        $set: {
-          currentPrice: newPrice,
-          priceTable: [...priceTable, newPrice],
-          changePercent: newChangePercent,
-          volume: newVolume,
-          health: newHealth
-        }
-      }, (err, res) => {
-        if (err) console.log(err);
+      if(stock.health < 100 && newPrice >= oldPrice) {
+        stock.health += 1;
+      } else if (stock.health > 0 && newPrice < oldPrice) {
+        stock.health -= 1;
+      }
 
-        if (!res) {
-          console.log("No stocks found");
-          return;
-        }
-
-        console.log(`${stockName} updated`);
-      });
+      stock.save().catch(err => console.log(err));
     });
   });
 }
+
+setInterval(() => {
+  updateStocks();
+  global.stockLastUpdated = Date.now();
+}, 5000);

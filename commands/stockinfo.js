@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const schema = require("../models/stockschema.js");
 const Chart = require('quickchart-js');
+const ms = require("../utils/humanify-ms.js");
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -24,7 +25,8 @@ module.exports = {
 				const stockembed = new MessageEmbed()
 					.setTitle("Stock Info")
 					.setColor("#0099ff")
-					.setDescription("**Here are the current stocks:**");
+					.setDescription("**Here are the current stocks:**")
+					.setFooter({text: `Last updated: ${ms(Date.now() - global.stockLastUpdated)} ago`});
 
 				for (let i = 0; i < res.length; i++) {
 					stockembed.addField(`${i + 1}. ${res[i].stockName}`, `Stock ID: ${res[i].stockID}\nCurrent Price: $${res[i].currentPrice}\nChange Percent: ${res[i].changePercent}%\nVolume: ${res[i].volume}`);
@@ -46,17 +48,22 @@ module.exports = {
 					.setTitle(res.stockName)
 					.setColor("#0099ff")
 					.setDescription(`**Stock ID:** ${res.stockID}\n**Current Price:** $${res.currentPrice}\n**Change Percent:** ${res.changePercent}%\n**Volume:** ${res.volume}`);
+				
+				let trimmedTable;
+				if(res.priceTable.length > 100) {
+					 trimmedTable = res.priceTable.slice(-100);
+				} else (trimmedTable = res.priceTable);
 
 				const chart = new Chart();
 				chart
 					.setConfig({
 						type: 'line',
 						data: {
-							labels: res.priceTable.map((_, i) => i),
+							labels: trimmedTable.map((_, i) => i),
 							datasets: [
 								{
 									label: "Price",
-									data: res.priceTable
+									data: trimmedTable
 								}
 							]
 						},
