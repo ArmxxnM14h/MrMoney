@@ -18,12 +18,12 @@ newDoc1.save().catch(err => console.log(err)).then(() => {
 const newDoc2 = new schema({
   stockID: "WSB",
   stockName: "Wall Stop",
-  currentPrice: 10,
-  priceTable: [0, 10],
+  currentPrice: 20,
+  priceTable: [0, 20],
   changePercent: 0,
   volume: 0,
   health: 100,
-  volatility: 15
+  volatility: 10
 });
 newDoc2.save().catch(err => console.log(err)).then(() => {
   console.log("Added Wall Stop to database");
@@ -41,5 +41,19 @@ const newDoc3 = new schema({
 });
 newDoc3.save().catch(err => console.log(err)).then(() => {
   console.log("Added Galaxy Coin to database");
+});
+
+const newDoc4 = new schema({
+  stockID: "IC",
+  stockName: "Innovation Coin",
+  currentPrice: 200,
+  priceTable: [0, 200],
+  changePercent: 0,
+  volume: 0,
+  health: 100,
+  volatility: 5
+});
+newDoc4.save().catch(err => console.log(err)).then(() => {
+  console.log("Added Innovation Coin to database");
 });
 

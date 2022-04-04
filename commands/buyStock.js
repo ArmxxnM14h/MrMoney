@@ -84,6 +84,18 @@ module.exports = {
           userres.save().catch(err => console.log(err));
         }
 
+        res.volume = res.volume + quantity;
+        if(totalPrice >= res.volume) {
+          const newPrice = totalPrice - res.volume;
+          const oldPrice = res.currentPrice;
+          res.currentPrice = newPrice;
+          res.changePercent = (newPrice - oldPrice) / oldPrice * 100;
+          res.changePercent = Math.round(res.changePercent * 100) / 100;
+          res.priceTable.push(newPrice);
+          res.health += 1;
+        }
+        res.save().catch(err => console.log(err));
+
         const successEmbed = new MessageEmbed()
           .setTitle('Success!')
           .setDescription(`You have successfully bought ${quantity}x ${stockname} for $${totalPrice}!`)

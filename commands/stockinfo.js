@@ -29,7 +29,7 @@ module.exports = {
 					.setFooter({text: `Last updated: ${ms(Date.now() - global.stockLastUpdated)} ago`});
 
 				for (let i = 0; i < res.length; i++) {
-					stockembed.addField(`${i + 1}. ${res[i].stockName}`, `Stock ID: ${res[i].stockID}\nCurrent Price: $${res[i].currentPrice}\nChange Percent: ${res[i].changePercent}%\nVolume: ${res[i].volume}`);
+					stockembed.addField(`${i + 1}. ${res[i].stockName}`, `Stock ID: ${res[i].stockID}\nCurrent Price: $${res[i].currentPrice}\nChange Percent: ${res[i].changePercent}%\nVolume: ${res[i].volume}`, true);
 				}
 
 				return await interaction.reply({ embeds: [stockembed] });
