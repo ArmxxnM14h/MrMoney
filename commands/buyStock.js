@@ -97,8 +97,8 @@ module.exports = {
         res.save().catch(err => console.log(err));
 
         const successEmbed = new MessageEmbed()
-          .setTitle('Success!')
-          .setDescription(`You have successfully bought ${quantity}x ${stockname} for $${totalPrice}!`)
+          .setTitle('Stock Market!')
+          .setDescription(`You have purchased ${quantity} ${stockname} for ${totalPrice} coins!`)
           .setColor('GREEN');
         return await interaction.reply({ embeds: [successEmbed] });
       });
