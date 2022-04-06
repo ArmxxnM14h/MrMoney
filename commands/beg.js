@@ -8,10 +8,7 @@ module.exports = {
 	cooldowns: new Set(),
 	cooldown: 15,
 	async execute(interaction) {
-		const user = interaction.options.getUser("user");
-		const responses = ["After a successful day of begging on the streets you managed to pull out a few coins", "A rich lady gave you a small amount of cash", "Pop Smoke gave you a bit of cash when he saw you at starbucks", "Your uncle gave you a early christmas present! "]
-		let Result = responses[Math.floor(Math.random() * responses.length)];
-		let amount = Math.floor(Math.random() * Math.floor(99));
+		let amount = Math.floor(Math.random() * Math.floor(50 + 1));
 		const coinstoadd = amount
 
 		schema.findOne({
@@ -25,12 +22,13 @@ module.exports = {
 			}
 		});
 
-		const pingy = new MessageEmbed()
-			.setColor('RANDOM')
-			.setTitle("You begged!")
-			.setDescription(`**What happened:** ${Result}
-**Earnings:** $${amount}`)
+		const begEmbed = new MessageEmbed()
+			.setColor('#0099ff')
+			.setTitle(`${interaction.user.username} begged!`)
+			.setDescription(`${interaction.user.username} begged  and earned ${amount} coins!`)
+			.setThumbnail(interaction.user.avatarURL())
 			.setTimestamp()
-		return interaction.reply({ embeds: [pingy] });
+			.setFooter('Beta Version 1.0.0');
+        return interaction.reply({embeds: [begEmbed]})
 	},
 };
