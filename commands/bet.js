@@ -30,9 +30,8 @@ const errEmbed = new MessageEmbed()
 .setTitle('Error...')
 .setDescription('First time users must execute the bal command before using other commands')
 .setColor('RANDOM')
+return interaction.reply({embeds: [errEmbed]})
 }
-
-if(res.coins === "null") return;
 
     if (amount <= 0) {
       const Abuser = new MessageEmbed()
