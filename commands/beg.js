@@ -21,11 +21,26 @@ module.exports = {
 				return interaction.reply({ content: "First time users need to use the bal command to start" })
 			}
 		});
-
+if (amount > 10) {
+	response = "Damn thats unlucky..."
+}
+if (amount > 20) {
+	response = "At least it was worth it..."
+}
+if (amount > 30) {
+	response = "You got lucky!"
+}
+if (amount > 40) {
+	response = "You got really lucky!"
+}
 		const begEmbed = new MessageEmbed()
 			.setColor('#0099ff')
 			.setTitle(`${interaction.user.username} begged!`)
-			.setDescription(`${interaction.user.username} begged  and earned ${amount} coins!`)
+			.setDescription(`You begged everyone
+			
+			Earned: ${amount} coins!
+			
+			${response}`)
 			.setThumbnail(interaction.user.avatarURL())
 			.setTimestamp()
 			.setFooter('Beta Version 1.0.0');

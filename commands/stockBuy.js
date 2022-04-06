@@ -5,7 +5,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("buystock")
+    .setName("stock_buy")
     .setDescription("Buy stocks or cryptos from the market!")
     .addStringOption((option) =>
       option

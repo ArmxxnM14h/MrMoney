@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const schema = require("../models/userschema.js")
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('setjob')
+		.setName('work_set')
 		.setDescription('set your job')
         .addStringOption((option) =>
       option

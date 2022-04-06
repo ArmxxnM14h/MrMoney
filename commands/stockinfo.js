@@ -6,7 +6,7 @@ const ms = require("../utils/humanify-ms.js");
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('stockinfo')
+		.setName('stock_info')
 		.setDescription('View info about the current stocks.')
 		.addStringOption((option) =>
 			option
