@@ -43,23 +43,27 @@ module.exports = {
         return await interaction.reply({ embeds: [errEmbed] });
       }
 
+      const notEnoughStock = userres.inventory.filter(item => item.name === stockname && item.count < quantity);
+
+      if(notEnoughStock.length != 0) {
+        const errEmbed = new MessageEmbed()
+          .setTitle('Error...')
+          .setDescription('You dont have that many stocks to sell!')
+          .setColor('RED');
+        return await interaction.reply({ embeds: [errEmbed] });
+      }
+
       if (userres.inventory.some(item => item.name == stockname)) {
         userres.inventory.forEach(async item => {
           if (item.name == stockname) {
-            if(item.quantity < quantity) {
-              const errEmbed = new MessageEmbed()
-                .setTitle('Error...')
-                .setDescription('You dont have that many stocks to sell!')
-                .setColor('RED');
-              return await interaction.reply({ embeds: [errEmbed] });
-            } else if (item.quantity > quantity) {
-              item.quantity -= quantity;
-            } else if(item.quantity == quantity) {
+            if (item.count > quantity) {
+              item.count -= quantity;
+            } else if(item.count == quantity) {
               userres.inventory.splice(userres.inventory.indexOf(item), 1);
             }
           }
         });
-        userres.save().catch(err => console.log(err));
+        await userres.save().catch(err => console.log(err));
       } else {
         const errEmbed = new MessageEmbed()
           .setTitle('Error...')
@@ -81,10 +85,13 @@ module.exports = {
           return await interaction.reply({ embeds: [errEmbed] });
         }
 
-        const totalPrice = res.currentPrice * quantity;
+        const totalPrice = stockres.currentPrice * quantity;
 
         userres.coins += totalPrice;
         userres.save().catch(err => console.log(err));
+
+        stockres.volume = stockres.volume + quantity;
+        stockres.save().catch(err => console.log(err));
 
         const embed = new MessageEmbed()
           .setTitle('Success!')
