@@ -11,16 +11,16 @@ module.exports = {
 		let amount = Math.floor(Math.random() * Math.floor(50 + 1));
 		const coinstoadd = amount
 
-		schema.findOne({
+	    schema.findOne({
 			userID: interaction.user.id
 		}, (err, res) => {
 			if (err) console.log(err);
-			res.coins = res.coins + coinstoadd;
-			res.save();
+
 			if (!res) {
-				return interaction.reply({ content: "First time users need to use the bal command to start" })
-			}
-		});
+				return interaction.reply({ content: "First time users need to use the bal command to start", ephemeral: true });
+			} 
+		
+	
 if (amount > 10) {
 	response = "Damn thats unlucky..."
 }
@@ -33,6 +33,8 @@ if (amount > 30) {
 if (amount > 40) {
 	response = "You got really lucky!"
 }
+res.coins = res.coins + coinstoadd;
+			res.save();
 		const begEmbed = new MessageEmbed()
 			.setColor('#0099ff')
 			.setTitle(`${interaction.user.username} begged!`)
@@ -45,5 +47,6 @@ if (amount > 40) {
 			.setTimestamp()
 			.setFooter('Beta Version 1.0.0');
         return interaction.reply({embeds: [begEmbed]})
-	},
+	});
+}
 };
