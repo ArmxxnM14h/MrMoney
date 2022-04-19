@@ -20,6 +20,7 @@ module.exports = {
   async execute(interaction) {
     const amount = interaction.options.getInteger("amount");
     const chance = Math.floor(Math.random() * Math.floor(100));
+
     schema.findOne({
       userID: interaction.user.id
     }, async (err, res) => {

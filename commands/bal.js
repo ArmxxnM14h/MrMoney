@@ -1,6 +1,7 @@
 const schema = require("../models/userschema.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
+const wait = require('util').promisify(setTimeout);
 // All the command info will be listed here
 module.exports = {
   data: new SlashCommandBuilder()
@@ -72,9 +73,17 @@ module.exports = {
             .setTitle(`Please Wait...`)
             .setDescription("We are creating your account")
             .setTimestamp();
-
-          // Reply to the entire interaction
           await interaction.reply({ embeds: [balEmbed] });
+
+ await wait(1000);
+
+const balEmbed2 = new MessageEmbed()
+.setColor("GREEN")
+.setTitle("Account created")
+.setDescription("Your account has been created")
+.setTimestamp()
+await interaction.editReply({ embeds: [balEmbed2] });
+
         } else {
           const nw = res.coins + res.bank
           const balEmbed = new MessageEmbed()
