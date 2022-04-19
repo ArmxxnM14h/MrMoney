@@ -6,7 +6,9 @@ const userschema = mongoose.Schema({
   coins: { type: Number, default: 100 },
   bank: { type: Number,  default: 0 },
   job: { type: String, default: "Unemployed" },
-  workxp: { type: Number, default: 0 }
+  workxp: { type: Number, default: 0 },
+  passive: { type: String, default: "Disabled" },
+  inventory: [{ name: String, count: Number, itemType: String }] //its named as "itemType" instead of just "type" is because it is a reserved word in mongoose
 });
 
 module.exports = mongoose.model("User", userschema);

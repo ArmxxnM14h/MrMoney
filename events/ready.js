@@ -11,7 +11,5 @@ module.exports = {
     ];
     let i = 0;
     setInterval(() => client.user.setActivity(`${activities[i++ % activities.length]}`, { type: `LISTENING` }), 5000);
-
-
   },
 };

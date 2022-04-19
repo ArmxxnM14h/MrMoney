@@ -20,7 +20,6 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.options.getUser("user");
 
-
     if (user) {
       schema.findOne({
         userID: user.id
@@ -36,7 +35,7 @@ module.exports = {
           // Reply to the entire interaction
           await interaction.reply({ embeds: [errEmbed] });
         } else {
-const networth = res.bank + res.coins
+          const networth = res.bank + res.coins
           const balEmbed = new MessageEmbed()
             .setColor("GREEN")
             .setTitle(`${user.username}'s Balance`)
@@ -62,7 +61,10 @@ const networth = res.bank + res.coins
             userName: interaction.user.username,
             serverID: interaction.guild.id,
             coins: 100,
-            bank: 0
+            bank: 0,
+            job: "Unemployed",
+            workxp: 0,
+            inventory: [{ name: "Golden Potato", count: 1 , itemType: "Consumable" }]
           });
           newDoc.save().catch(err => console.log(err));
 
@@ -83,7 +85,7 @@ const balEmbed2 = new MessageEmbed()
 await interaction.editReply({ embeds: [balEmbed2] });
 
         } else {
- const nw = res.coins + res.bank
+          const nw = res.coins + res.bank
           const balEmbed = new MessageEmbed()
             .setColor("GREEN")
             .setTitle(`${interaction.user.username}'s Balance`)
