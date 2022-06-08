@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
+  "engines": { "node": "17.4.0" },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -15,8 +16,6 @@
     "@discordjs/rest": "^0.1.0-canary.0",
     "discord-api-types": "^0.24.0",
     "discord.js": "^13.4.0",
-    "discord.js-games": "^1.0.2",
-    "djs-games": "^2.1.10",
     "express": "^4.17.1",
     "mongoose": "^6.0.14",
     "ms": "^2.1.3",

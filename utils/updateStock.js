@@ -37,4 +37,4 @@ function updateStocks() {
 setInterval(() => {
   updateStocks();
   global.stockLastUpdated = Date.now();
-}, 5000);
+}, 1800000);
