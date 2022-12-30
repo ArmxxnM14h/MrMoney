@@ -38,7 +38,7 @@ module.exports = {
         const Abuser = new MessageEmbed()
           .setTitle('Lmao you tried abusing the system')
           .setDescription('Why you tryna abuse the system dude... What have i done to you')
-          .setColor('RANDOM')
+          .setColor('RED')
         await interaction.reply({ embeds: [Abuser], ephemeral: true })
 
       } else if (res.coins < amount) {
@@ -47,7 +47,7 @@ module.exports = {
           .setDescription(
             `Why are you betting more then what you have in balance??`)
 
-          .setColor("RANDOM");
+          .setColor("RED");
 
         await interaction.reply({ embeds: [AnotherOne], ephemeral: true });
 
@@ -57,7 +57,7 @@ module.exports = {
         const OOF = new MessageEmbed()
           .setTitle('You bet some cash, hope you win')
           .setDescription(`Checking your bet...`)
-          .setColor('RANDOM')
+          .setColor('YELLOW')
         await interaction.reply({ embeds: [OOF] })
 
         await wait(2000);
@@ -72,7 +72,7 @@ Amount bet: ${amount}
 Status: Lost
 
 Current Balance: ${res.coins}`)
-          .setColor('RANDOM')
+          .setColor('RED')
         await interaction.editReply({ embeds: [OOF1] });
         res.save();
 
@@ -81,7 +81,7 @@ Current Balance: ${res.coins}`)
         const winningBet = new MessageEmbed()
           .setTitle('You bet some cash, hope you win')
           .setDescription(`Checking your bet...`)
-          .setColor('RANDOM')
+          .setColor('YELLOW')
         await interaction.reply({ embeds: [winningBet] })
 
         await wait(2000);
@@ -97,7 +97,7 @@ Status: Won
 
 Current Balance: ${res.coins}`)
 
-          .setColor('RANDOM')
+          .setColor('GREEN')
         await interaction.editReply({ embeds: [winningBet1] });
         res.save();
       }
