@@ -6,7 +6,7 @@ module.exports = {
 		.setName('work')
 		.setDescription('Work to earn more money!'),
 	cooldowns: new Set(),
-	cooldown: 60,
+	cooldown: 300,
 	async execute(interaction) {
 		schema.findOne({
 			userID: interaction.user.id

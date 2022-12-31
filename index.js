@@ -2,7 +2,7 @@ const Discord = require('discord.js')
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token, guildId } = require('./config.json');
-
+const prettyMilliseconds  = require("pretty-ms");
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 
@@ -39,12 +39,12 @@ client.on('interactionCreate', async interaction => {
     }
     if (command.cooldowns != undefined) {
         if (command.cooldowns.has(interaction.member.id)) {
+            const cooldowntime = prettyMilliseconds(command.cooldown * 1000)
             const CooldownEmbed = new Discord.MessageEmbed()
                 .setTitle('CoolDown alert!')
-                .setDescription(`Seems your on cooldown, you only need to wait ${command.cooldown}s`)
+                .setDescription(`Seems your on cooldown, you only need to wait ${cooldowntime}`)
                 .setColor('RANDOM')
             return await interaction.reply({ embeds: [CooldownEmbed] })
-            console.log(cooldowns)
         }
     }
 
