@@ -2,7 +2,8 @@ module.exports = {
     name: 'interactionCreate',
     once: false,
  async execute(client, interaction) {
-
+    const Discord = require('discord.js')
+    const prettyMilliseconds  = require("pretty-ms");
     const { Collection } = require('discord.js');
     const fs = require('fs');
 
