@@ -43,7 +43,6 @@ if (amount > 40) {
 			${response}`)
 			.setThumbnail(interaction.user.avatarURL())
 			.setTimestamp()
-			.setFooter('Beta Version 1.0.0');
         return interaction.reply({embeds: [begEmbed]})
 	},
 };
