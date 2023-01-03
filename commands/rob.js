@@ -44,7 +44,7 @@ module.exports = {
          const passiveEmbed = new MessageEmbed()
          .setTitle('Cannot rob user')
 		 .setDescription('This user has passive enabled, you cannot rob them.')
- 		 interaction.reply({embeds: [passiveEmbed]})
+ 		return interaction.reply({embeds: [passiveEmbed]})
         } else if (res2.coins < 50) {
           const AnotherOne = new MessageEmbed()
             .setTitle("Bruh..")
