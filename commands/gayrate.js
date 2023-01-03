@@ -18,6 +18,14 @@ module.exports = {
 				.setDescription(`You are scientificly proven to be ${gay}% gay`)
 				.setTimestamp()
 			return interaction.reply({ embeds: [pingy] });
+		} else {
+			const embed = new MessageEmbed()
+				.setTitle('Gay Scale...')
+				.setDescription(`It is scientificly proven that you are ${gay}% gay`)
+				.setColor('RANDOM')
+				interaction.reply({embeds: [embed]})
+			
 		}
 	},
 };
+
