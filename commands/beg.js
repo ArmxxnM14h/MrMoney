@@ -41,8 +41,7 @@ res.coins = res.coins + coinstoadd;
 			.setDescription(`You begged everyone
 			
 			Earned: ${amount} coins!
-			
-			${response}`)
+			`)
 			.setThumbnail(interaction.user.avatarURL())
 			.setTimestamp()
 			.setFooter('Beta Version 1.0.0');
