@@ -12,7 +12,7 @@ module.exports = {
 )`
 		const pingy = new MessageEmbed()
 			.setColor('RANDOM')
-			.setTitle("Vote for CoinHome!")
+			.setTitle("Vote for MrMoney!")
 			.setDescription(`Thanks for voting for us, 
 
 Top.gg: ${botAdd}`)
