@@ -6,8 +6,10 @@ module.exports = {
     name: 'interactionCreate',
     once: false,
     async execute(client, interaction) {
+        const Discord = require('discord.js')
+        const prettyMilliseconds = require('pretty-ms')
         const command = client.commands.get(interaction.commandName);
-    
+  
         if (!command) {
             return interaction.reply({ content: "Command is not found, for more info please visit => https://discord.gg/7EZV3BUDNx", ephemeral: true })
         }

@@ -2,7 +2,6 @@ const Discord = require('discord.js')
 const fs = require('fs');
 const { Client, Intents, Collection } = require('discord.js');
 const { token, guildId } = require('./config.json');
-const prettyMilliseconds  = require("pretty-ms");
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
 client.commands = new Collection();
