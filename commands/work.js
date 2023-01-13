@@ -20,7 +20,7 @@ module.exports = {
 				} else if (res.job === "Banker") {
 				const cash = res.coins = res.coins + 300
 				const xp = res.workxp = res.workxp + 20
-				if (res.passive == "Enabled") {
+				if (res.passive === "Enabled") {
 					const cash = cash/2
                     const xp = xp/2
 				}
@@ -34,7 +34,7 @@ module.exports = {
 				} else if (res.job === "Accountant") {
 					const cash =  res.coins = res.coins + 600
 					const xp = res.workxp = res.workxp + 40
-					if (res.passive == "Enabled") {
+					if (res.passive === "Enabled") {
 						const cash = cash/2
 						const xp = xp/2
 					}
@@ -48,7 +48,7 @@ module.exports = {
 				} else if (res.job === "Streamer") {
 					const cash = res.coins = res.coins + 100
 					const xp = res.workxp = res.workxp + 5
-					if (res.passive == "Enabled") {
+					if (res.passive === "Enabled") {
 						const cash = cash/2
 						const xp = xp/2
 					}
@@ -62,7 +62,7 @@ module.exports = {
 				} else if (res.job === "Taxi Driver") {
 					const cash = res.coins = res.coins + 200
 					const xp = res.workxp = res.workxp + 20
-					if (res.passive == "Enabled") {
+					if (res.passive === "Enabled") {
 						const cash = cash/2
 						const xp = xp/2
 					}
@@ -76,7 +76,7 @@ module.exports = {
 				} else if (res.job === "Police") {
 					const cash = res.coins = res.coins + 200
 				const xp = res.workxp = res.workxp + 15
-				if (res.passive == "Enabled") {
+				if (res.passive === "Enabled") {
 					const cash = cash/2
                     const xp = xp/2
 				}
@@ -90,7 +90,7 @@ module.exports = {
 				} else if (res.job === "Cashier") {
 					const cash = res.coins = res.coins + 100
 					const xp = res.workxp = res.workxp + 5
-					if (res.passive == "Enabled") {
+					if (res.passive === "Enabled") {
 						const cash = cash/2
 						const xp = xp/2
 					}

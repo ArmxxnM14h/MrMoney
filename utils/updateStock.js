@@ -1,5 +1,5 @@
 const stockschema = require("../models/stockschema.js");
-
+return;
 function updateStocks() {
   stockschema.find({}, (err, res) => {
     if (err) console.log(err);
