@@ -1,6 +1,6 @@
 const schema = require("../models/userschema.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, EmbedBuilder } = require('discord.js');
 // All the command info will be listed here
 module.exports = {
   data: new SlashCommandBuilder()
@@ -25,16 +25,16 @@ module.exports = {
             if (err) console.log(err);
     
             if (!res) {
-            const errEmbed = new MessageEmbed()
-                .setColor("RED")
+            const errEmbed = new EmbedBuilder()
+                .setColor("Red")
                 .setDescription(`${user.username} hasn't used the bot yet!!`)
                 .setTimestamp();
     
             // Reply to the entire interaction
             await interaction.reply({ embeds: [errEmbed] });
             } else {
-            const balEmbed = new MessageEmbed()
-                .setColor("GREEN")
+            const balEmbed = new EmbedBuilder()
+                .setColor("Green")
                 .setTitle(`${user.username}'s Profile`)
                 .setThumbnail(user.avatarURL())
                 .setDescription(`Job: **${res.job}**

@@ -1,6 +1,6 @@
 const schema = require("../models/userschema.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, EmbedBuilder } = require('discord.js');
 // All the command info will be listed here
 module.exports = {
   data: new SlashCommandBuilder()
@@ -12,9 +12,16 @@ module.exports = {
 schema.findOne({
     userID: interaction.user.id
 }, (err, res) => {
+
     if (!res) {
-        interaction.reply({content: "first time users need to use the bal command to start", ephemeral: true})
+      const errEmbed = new EmbedBuilder()
+      .setTitle('Error')
+      .setDescription('An error has occured')
+      .setFooter('Contact Support.')
+      .setColor('Red')
+      return interaction.reply({embeds: [errEmbed], ephemeral: true})
     }
+
     if (err) console.log(err);
   if(res.workxp < 300) {
 bankEmoji = "<:red:903369899093680169>"
@@ -34,11 +41,13 @@ accountantEmoji = "<:red:903369899093680169>"
     policeEmoji = "<:green:903369570100850688>"
     } 
 
-const viewJob = new MessageEmbed()
-.setColor('RANDOM')
+const viewJob = new EmbedBuilder()
+.setColor('Random')
 .setTitle("Jobs")
 .setDescription(`
-If a job is unavailable the emoji will be :no_entry:
+Key: 
+<:red:903369899093680169>: Job Unavailable
+<:green:903369570100850688>: Job Available
 
 1) **Banker** - 20XP per Hour, 300 Coins per Hour - ${bankEmoji}
 

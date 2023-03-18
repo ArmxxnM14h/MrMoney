@@ -1,7 +1,7 @@
 const userschema = require("../models/userschema.js");
 const stockschema = require("../models/stockschema.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, EmbedBuilder } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -36,17 +36,18 @@ module.exports = {
       if(usererr) console.log(err);
 
       if(!userres) {
-        const errEmbed = new MessageEmbed()
-          .setTitle('Error...')
-          .setDescription('First time users must execute the bal command before using other commands')
-          .setColor('RED');
-        return await interaction.reply({ embeds: [errEmbed] });
+        const errEmbed = new EmbedBuilder()
+          .setTitle('Error')
+          .setDescription('An error has occured')
+          .setFooter('Contact Support.')
+          .setColor('Red')
+          return interaction.reply({embeds: [errEmbed], ephemeral: true})
       }
 
       const notEnoughStock = userres.inventory.filter(item => item.name === stockname && item.count < quantity);
 
       if(notEnoughStock.length != 0) {
-        const errEmbed = new MessageEmbed()
+        const errEmbed = new EmbedBuilder()
           .setTitle('Error...')
           .setDescription('You dont have that many stocks to sell!')
           .setColor('RED');
@@ -65,7 +66,7 @@ module.exports = {
         });
         await userres.save().catch(err => console.log(err));
       } else {
-        const errEmbed = new MessageEmbed()
+        const errEmbed = new EmbedBuilder()
           .setTitle('Error...')
           .setDescription('You dont own that stock or crypto!')
           .setColor('RED');
@@ -78,7 +79,7 @@ module.exports = {
         if (stockerr) console.log(err);
 
         if (!stockres) {
-          const errEmbed = new MessageEmbed()
+          const errEmbed = new EmbedBuilder()
             .setTitle('Error...')
             .setDescription('That stock or crypto does not exist!')
             .setColor('RED');
@@ -93,7 +94,7 @@ module.exports = {
         stockres.volume = stockres.volume + quantity;
         stockres.save().catch(err => console.log(err));
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setTitle('Success!')
           .setDescription(`You sold ${quantity} ${stockname} for ${totalPrice} coins!`)
           .setColor('GREEN');

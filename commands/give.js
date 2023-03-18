@@ -1,6 +1,6 @@
 // Defining Random Stuff
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const schema = require("../models/userschema.js");
 
 // All the command info will be listed here
@@ -30,33 +30,40 @@ module.exports = {
       userID: interaction.user.id
     }, async (err, res) => {
       if (err) console.log(err);
-
+      
+      if (!res){
+      const errEmbed = new EmbedBuilder()
+      .setTitle('Error')
+      .setDescription('An error has occured')
+      .setFooter('Contact Support.')
+      .setColor('Red')
+       interaction.reply({embeds: [errEmbed], ephemeral: true})
       const bal = res.coins
 
-      if (given <= 0) {
-        const AnotherOne = new MessageEmbed()
-          .setTitle("Haha you tried!")
+      } else if (given <= 0) {
+        const AnotherOne = new EmbedBuilder()
+          .setTitle("Error")
           .setDescription(
-            `Don't try abuse the system or we will be forced to blacklist you!`
+            `You cannot give anything less then one!`
           )
-          .setColor("RANDOM");
+          .setColor("Red");
 
         await interaction.reply({ embeds: [AnotherOne], ephemeral: true });
 
       } else if (user.id === interaction.user.id) {
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setTitle('Transfer Failed')
           .setDescription('You cannot give cash to yourself')
-          .setColor('RANDOM')
+          .setColor('Red')
         await interaction.reply({ embeds: [embed] })
 
       } else if (bal < given) {
-        const ErrorEmbed = new MessageEmbed()
+        const ErrorEmbed = new EmbedBuilder()
           .setTitle("Error In Transaction")
           .setDescription(
-            "**Phone:** Your balance is too low to transfer your money to another user!"
+            "Your balance is too low to transfer your money to another user!"
           )
-          .setColor("RANDOM");
+          .setColor("Red");
 
         await interaction.reply({ embeds: [ErrorEmbed], ephemeral: true });
       } else if (bal >= given) {
@@ -67,8 +74,8 @@ module.exports = {
           if (err2) console.log(err);
 
           if (!res2) {
-            const errEmbed = new MessageEmbed()
-              .setColor("RED")
+            const errEmbed = new EmbedBuilder()
+              .setColor("Red")
               .setDescription(`${user.username} hasn't used the bot yet!!`)
               .setTimestamp();
 
@@ -80,11 +87,11 @@ module.exports = {
             res.coins = res.coins - given
             res.save().catch(err => console.log(err));
             const deposit = res.coins
-            const balEmbed = new MessageEmbed()
-              .setColor("GREEN")
+            const balEmbed = new EmbedBuilder()
+              .setColor("Green")
               .setTitle(`${interaction.user.username} has donated to ${user.tag}`)
               .setDescription(
-                `**Phone:** $${given}  has been added to ${user.tag} wallet, Your wallet has been deducted to $${deposit}`
+                `$${given}  has been added to ${user.tag} wallet, Your wallet has been deducted to $${deposit}`
               )
               .setTimestamp();
             interaction.reply({ embeds: [balEmbed] });

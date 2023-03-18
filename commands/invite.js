@@ -11,7 +11,7 @@ module.exports = {
 		const botAdd = `[Thank you for adding me!](https://discord.com/api/oauth2/authorize?client_id=896727173136809994&permissions=0&scope=bot%20applications.commands
 )`
 		const pingy = new MessageEmbed()
-			.setColor('RANDOM')
+			.setColor('Random')
 			.setTitle("Invite Link!")
 			.setDescription(botAdd)
 			.setTimestamp()

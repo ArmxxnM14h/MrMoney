@@ -1,6 +1,6 @@
 const schema = require("../models/userschema.js");
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder, Embed } = require('@discordjs/builders');
+const { MessageEmbed, EmbedBuilder } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -25,16 +25,17 @@ module.exports = {
         if (err) console.log(err);
 
         if (!res) {
-          const errEmbed = new MessageEmbed()
-            .setTitle('Error...')
-            .setDescription('First time users must execute the bal command before using other commands')
-            .setColor('RANDOM')
-          return await interaction.reply({ embeds: [errEmbed] });
+          const errEmbed = new EmbedBuilder()
+          .setTitle('Error')
+          .setDescription('An error has occured')
+          .setFooter('Contact Support.')
+          .setColor('Red')
+          return interaction.reply({embeds: [errEmbed], ephemeral: true})
         }
 
-        const inventoryEmbed = new MessageEmbed()
+        const inventoryEmbed = new EmbedBuilder()
           .setTitle(`${interaction.user.username}'s Inventory`)
-          .setColor('RANDOM')
+          .setColor('Random')
           .setTimestamp();
 
         if (res.inventory.length == 0) {
@@ -54,16 +55,16 @@ module.exports = {
         if (err) console.log(err);
 
         if (!res) {
-          const errEmbed = new MessageEmbed()
+          const errEmbed = new EmbedBuilder()
             .setTitle('Error...')
             .setDescription(`${user.username} hasn't used the bot yet!!`)
-            .setColor('RANDOM')
+            .setColor('Red')
           return await interaction.reply({ embeds: [errEmbed] });
         }
 
-        const inventoryEmbed = new MessageEmbed()
+        const inventoryEmbed = new EmbedBuilder()
           .setTitle(`${user.username}'s Inventory`)
-          .setColor('RANDOM')
+          .setColor('Random')
           .setTimestamp();
 
         if (res.inventory.length == 0) {

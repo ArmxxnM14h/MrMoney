@@ -1,3 +1,4 @@
+const { ActivityType } = require('discord.js');
 const fs = require('fs');
 
 module.exports = {
@@ -20,6 +21,8 @@ module.exports = {
           //y'all can add more ig
         ];
         let i = 0;
-        setInterval(() => client.user.setActivity(`${activities[i++ % activities.length]}`, { type: `LISTENING` }), 5000);
+        const type = ActivityType.Listening
+        setInterval(() => client.user.setActivity(`${activities[i++ % activities.length]}`,{ type }), 5000);
     },
 }
+console.log("ReadyEvent loaded")

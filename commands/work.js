@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, EmbedBuilder } = require('discord.js');
 const schema = require("../models/userschema.js")
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -13,7 +13,13 @@ module.exports = {
 		}, (err, res) => {
 			if (err) console.log(err);
 			if (!res) {
-			interaction.reply({content: "First time users have to use the bal command to start", ephemeral: true})
+				const errEmbed = new EmbedBuilder()
+				.setTitle('Error')
+				.setDescription('An error has occured')
+				.setFooter('Contact Support.')
+				.setColor('Red')
+				return interaction.reply({embeds: [errEmbed], ephemeral: true})
+
 			} else {
 				if (res.job === "Unemployed") {
 					interaction.reply({content: "You are unemployed and cannot work!", ephemeral: true})
@@ -24,8 +30,8 @@ module.exports = {
 					const cash = cash/2
                     const xp = xp/2
 				}
-					const bankerEmbed = new MessageEmbed()
-						.setColor('RANDOM')
+					const bankerEmbed = new EmbedBuilder()
+						.setColor('Random')
 						.setTitle("Banker")
 						.setDescription(`You worked as a banker and got paid ${cash} coins `)
 						.setTimestamp()
@@ -38,8 +44,8 @@ module.exports = {
 						const cash = cash/2
 						const xp = xp/2
 					}
-					const accountantEmbed = new MessageEmbed()
-						.setColor('RANDOM')
+					const accountantEmbed = new EmbedBuilder()
+						.setColor('Random')
 						.setTitle("Accountant")
 						.setDescription(`You worked as an accountant and got paid ${cash} coins `)
 						.setTimestamp()
@@ -52,8 +58,8 @@ module.exports = {
 						const cash = cash/2
 						const xp = xp/2
 					}
-					const streamerEmbed = new MessageEmbed()
-						.setColor('RANDOM')
+					const streamerEmbed = new EmbedBuilder()
+						.setColor('Random')
 						.setTitle("Streamer")
 						.setDescription(`You worked as a streamer and got paid ${cash} coins `)
 						.setTimestamp()
@@ -66,8 +72,8 @@ module.exports = {
 						const cash = cash/2
 						const xp = xp/2
 					}
-					const taxiEmbed = new MessageEmbed()
-						.setColor('RANDOM')
+					const taxiEmbed = new EmbedBuilder()
+						.setColor('Random')
 						.setTitle("Taxi Driver")
 						.setDescription(`You worked as a taxi driver and got paid ${cash} coins `)
 						.setTimestamp()
@@ -80,13 +86,14 @@ module.exports = {
 					const cash = cash/2
                     const xp = xp/2
 				}
-					const policeEmbed = new MessageEmbed()
-						.setColor('RANDOM')
+					const policeEmbed = new EmbedBuilder()
+						.setColor('Random')
 						.setTitle("Police")
 						.setDescription(`You worked as a police officer and got paid ${cash} coins `)
 						.setTimestamp()
 					interaction.reply({ embeds: [policeEmbed] });
 					res.save()
+
 				} else if (res.job === "Cashier") {
 					const cash = res.coins = res.coins + 100
 					const xp = res.workxp = res.workxp + 5
@@ -94,8 +101,9 @@ module.exports = {
 						const cash = cash/2
 						const xp = xp/2
 					}
-					const cashierEmbed = new MessageEmbed()
-						.setColor('RANDOM')
+
+					const cashierEmbed = new EmbedBuilder()
+						.setColor('Random')
 						.setTitle("Cashier")
 						.setDescription(`You worked as a cashier and got paid ${cash} coins `)
 						.setTimestamp()

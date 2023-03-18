@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const schema = require("../models/userschema.js");
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -17,7 +17,12 @@ module.exports = {
 			if (err) console.log(err);
 
 			if (!res) {
-				return interaction.reply({ content: "First time users need to use the bal command to start", ephemeral: true });
+				const errEmbed = new EmbedBuilder()
+          .setTitle('Error')
+          .setDescription('An error has occured')
+          .setFooter('Contact Support.')
+          .setColor('Red')
+          return interaction.reply({embeds: [errEmbed], ephemeral: true})
 			} 
 		
 	
@@ -35,8 +40,8 @@ if (amount > 40) {
 }
 res.coins = res.coins + coinstoadd;
 			res.save();
-		const begEmbed = new MessageEmbed()
-			.setColor('#0099ff')
+		const begEmbed = new EmbedBuilder()
+			.setColor('Aqua')
 			.setTitle(`${interaction.user.username} begged!`)
 			.setDescription(`You begged everyone
 			
@@ -44,7 +49,7 @@ res.coins = res.coins + coinstoadd;
 			`)
 			.setThumbnail(interaction.user.avatarURL())
 			.setTimestamp()
-			.setFooter('Beta Version 1.0.0');
+			
         return interaction.reply({embeds: [begEmbed]})
 	});
 }

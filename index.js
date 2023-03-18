@@ -1,8 +1,8 @@
 const Discord = require('discord.js')
 const fs = require('fs');
-const { Client, Intents, Collection } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, Collection } = require('discord.js');
 const { token, guildId } = require('./config.json');
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds], partials: [Partials.Channel] });
 
 client.commands = new Collection();
 

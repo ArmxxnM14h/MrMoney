@@ -1,8 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, EmbedBuilder } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('commands')
+    .setName('help')
     .setDescription('Shows all commands')
     .addStringOption((option) =>
       option
@@ -20,7 +20,7 @@ module.exports = {
     const choice = interaction.options.getString('category');
     if (choice === "economy") {
       msg = 'Help menu for Economy'
-      const economyEmbed = new MessageEmbed()
+      const economyEmbed = new EmbedBuilder()
         .setTitle('Economy Commands')
         .setDescription(`:coin: **Economy commands:**
  
@@ -41,11 +41,11 @@ module.exports = {
 **/rob** - Allows you to rob from people, but why would you want to do that?
 
 **/bet** - Bet cash and make yourself rich!`)
-        .setColor('RANDOM')
+        .setColor('Random')
       return await interaction.reply({ embeds: [economyEmbed] })
     } else if (choice === "misc") {
       msg = 'Help menu for Misc'
-      const miscEmbed = new MessageEmbed()
+      const miscEmbed = new EmbedBuilder()
         .setTitle('Misc Commands')
         .setDescription(`
 :wrench: **Misc commands:** 
@@ -61,11 +61,11 @@ module.exports = {
 **/commands** - Check commands for the bot
 
 **/commandsinfo** - Check commands status`)
-        .setColor('RANDOM')
+        .setColor('Random')
       return await interaction.reply({ embeds: [miscEmbed] })
     } else if (choice === "fun") {
       msg = 'Help menu for Fun'
-      const funEmbed = new MessageEmbed()
+      const funEmbed = new EmbedBuilder()
         .setTitle('Fun commands')
         .setDescription(`:joy: **Fun commands:** 
 
@@ -76,14 +76,14 @@ module.exports = {
 **/roast** - Roast others, have some fun 
 
 **/say** - Say something using the bot `)
-        .setColor('RANDOM')
+        .setColor('Random')
       return await interaction.reply({ embeds: [funEmbed] })
     } else if (choice === "economy2") {
       msg = 'Help menu for Economy2'
-      const economy2Embed = new MessageEmbed()
+      const economy2Embed = new EmbedBuilder()
         .setTitle('Economy Page 2')
         .setDescription('Coming Soon :tm:')
-        .setColor('RANDOM')
+        .setColor('Random')
       return await interaction.reply({ embeds: [economy2Embed] })
     }
 

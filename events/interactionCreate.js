@@ -1,5 +1,5 @@
 const { stripIndents } = require("common-tags")
-const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js")
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const usersDb = require("../models/userschema.js")
 const wait = require('util').promisify(setTimeout);
 module.exports = {
@@ -16,17 +16,18 @@ module.exports = {
                 user.acceptedTos = true
                 await user.save();
                 
-                let row = new MessageActionRow().addComponents(
-                    new MessageButton()
+                let row = new ActionRowBuilder().addComponents(
+                    new ButtonBuilder()
                         .setCustomId("accept_tos")
                         .setLabel("Accept")
-                        .setStyle("SUCCESS")
+                        .setStyle(ButtonStyle.Success)
                         .setDisabled(true)
                 )
 
-                const embed = new MessageEmbed()
+                const embed = new Discord.EmbedBuilder()
                 .setTitle('Accepted Rules!')
                 .setDescription('SOON:TM:')
+                .setColor('Green')
                await interaction.update({
             embeds: [embed],
             components: [row]
@@ -59,7 +60,7 @@ module.exports = {
             }
     
             if (!user.acceptedTos) {
-                let embed = new MessageEmbed()
+                let embed = new Discord.EmbedBuilder()
                 .setTitle(
                     "MrMoney - Terms of Service"
                 ).setDescription(stripIndents`
@@ -69,12 +70,12 @@ module.exports = {
                     **2. same thing**
                     u got this
                 `)
-    
-                let row = new MessageActionRow().addComponents(
-                    new MessageButton()
+                 .setColor('Aqua')
+                let row = new Discord.ActionRowBuilder().addComponents(
+                    new Discord.ButtonBuilder()
                         .setCustomId("accept_tos")
                         .setLabel("Accept")
-                        .setStyle("SUCCESS")
+                        .setStyle(ButtonStyle.Primary)
                 )
 
 
@@ -108,12 +109,12 @@ module.exports = {
                         const cooldowntime = prettyMilliseconds(
                             command.cooldown * 1000
                         )
-                        const CooldownEmbed = new Discord.MessageEmbed()
+                        const CooldownEmbed = new Discord.EmbedBuilder()
                             .setTitle("CoolDown alert!")
                             .setDescription(
                                 `Seems your on cooldown, you only need to wait ${cooldowntime}`
                             )
-                            .setColor("RANDOM")
+                            .setColor("Random")
                         return await interaction.reply({ embeds: [CooldownEmbed] })
                     }
                 }

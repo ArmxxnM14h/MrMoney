@@ -25,24 +25,26 @@ module.exports = {
       if (err) console.log(err);
 
       if (!res) {
-        const errEmbed = new MessageEmbed()
-          .setTitle('Error...')
-          .setDescription('First time users must execute the bal command before using other commands')
-          .setColor('RANDOM')
+        const errEmbed = new EmbedBuilder()
+        .setTitle('Error')
+        .setDescription('An error has occured')
+        .setFooter('Contact Support.')
+        .setColor('Red')
+        return interaction.reply({embeds: [errEmbed], ephemeral: true})
       }
 
       if (subtract <= 0) {
-        const Abuser = new MessageEmbed()
+        const Abuser = new EmbedBuilder()
           .setTitle('Lmao you tried abusing the system')
           .setDescription('Why you tryna abuse the system dude... What have i done to you')
-          .setColor('RANDOM')
+          .setColor('Random')
         return interaction.reply({ embeds: [Abuser], ephemeral: true })
 
       } else if (res.coins < subtract) {
-        const ErrorEmbed = new MessageEmbed()
+        const ErrorEmbed = new EmbedBuilder()
           .setTitle('Error In Transaction')
           .setDescription('**Text:** Your balance is too low to transfer your money to the bank')
-          .setColor('RANDOM')
+          .setColor('Random')
         return interaction.reply({ embeds: [ErrorEmbed], ephemeral: true })
       }
 
@@ -51,8 +53,8 @@ module.exports = {
         res.coins = res.coins - subtract
         res.bank = res.bank + subtract
         res.save();
-        const balEmbed = new MessageEmbed()
-          .setColor("GREEN")
+        const balEmbed = new EmbedBuilder()
+          .setColor("Green")
           .setTitle(`${interaction.user.username}`)
           .setDescription(`**Phone:** $${subtract}  has been added to your bank account, Your bank account now has $${res.bank}`)
           .setTimestamp();

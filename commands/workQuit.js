@@ -1,6 +1,6 @@
 const schema = require("../models/userschema.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, EmbedBuilder } = require('discord.js');
 // All the command info will be listed here
 module.exports = {
   data: new SlashCommandBuilder()
@@ -13,19 +13,24 @@ module.exports = {
             userID: interaction.user.id
         }, (err, res) => {
             if (!res) {
-                interaction.reply({content: "first time users need to use the bal command to start", ephemeral: true})
+                const errEmbed = new EmbedBuilder()
+          .setTitle('Error')
+          .setDescription('An error has occured')
+          .setFooter('Contact Support.')
+          .setColor('Red')
+          return interaction.reply({embeds: [errEmbed], ephemeral: true})
             }
             if (err) console.log(err);
             
             if (res.job === "Unemployed") {
-                const errEmbed = new MessageEmbed()
-                    .setColor("RED")
+                const errEmbed = new EmbedBuilder()
+                    .setColor("Red")
                     .setDescription(`${interaction.user.username} hasn't got a job yet!!`)
                     .setTimestamp();
                 interaction.reply({ embeds: [errEmbed] });
             } else {
-        const quitJob = new MessageEmbed()
-        .setColor('RANDOM')
+        const quitJob = new EmbedBuilder()
+        .setColor('Random')
         .setTitle("You Quit Your Job")
         .setDescription(`You quit your job as a ${res.job}... You're not working anymore`)
         .setTimestamp()

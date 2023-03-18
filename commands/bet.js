@@ -1,6 +1,6 @@
 // Defining Random Stuff
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const schema = require("../models/userschema.js");
 const wait = require('util').promisify(setTimeout);
 // All the command info will be listed here
@@ -25,45 +25,44 @@ module.exports = {
       userID: interaction.user.id
     }, async (err, res) => {
       if (err) console.log(err);
-
       if (!res) {
-        const errEmbed = new MessageEmbed()
-          .setTitle('Error...')
-          .setDescription('First time users must execute the bal command before using other commands')
-          .setColor('RANDOM')
-        
-        return interaction.reply({ embeds: [errEmbed] });
+
+        const errEmbed = new EmbedBuilder()
+          .setTitle('Error')
+          .setDescription('An error has occured')
+          .setFooter('Contact Support.')
+          .setColor('Red')
+          return interaction.reply({embeds: [errEmbed], ephemeral: true})
       }
       if (amount <= 0) {
-        const Abuser = new MessageEmbed()
-          .setTitle('Lmao you tried abusing the system')
-          .setDescription('Why you tryna abuse the system dude... What have i done to you')
-          .setColor('RED')
+        const Abuser = new EmbedBuilder()
+          .setTitle('Unable to gamble')
+          .setDescription('You cannot gamble anything below one.')
+          .setColor('Red')
         await interaction.reply({ embeds: [Abuser], ephemeral: true })
 
       } else if (res.coins < amount) {
-        const AnotherOne = new MessageEmbed()
-          .setTitle("Bruh..")
+        const AnotherOne = new EmbedBuilder()
+          .setTitle("Cannot gamble")
           .setDescription(
-            `Why are you betting more then what you have in balance??`)
+            `You cannot gamble anything more then what you have.`)
 
-          .setColor("RED");
+          .setColor("Red");
 
         await interaction.reply({ embeds: [AnotherOne], ephemeral: true });
+          } else if (res.coins  > amount){
+        const OOF = new EmbedBuilder()
+        .setTitle('You bet some cash, hope you win')
+        .setDescription(`Checking your bet...`)
+        .setColor('Yellow')
+      await interaction.reply({ embeds: [OOF] })
 
-      } else if (chance < 50) {
+      await wait(2000);
+      if (chance < 50) {
         res.coins = res.coins - amount;
-        //Checking if you won or not, reduce a bit of ping with this ig
-        const OOF = new MessageEmbed()
-          .setTitle('You bet some cash, hope you win')
-          .setDescription(`Checking your bet...`)
-          .setColor('YELLOW')
-        await interaction.reply({ embeds: [OOF] })
 
-        await wait(2000);
-
-        const OOF1 = new MessageEmbed()
-          //Lmao they lost LOOOOOSERS
+        const OOF1 = new EmbedBuilder()
+   
           .setTitle('Your bet failed')
           .setDescription(`Betting Info
 
@@ -72,23 +71,15 @@ Amount bet: ${amount}
 Status: Lost
 
 Current Balance: ${res.coins}`)
-          .setColor('RED')
+          .setColor('Red')
         await interaction.editReply({ embeds: [OOF1] });
         res.save();
-
       } else if (chance > 50) {
         res.coins = res.coins + amount;
-        const winningBet = new MessageEmbed()
-          .setTitle('You bet some cash, hope you win')
-          .setDescription(`Checking your bet...`)
-          .setColor('YELLOW')
-        await interaction.reply({ embeds: [winningBet] })
-
-        await wait(2000);
-
-        const winningBet1 = new MessageEmbed()
-          .setTitle('Your bet WON!')
-          .setDescription(`
+      
+        const winningBet1 = new EmbedBuilder()
+        .setTitle('Your bet WON!')
+        .setDescription(`
 Betting Info
 
 Amount bet: ${amount}
@@ -97,10 +88,12 @@ Status: Won
 
 Current Balance: ${res.coins}`)
 
-          .setColor('GREEN')
-        await interaction.editReply({ embeds: [winningBet1] });
-        res.save();
+        .setColor('Green')
+      await interaction.editReply({ embeds: [winningBet1] });
+      res.save();
+      
       }
+    }
     });
   },
 };

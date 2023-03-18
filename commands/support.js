@@ -1,5 +1,5 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder, Embed } = require('@discordjs/builders');
+const { MessageEmbed, EmbedBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -10,7 +10,7 @@ module.exports = {
 	async execute(interaction) {
 		const botAdd = `[Join our support server!](https://discord.gg/kw4YZJ5j3u
 )`
-		const pingy = new MessageEmbed()
+		const pingy = new EmbedBuilder()
 			.setColor('RANDOM')
 			.setTitle("Official Support!")
 			.setDescription(botAdd)

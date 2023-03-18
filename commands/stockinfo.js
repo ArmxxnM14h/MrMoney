@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, EmbedBuilder } = require('discord.js');
 const schema = require("../models/stockschema.js");
 const Chart = require('quickchart-js');
 const ms = require("../utils/humanify-ms.js");
@@ -22,7 +22,7 @@ module.exports = {
 		if (!stockinfo) {
 			schema.find({}, async (err, res) => {
 				if (err) console.log(err);
-				const stockembed = new MessageEmbed()
+				const stockembed = new EmbedBuilder()
 					.setTitle("Stock Info")
 					.setColor("#0099ff")
 					.setDescription("**Here are the current stocks:**")
@@ -44,7 +44,7 @@ module.exports = {
 					return await interaction.reply("That stock does not exist.");
 				}
 
-				const stockembed = new MessageEmbed()
+				const stockembed = new EmbedBuilder()
 					.setTitle(res.stockName)
 					.setColor("#0099ff")
 					.setDescription(`**Stock ID:** ${res.stockID}\n**Current Price:** $${res.currentPrice}\n**Change Percent:** ${res.changePercent}%\n**Volume:** ${res.volume}`);
