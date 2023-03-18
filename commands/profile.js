@@ -10,14 +10,14 @@ module.exports = {
       option
         .setName("user")
         .setDescription("Check another user's profile!")
-        .setRequired(false),
+        .setRequired(true),
 
     ),
   cooldowns: new Set(),
   cooldown: 5,
   // Executing the interaction and defining nessessery stuff
   async execute(interaction) {
-    const user = interaction.options.getUser("user")||interaction.user.id
+    const user = interaction.options.getUser("user");
     if (user){
         schema.findOne({
             userID: user.id
