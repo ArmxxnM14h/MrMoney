@@ -17,7 +17,7 @@ module.exports = {
   cooldown: 5,
   // Executing the interaction and defining nessessery stuff
   async execute(interaction) {
-    const user = interaction.options.getUser("user");
+    const user = interaction.options.getUser("user")||interaction.user.id
     if (user){
         schema.findOne({
             userID: user.id
