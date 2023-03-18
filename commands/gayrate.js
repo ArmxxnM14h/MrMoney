@@ -13,7 +13,7 @@ module.exports = {
 		if (interaction.user.id === "465945329968218144") {
 			const gay = Math.floor(Math.random() * Math.floor(0));
 			const pingy = new EmbedBuilder()
-				.setColor('RANDOM')
+				.setColor('Random')
 				.setTitle("Gay Scale...")
 				.setDescription(`You are scientificly proven to be ${gay}% gay`)
 				.setTimestamp()
