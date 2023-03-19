@@ -1,11 +1,11 @@
 const stockschema = require("../models/stockschema.js");
-return;
+
 function updateStocks() {
   stockschema.find({}, (err, res) => {
     if (err) console.log(err);
 
     if (!res) {
-      console.log("Maybe this might help https://www.youtube.com/watch?v=xvFZjo5PgG0")
+      return console.log("Maybe this might help https://www.youtube.com/watch?v=xvFZjo5PgG0")
     }
 
     res.forEach(stock => {
