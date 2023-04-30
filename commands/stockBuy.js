@@ -39,7 +39,7 @@ module.exports = {
         const errEmbed = new EmbedBuilder()
           .setTitle('Error...')
           .setDescription('That stock or crypto does not exist!')
-          .setColor('RED');
+          .setColor('Red');
         return await interaction.reply({ embeds: [errEmbed] });
       }
 
@@ -52,7 +52,7 @@ module.exports = {
           const errEmbed = new EmbedBuilder()
             .setTitle('Error...')
             .setDescription('First time users must execute the bal command before using other commands')
-            .setColor('RED');
+            .setColor('Red');
           return await interaction.reply({ embeds: [errEmbed] });
         }
 
@@ -62,7 +62,7 @@ module.exports = {
           const errEmbed = new EmbedBuilder()
             .setTitle('Error...')
             .setDescription('You do not have enough coins to buy this stock!')
-            .setColor('RED');
+            .setColor('Red');
           return await interaction.reply({ embeds: [errEmbed] });
         }
 
@@ -99,7 +99,7 @@ module.exports = {
         const successEmbed = new EmbedBuilder()
           .setTitle('Stock Market!')
           .setDescription(`You have purchased ${quantity} ${stockname} for ${totalPrice} coins!`)
-          .setColor('GREEN');
+          .setColor('Green');
         return await interaction.reply({ embeds: [successEmbed] });
       });
     });
