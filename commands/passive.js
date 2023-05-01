@@ -10,9 +10,11 @@ module.exports = {
         .setName("option")
         .setDescription("Choose to enable or disable")
         .setRequired(true)
-        .addChoice('✅ Enable', 'enab')
-        .addChoice('❌ Disable', 'disab')
-    ),
+        .addChoices(
+          { name: '✅ Enable', value: 'enab' },
+          { name: '❌ Disable', value: 'disab' },
+        )),
+    
   cooldowns: new Set(),
   cooldown: 8,
   async execute(interaction) {

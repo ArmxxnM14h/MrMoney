@@ -9,11 +9,12 @@ module.exports = {
         .setName("category")
         .setDescription("choose the category that you want to see")
         .setRequired(true)
-        .addChoice('Economy', 'economy')
-        .addChoice('Misc', 'misc')
-        .addChoice('Fun', 'fun')
-        .addChoice('Economy2', 'economy2')
-    ),
+        .addChoices(
+          { name: '🤑 Economy', value: 'economy' },
+          { name: '❓ Misc', value: 'fun' },
+          { name: '😂 Fun', value: 'misc' },
+        )),
+  
   cooldowns: new Set(),
   cooldown: 8,
   async execute(interaction) {

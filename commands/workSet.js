@@ -10,13 +10,14 @@ module.exports = {
         .setName("category")
         .setDescription("choose the category that you want to see")
         .setRequired(true)
-        .addChoice('Banker', 'banker')
-        .addChoice('Accountant', 'accountant')
-        .addChoice('Streamer', 'streamer')
-        .addChoice('Taxi', 'taxi')
-        .addChoice('Police', 'police')
-        .addChoice("Cashier", "cashier")
-    ),
+        .addChoices(
+            { name: 'Banker', value: 'banker' },
+            { name: 'Accountant', value: 'accountant' },
+            { name: 'Streamer', value: 'streamer' },
+            { name: 'Taxi', value: 'taxi' },
+            { name: 'Police', value: 'police' },
+            { name: 'Cashier', value: 'cashier' },
+          )),
 cooldowns : new Set(),
 	    cooldown : 8,
 	async execute(interaction) {
