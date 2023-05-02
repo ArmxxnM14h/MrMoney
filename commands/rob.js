@@ -42,7 +42,7 @@ module.exports = {
 
         if (!res2) {
           const errEmbed = new EmbedBuilder()
-            .setColor("RED")
+            .setColor("Red")
             .setDescription(`${user.username} hasn't used the bot yet!!`)
             .setTimestamp();
 
@@ -69,14 +69,14 @@ module.exports = {
             .setDescription(
               `Why are you robbing users with a balance of less then 50??`
             )
-            .setColor("RANDOM");
+            .setColor("Random");
 
           return await interaction.reply({ embeds: [AnotherOne], ephemeral: true });
         } else if (res.coins < 500) {
           const BrokeBoi = new EmbedBuilder()
             .setTitle('Your broke')
             .setDescription(`You need minimum $500 in your wallet to rob dude`)
-            .setColor('RANDOM')
+            .setColor('Random')
           return await interaction.reply({ embeds: [BrokeBoi] });
         }
 
@@ -87,7 +87,7 @@ module.exports = {
             .setTitle("Yikes...")
             .setDescription(
               "You really failed the robbery and lost a total of $500")
-            .setColor("RANDOM");
+            .setColor("Random");
           res.coins = res.coins - 500;
           res.save().catch(err => console.log(err));
           return await interaction.reply({ embeds: [ErrorEmbed] });
@@ -95,7 +95,7 @@ module.exports = {
         } else if (chance >= 50) {
           const Ampro = Math.floor(Math.random() * Math.floor(res2.coins));
           const RobberySuccess = new EmbedBuilder()
-            .setColor("RANDOM")
+            .setColor("Random")
             .setTitle(`Success!`)
             .setDescription(
               `You robbed a ${user.username} of $${Ampro}, you are so bad..`
