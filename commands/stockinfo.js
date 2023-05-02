@@ -26,10 +26,10 @@ module.exports = {
 					.setTitle("Stock Info")
 					.setColor("#0099ff")
 					.setDescription("**Here are the current stocks:**")
-					.setFooter({text: `Last updated: ${ms(Date.now() - global.stockLastUpdated)} ago`});
+					global.stockLastUpdated ? stockembed.setFooter({text: `Last updated: ${ms(Date.now() - global.stockLastUpdated)} ago`}) : "";
 
 				for (let i = 0; i < res.length; i++) {
-					stockembed.addField(`${i + 1}. ${res[i].stockName}`, `Stock ID: ${res[i].stockID}\nCurrent Price: $${res[i].currentPrice}\nChange Percent: ${res[i].changePercent}%\nVolume: ${res[i].volume}`, true);
+					stockembed.addFields({ name: `${i + 1}. ${res[i].stockName}`, value: `Stock ID: ${res[i].stockID}\nCurrent Price: $${res[i].currentPrice}\nChange Percent: ${res[i].changePercent}%\nVolume: ${res[i].volume}`, inline: true});
 				}
 
 				return await interaction.reply({ embeds: [stockembed] });

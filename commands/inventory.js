@@ -44,7 +44,7 @@ module.exports = {
         }
 
         res.inventory.forEach(item => {
-          inventoryEmbed.addField(`${item.name}`, `Quantity: ${item.count}x Type: ${item.itemType}`)
+          inventoryEmbed.addFields({ name: `${item.name}`, value: `Quantity: ${item.count}x Type: ${item.itemType}`})
         });
         return await interaction.reply({ embeds: [inventoryEmbed] });
       })
@@ -73,7 +73,7 @@ module.exports = {
         }
 
         res.inventory.forEach(item => {
-          inventoryEmbed.addField(`${item.name}`, `Quantity: ${item.count}x Type: ${item.itemType}`)
+          inventoryEmbed.addFields({ name: `${item.name}`, value: `Quantity: ${item.count}x Type: ${item.itemType}` })
         });
         return await interaction.reply({ embeds: [inventoryEmbed] });
       });
