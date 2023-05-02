@@ -100,7 +100,7 @@ module.exports = {
           .setTitle('Stock Market!')
           .setDescription(`You have purchased ${quantity} ${stockname} for ${totalPrice} coins!`)
           .setColor('Green');
-        return await interaction.reply({ embeds: [successEmbed] });
+        return await interaction.reply({ embeds: [successEmbed] })
       });
     });
   }

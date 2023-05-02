@@ -50,7 +50,7 @@ module.exports = {
         const errEmbed = new EmbedBuilder()
           .setTitle('Error...')
           .setDescription('You dont have that many stocks to sell!')
-          .setColor('RED');
+          .setColor('Red');
         return await interaction.reply({ embeds: [errEmbed] });
       }
 
@@ -69,7 +69,7 @@ module.exports = {
         const errEmbed = new EmbedBuilder()
           .setTitle('Error...')
           .setDescription('You dont own that stock or crypto!')
-          .setColor('RED');
+          .setColor('Red');
         return await interaction.reply({ embeds: [errEmbed] });
       }
 
@@ -82,7 +82,7 @@ module.exports = {
           const errEmbed = new EmbedBuilder()
             .setTitle('Error...')
             .setDescription('That stock or crypto does not exist!')
-            .setColor('RED');
+            .setColor('Red');
           return await interaction.reply({ embeds: [errEmbed] });
         }
 
@@ -97,7 +97,7 @@ module.exports = {
         const embed = new EmbedBuilder()
           .setTitle('Success!')
           .setDescription(`You sold ${quantity} ${stockname} for ${totalPrice} coins!`)
-          .setColor('GREEN');
+          .setColor('Green');
         return await interaction.reply({ embeds: [embed] });
       });
     });
