@@ -28,12 +28,12 @@ cooldowns : new Set(),
           if (!res) {
             return interaction.reply({content: "First time users need to use the bal command to start", ephemeral: true})
           }
-          if (res.job !== "Unemployed") {
+          if (res.job !== "unemployed") {
             return interaction.reply({content: "You already have a job", ephemeral: true})
           }
 
 
-            if (res.job === "Unemployed") {
+            if (res.job === "unemployed") {
 const choice = interaction.options.getString('category');
 
 if (choice === "banker") {

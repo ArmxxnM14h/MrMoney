@@ -30,7 +30,7 @@ module.exports = {
       userID: interaction.user.id
     }, async (err, res) => {
       if (err) console.log(err);
-      
+
       if (!res){
       const errEmbed = new EmbedBuilder()
       .setTitle('Error')
@@ -38,9 +38,11 @@ module.exports = {
       .setFooter('Contact Support.')
       .setColor('Red')
        interaction.reply({embeds: [errEmbed], ephemeral: true})
+      } 
+
       const bal = res.coins
 
-      } else if (given <= 0) {
+      if (given <= 0) {
         const AnotherOne = new EmbedBuilder()
           .setTitle("Error")
           .setDescription(
@@ -61,7 +63,7 @@ module.exports = {
         const ErrorEmbed = new EmbedBuilder()
           .setTitle("Error In Transaction")
           .setDescription(
-            "Your balance is too low to transfer your money to another user!"
+            "Your balance is below that amount"
           )
           .setColor("Red");
 
@@ -76,7 +78,7 @@ module.exports = {
           if (!res2) {
             const errEmbed = new EmbedBuilder()
               .setColor("Red")
-              .setDescription(`${user.username} hasn't used the bot yet!!`)
+              .setDescription(`${user.username} hasn't used the bot yet!`)
               .setTimestamp();
 
             // Reply to the entire interaction
@@ -89,10 +91,18 @@ module.exports = {
             const deposit = res.coins
             const balEmbed = new EmbedBuilder()
               .setColor("Green")
-              .setTitle(`${interaction.user.username} has donated to ${user.tag}`)
+              .setTitle(`Donation Time!`)
               .setDescription(
-                `$${given}  has been added to ${user.tag} wallet, Your wallet has been deducted to $${deposit}`
+                `> ${user.username} has recieved $${given}
+
+                  > Given by ${interaction.user.username}
+
+                  `
               )
+              .setFooter({
+                text: `Current balance: $${deposit}`,
+                iconURL: interaction.user.displayAvatarURL(),
+              })
               .setTimestamp();
             interaction.reply({ embeds: [balEmbed] });
           }

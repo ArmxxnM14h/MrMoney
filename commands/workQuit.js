@@ -22,7 +22,7 @@ module.exports = {
             }
             if (err) console.log(err);
             
-            if (res.job === "Unemployed") {
+            if (res.job === "unemployed") {
                 const errEmbed = new EmbedBuilder()
                     .setColor("Red")
                     .setDescription(`${interaction.user.username} hasn't got a job yet!!`)

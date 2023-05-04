@@ -36,14 +36,14 @@ module.exports = {
       }
       if (amount <= 0) {
         const Abuser = new EmbedBuilder()
-          .setTitle('Unable to gamble')
+          .setTitle('Cannot Gamble')
           .setDescription('You cannot gamble anything below one.')
           .setColor('Red')
         await interaction.reply({ embeds: [Abuser], ephemeral: true })
 
       } else if (res.coins < amount) {
         const AnotherOne = new EmbedBuilder()
-          .setTitle("Cannot gamble")
+          .setTitle("Cannot Gamble")
           .setDescription(
             `You cannot gamble anything more then what you have.`)
 
@@ -52,8 +52,8 @@ module.exports = {
         await interaction.reply({ embeds: [AnotherOne], ephemeral: true });
           } else if (res.coins  > amount){
         const OOF = new EmbedBuilder()
-        .setTitle('You bet some cash, hope you win')
-        .setDescription(`Checking your bet...`)
+        .setTitle('Betting...')
+        .setDescription(`Calculating bet...`)
         .setColor('Yellow')
       await interaction.reply({ embeds: [OOF] })
 
@@ -63,14 +63,11 @@ module.exports = {
 
         const OOF1 = new EmbedBuilder()
    
-          .setTitle('Your bet failed')
-          .setDescription(`Betting Info
+          .setTitle('Failed!')
+          .setDescription(`
+          > You lost $${amount}
 
-Amount bet: ${amount}
-
-Status: Lost
-
-Current Balance: ${res.coins}`)
+          > Balance is now $${res.coins}`)
           .setColor('Red')
         await interaction.editReply({ embeds: [OOF1] });
         res.save();
@@ -78,15 +75,11 @@ Current Balance: ${res.coins}`)
         res.coins = res.coins + amount;
       
         const winningBet1 = new EmbedBuilder()
-        .setTitle('Your bet WON!')
+        .setTitle('Winner!')
         .setDescription(`
-Betting Info
-
-Amount bet: ${amount}
-
-Status: Won
-
-Current Balance: ${res.coins}`)
+        > You won $${amount}!
+        
+        > Balance is now $${res.coins}`)
 
         .setColor('Green')
       await interaction.editReply({ embeds: [winningBet1] });

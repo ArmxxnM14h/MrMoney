@@ -33,10 +33,10 @@ module.exports = {
           return interaction.reply({embeds: [errEmbed], ephemeral: true})
       }
     if (choice === "disab"){
-if (res.passive === "Disabled"){
+if (res.passive === "disabled"){
   interaction.reply({content: "Passive is already disabled", ephemeral: true})
 } else {
-  res.passive = "Disabled"
+  res.passive = "disabled"
   res.save();
   const DisabledEmbed = new EmbedBuilder() 
   .setTitle('Sucess')
@@ -46,10 +46,10 @@ if (res.passive === "Disabled"){
 }
     } else if (choice === "enab") {
       msg = 'Enable the passive....'
-      if(res.passive === "Enabled"){
+      if(res.passive === "enabled"){
         return interaction.reply({content: "Passive is already enabled", ephemeral: true})
       } else {
-        res.passive = "Enabled"
+        res.passive = "enabled"
         res.save();
       const enabledEmbed = new EmbedBuilder()
         .setTitle('Success')
