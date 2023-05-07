@@ -47,9 +47,7 @@ module.exports = {
                     bank: 0,
                     job: "Unemployed",
                     workxp: 0,
-                    inventory: [
-                        { name: "Golden Potato", count: 1, itemType: "Consumable" },
-                    ],
+                    inventory: [],
                     acceptedTos: false,
                 })
     
@@ -64,11 +62,19 @@ module.exports = {
                 .setTitle(
                     "MrMoney - Terms of Service"
                 ).setDescription(stripIndents`
-                    **1. idk**
-                    blah blah lorem ipsum u know
+                Welcome to MrMoney - You must follow these rules or it may result in a ban/blacklist.
+
+                    **1. Alting **
+                    - You are not allowed to use alts to gain an advantage in gaining income. 
     
-                    **2. same thing**
-                    u got this
+                    **2. Scripts**
+                    - You cannot use scripts to maybe spam commands or AFK grind.
+
+                    **3. Scamming**
+                    - You cannot use our bot to scam other users of discord. 
+
+                    **4. Sharing Scripts** 
+                    - Sharing scripts is counted as directly being involved in scripting and will not be tolerated.
                 `)
                  .setColor('Aqua')
                 let row = new Discord.ActionRowBuilder().addComponents(
@@ -87,7 +93,7 @@ module.exports = {
     
             } else {
                 const command = client.commands.get(interaction.commandName);
-
+                if (!interaction.isChatInputCommand()) return;
                 if (!command) {
                     return interaction.reply({
                         content: "DAMN COMMAND NOT EXIST MISSION FAILED SHUUUUUSH",

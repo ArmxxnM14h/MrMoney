@@ -11,8 +11,8 @@ module.exports = {
         .setDescription("Choose to enable or disable")
         .setRequired(true)
         .addChoices(
-          { name: '✅ Enable', value: 'enab' },
-          { name: '❌ Disable', value: 'disab' },
+          { name: '✅ Enable', value: 'enable' },
+          { name: '❌ Disable', value: 'disable' },
         )),
     
   cooldowns: new Set(),
