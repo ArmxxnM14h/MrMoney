@@ -21,11 +21,8 @@ module.exports = {
     const amount = interaction.options.getInteger("amount");
     const chance = Math.floor(Math.random() * Math.floor(100));
 
-    schema.findOne({
-      userID: interaction.user.id
-    }, async (err, res) => {
-      if (err) console.log(err);
-      if (!res) {
+   const userSchema = await schema.findOne({ userID: interaction.user.id })
+      if (!userSchema) {
 
         const errEmbed = new EmbedBuilder()
           .setTitle('Error')
@@ -41,7 +38,18 @@ module.exports = {
           .setColor('Red')
         await interaction.reply({ embeds: [Abuser], ephemeral: true })
 
-      } else if (res.coins < amount) {
+      } else if(userSchema.coins < 250) {
+        const belowMinimum  = new EmbedBuilder()
+          .setTitle("Cannot Gamble")
+          .setDescription(
+            `You must have above $250 to gamble`)
+
+          .setColor("Red");
+
+        await interaction.reply({ embeds: [belowMinimum], ephemeral: true });
+
+        
+      } else if (userSchema.coins < amount) {
         const AnotherOne = new EmbedBuilder()
           .setTitle("Cannot Gamble")
           .setDescription(
@@ -50,7 +58,7 @@ module.exports = {
           .setColor("Red");
 
         await interaction.reply({ embeds: [AnotherOne], ephemeral: true });
-          } else if (res.coins  > amount){
+          } else if (userSchema.coins  > amount){
         const OOF = new EmbedBuilder()
         .setTitle('Betting...')
         .setDescription(`Calculating bet...`)
@@ -59,7 +67,7 @@ module.exports = {
 
       await wait(2000);
       if (chance < 50) {
-        res.coins = res.coins - amount;
+        userSchema.coins = userSchema.coins - amount;
 
         const OOF1 = new EmbedBuilder()
    
@@ -67,26 +75,25 @@ module.exports = {
           .setDescription(`
           > You lost $${amount}
 
-          > Balance is now $${res.coins}`)
+          > Balance is now $${userSchema.coins}`)
           .setColor('Red')
         await interaction.editReply({ embeds: [OOF1] });
-        res.save();
+        userSchema.save();
       } else if (chance > 50) {
-        res.coins = res.coins + amount;
+        userSchema.coins = userSchema.coins + amount;
       
         const winningBet1 = new EmbedBuilder()
         .setTitle('Winner!')
         .setDescription(`
         > You won $${amount}!
         
-        > Balance is now $${res.coins}`)
+        > Balance is now $${userSchema.coins}`)
 
         .setColor('Green')
       await interaction.editReply({ embeds: [winningBet1] });
-      res.save();
+      userSchema.save();
       
       }
     }
-    });
-  },
-};
+    }
+  }

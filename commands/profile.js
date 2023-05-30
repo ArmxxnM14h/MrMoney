@@ -19,10 +19,7 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.options.getUser("user");
     if (user){
-        schema.findOne({
-            userID: user.id
-        }, async (err, res) => {
-            if (err) console.log(err);
+     const res = await schema.findOne({ userID: user.id })
     
             if (!res) {
             const errEmbed = new EmbedBuilder()
@@ -54,7 +51,7 @@ module.exports = {
             // Reply to the entire interaction
             await interaction.reply({ embeds: [balEmbed] });
             }
-        });
+        };
     }
   }
-}
+

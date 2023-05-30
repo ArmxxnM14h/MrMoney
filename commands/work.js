@@ -8,10 +8,8 @@ module.exports = {
 	cooldowns: new Set(),
 	cooldown: 3600,
 	async execute(interaction) {
-		schema.findOne({
-			userID: interaction.user.id
-		}, (err, res) => {
-			if (err) console.log(err);
+		const res = await schema.findOne({ userID: interaction.user.id })
+		
 			if (!res) {
 				const errEmbed = new EmbedBuilder()
 				.setTitle('Error')
@@ -21,7 +19,7 @@ module.exports = {
 				return interaction.reply({embeds: [errEmbed], ephemeral: true})
 
 			} else {
-				if (res.job === "Unemployed") {
+				if (res.job === "unemployed") {
 					interaction.reply({content: "You are unemployed and cannot work!", ephemeral: true})
 				} else if (res.job === "Banker") {
 				const cash = res.coins = res.coins + 300
@@ -112,6 +110,6 @@ module.exports = {
 				}
 				
 			}
-		});
+		}
 	}
-};
+

@@ -26,11 +26,8 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.options.getUser("user");
     const given = interaction.options.getInteger("amount");
-    schema.findOne({
-      userID: interaction.user.id
-    }, async (err, res) => {
-      if (err) console.log(err);
-
+    const res = await schema.findOne({ userID: interaction.user.id })
+ 
       if (!res){
       const errEmbed = new EmbedBuilder()
       .setTitle('Error')
@@ -108,6 +105,6 @@ module.exports = {
           }
         });
       }
-    })
+    }
   }
-}
+

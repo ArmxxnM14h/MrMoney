@@ -19,10 +19,8 @@ module.exports = {
   cooldown: 8,
   async execute(interaction) {
     const choice = interaction.options.getString('option');
-    schema.findOne({
-      userID: interaction.user.id
-    }, async (err, res) => {
-      if (err) console.log(err);
+   const res = await schema.findOne({ userID: interaction.user.id })
+    
 
       if (!res) {
         const errEmbed = new EmbedBuilder()
@@ -58,8 +56,7 @@ if (res.passive === "disabled"){
       return await interaction.reply({ embeds: [enabledEmbed] })
       }
     }
-  })
+  }
   
     } 
-  }
 

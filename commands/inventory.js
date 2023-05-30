@@ -19,10 +19,8 @@ module.exports = {
     const user = interaction.options.getUser("user");
 
     if (!user) {
-      schema.findOne({
-        userID: interaction.user.id
-      }, async (err, res) => {
-        if (err) console.log(err);
+    const res = await schema.findOne({ userID: interaction.user.id })
+
 
         if (!res) {
           const errEmbed = new EmbedBuilder()
@@ -46,8 +44,8 @@ module.exports = {
         res.inventory.forEach(item => {
           inventoryEmbed.addFields({ name: `${item.name}`, value: `Quantity: ${item.count}x Type: ${item.itemType}`})
         });
-        return await interaction.reply({ embeds: [inventoryEmbed] });
-      })
+        return await interaction.reply({ embeds: [inventoryEmbed] })
+
     } else if (user) {
       schema.findOne({
         userID: user.id

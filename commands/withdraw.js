@@ -19,10 +19,8 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.options.getUser("user")
     const subtract = interaction.options.getInteger("amount");
-    schema.findOne({
-      userID: interaction.user.id
-    }, (err, res) => {
-      if (err) console.log(err);
+    const res = await schema.findOne({ userID: interaction.user.id })
+ 
 
       if (!res) {
         const errEmbed = new EmbedBuilder()
@@ -68,6 +66,6 @@ Current bank balance: **$${res.bank}**
 
         interaction.reply({ embeds: [balEmbed] });
       }
-    });
+    }
   }
-}          
+      

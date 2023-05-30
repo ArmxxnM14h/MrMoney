@@ -30,11 +30,8 @@ module.exports = {
       return await interaction.reply("Mf what are you doing!! You can't buy less than 1 stock.");
     }
 
-    stockschema.findOne({
-      stockName: stockname
-    }, async (err, res) => {
-      if (err) console.log(err);
-
+  const res = await stockschema.findOne({ stockName: stockname })
+    
       if (!res) {
         const errEmbed = new EmbedBuilder()
           .setTitle('Error...')
@@ -43,10 +40,7 @@ module.exports = {
         return await interaction.reply({ embeds: [errEmbed] });
       }
 
-      userschema.findOne({
-        userID: interaction.user.id
-      }, async (usererr, userres) => {
-        if (usererr) console.log(usererr);
+  const userres = await userschema.findOne({ userID: interaction.user.id })
 
         if (!userres) {
           const errEmbed = new EmbedBuilder()
@@ -101,7 +95,6 @@ module.exports = {
           .setDescription(`You have purchased ${quantity} ${stockname} for ${totalPrice} coins!`)
           .setColor('Green');
         return await interaction.reply({ embeds: [successEmbed] })
-      });
-    });
-  }
-}
+      }
+    }
+  

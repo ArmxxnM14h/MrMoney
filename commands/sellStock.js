@@ -30,10 +30,8 @@ module.exports = {
       return await interaction.reply("Mf what are you doing!! If you cant sell at least one stock then why are you selling?");
     }
 
-    userschema.findOne({
-      userID: interaction.user.id
-    }, async (usererr, userres) => {
-      if(usererr) console.log(err);
+   const userres = await userschema.findOne({ userID: interaction.user.id })
+
 
       if(!userres) {
         const errEmbed = new EmbedBuilder()
@@ -100,6 +98,5 @@ module.exports = {
           .setColor('Green');
         return await interaction.reply({ embeds: [embed] });
       });
-    });
+    }
   }
-}

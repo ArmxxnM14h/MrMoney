@@ -22,10 +22,8 @@ module.exports = {
 
     if (interaction.user.id === user.id) return interaction.reply("You cannot rob yourself!");
 
-    schema.findOne({
-      userID: interaction.user.id
-    }, async (err, res) => {
-      if (err) console.log(err);
+  const res = await schema.findOne({ userID: interaction.user.id })
+  
       if (!res){
       const errEmbed = new EmbedBuilder()
       .setTitle('Error')
@@ -35,10 +33,8 @@ module.exports = {
       return interaction.reply({embeds: [errEmbed], ephemeral: true})
       }
       
-      schema.findOne({
-        userID: user.id
-      }, async (err2, res2) => {
-        if (err2) console.log(err2);
+    const res2 = await schema.findOne({ userID: user.id })
+ 
 
         if (!res2) {
           const errEmbed = new EmbedBuilder()
@@ -107,7 +103,6 @@ module.exports = {
           res2.save().catch(err => console.log(err));
           return await interaction.reply({ embeds: [RobberySuccess] });
         }
-      });
-    });
-  },
-};
+      }
+    }
+  

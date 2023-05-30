@@ -20,8 +20,7 @@ module.exports = {
 		const stockinfo = interaction.options.getString("stockname");
 
 		if (!stockinfo) {
-			schema.find({}, async (err, res) => {
-				if (err) console.log(err);
+		const res = await schema.find({}) 
 				const stockembed = new EmbedBuilder()
 					.setTitle("Stock Info")
 					.setColor("#0099ff")
@@ -33,7 +32,6 @@ module.exports = {
 				}
 
 				return await interaction.reply({ embeds: [stockembed] });
-			});
 		} else if (stockinfo) {
 			schema.findOne({
 				stockName: stockinfo
@@ -78,5 +76,5 @@ module.exports = {
 				return await interaction.reply({ embeds: [stockembed] });
 			})
 		}
-	},
-};
+	}
+}
