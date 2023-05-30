@@ -1,5 +1,5 @@
 {
-  "name": "MrMoney",
+  "name": "mrmoney",
   "version": "1.0.0",
   "description": "lmao",
   "main": "index.js",
@@ -15,8 +15,8 @@
   "license": "ISC",
   "dependencies": {
     "common-tags": "^1.8.2",
-    "discord.js": "^14.10.2",
-    "mongoose": "^6.10.5",
+    "discord.js": "^14.11.0",
+    "mongoose": "^7.2.2",
     "ms": "^2.1.3",
     "node-fetch": "^2.1.0",
     "nodemon": "^2.0.22",

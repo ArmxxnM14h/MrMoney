@@ -22,12 +22,10 @@ module.exports = {
     const user = interaction.options.getUser("user");
 
     if (user) {
-      schema.findOne({
-        userID: user.id
-      }, async (err, res) => {
-        if (err) console.log(err);
+    
+     const userSchema1 = await schema.findOne({userID: user.id})
 
-        if (!res) {
+        if (!userSchema1) {
           const errEmbed = new EmbedBuilder()
             .setDescription(`${user.username} hasn't used the bot yet!!`)
             .setTimestamp()
@@ -35,11 +33,12 @@ module.exports = {
           // Reply to the entire interaction
           await interaction.reply({ embeds: [errEmbed] });
         } else {
-          const networth = res.bank + res.coins
+          const networth = userSchema1.bank + userSchema1.coins
           const balEmbed = new EmbedBuilder()
             .setTitle(`${user.username}'s Balance`)
-            .setDescription(`:purse: Wallet: **$${res.coins}**
-:bank: Bank: **$${res.bank}** 
+            .setDescription(`:purse: Wallet: **$${userSchema1.coins}**
+            
+:bank: Bank: **$${userSchema1.bank}** 
 
 :money_mouth: Networth **$${networth}**`)
             .setTimestamp()
@@ -47,14 +46,11 @@ module.exports = {
           // Reply to the entire interaction
           await interaction.reply({ embeds: [balEmbed] });
         }
-      });
-    } else {
-      schema.findOne({
-        userID: interaction.user.id
-      }, async (err, res) => {
-        if (err) console.log(err);
 
-        if (!res) { 
+  } else {
+    const userSchema2 = await schema.findOne({ userID: interaction.user.id })
+
+        if (!userSchema2) { 
 
           const errEmbed = new EmbedBuilder()
           .setTitle('Error')
@@ -64,12 +60,12 @@ module.exports = {
           return interaction.reply({embeds: [errEmbed]})
 
        } else {
-          const nw = res.coins + res.bank
+          const nw = userSchema2.coins + userSchema2.bank
           const balEmbed = new EmbedBuilder()
             .setTitle(`${interaction.user.username}'s Balance`)
-            .setDescription(`:purse: Wallet: **$${res.coins}**
+            .setDescription(`:purse: Wallet: **$${userSchema2.coins}**
 
-:bank: Bank: **$${res.bank}**
+:bank: Bank: **$${userSchema2.bank}**
 
 :money_mouth: Networth: **$${nw}**`)
             .setTimestamp()
@@ -77,7 +73,6 @@ module.exports = {
           // Reply to the entire interaction
           await interaction.reply({ embeds: [balEmbed] });
         }
-      });
+      }
     }
   }
-}
