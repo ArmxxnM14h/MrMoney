@@ -23,7 +23,7 @@ module.exports = {
 
     if (user) {
     
-     const userSchema1 = await schema.findOne({userID: user.id})
+     const userSchema1 = await schema.findOne({ userID: user.id })
 
         if (!userSchema1) {
           const errEmbed = new EmbedBuilder()
