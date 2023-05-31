@@ -1,6 +1,6 @@
 // Defining Random Stuff
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, EmbedBuilder } = require("discord.js");
 const schema = require("../models/userschema.js");
 // All the command info will be listed here
 module.exports = {
@@ -19,27 +19,27 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.options.getUser("user")
     const subtract = interaction.options.getInteger("amount");
-    schema.findOne({
-      userID: interaction.user.id
-    }, (err, res) => {
-      if (err) console.log(err);
+    const res = await schema.findOne({ userID: interaction.user.id })
+ 
 
       if (!res) {
-        const errEmbed = new MessageEmbed()
-          .setTitle('Error...')
-          .setDescription('First time users must execute the bal command before using other commands')
-          .setColor('RANDOM')
+        const errEmbed = new EmbedBuilder()
+          .setTitle('Error')
+          .setDescription('An error has occured')
+          .setFooter('Contact Support.')
+          .setColor('Red')
+          return interaction.reply({embeds: [errEmbed], ephemeral: true})
       }
 
       if (subtract <= 0) {
-        const Abuser = new MessageEmbed()
+        const Abuser = new EmbedBuilder()
           .setTitle('Unable to withdraw')
           .setDescription('You cannot withdraw anything under 0')
           .setColor('RANDOM')
         return interaction.reply({ embeds: [Abuser], ephemeral: true })
 
       } else if (res.bank < subtract) {
-        const ErrorEmbed = new MessageEmbed()
+        const ErrorEmbed = new EmbedBuilder()
           .setTitle('Error In Transaction')
           .setDescription('**Text:** Your balance is too low to transfer your money to the bank')
           .setColor('RANDOM')
@@ -51,7 +51,7 @@ module.exports = {
         res.coins = res.coins + subtract
         res.bank = res.bank - subtract
         res.save();
-        const balEmbed = new MessageEmbed()
+        const balEmbed = new EmbedBuilder()
           .setColor("GREEN")
           .setTitle(`Bank Withdrawal`)
           .setDescription(` Cash has successfully been taken out:
@@ -66,6 +66,6 @@ Current bank balance: **$${res.bank}**
 
         interaction.reply({ embeds: [balEmbed] });
       }
-    });
+    }
   }
-}          
+      

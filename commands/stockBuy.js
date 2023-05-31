@@ -1,7 +1,7 @@
 const userschema = require("../models/userschema.js");
 const stockschema = require("../models/stockschema.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, EmbedBuilder } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -30,39 +30,33 @@ module.exports = {
       return await interaction.reply("Mf what are you doing!! You can't buy less than 1 stock.");
     }
 
-    stockschema.findOne({
-      stockName: stockname
-    }, async (err, res) => {
-      if (err) console.log(err);
-
+  const res = await stockschema.findOne({ stockName: stockname })
+    
       if (!res) {
-        const errEmbed = new MessageEmbed()
+        const errEmbed = new EmbedBuilder()
           .setTitle('Error...')
           .setDescription('That stock or crypto does not exist!')
-          .setColor('RED');
+          .setColor('Red');
         return await interaction.reply({ embeds: [errEmbed] });
       }
 
-      userschema.findOne({
-        userID: interaction.user.id
-      }, async (usererr, userres) => {
-        if (usererr) console.log(usererr);
+  const userres = await userschema.findOne({ userID: interaction.user.id })
 
         if (!userres) {
-          const errEmbed = new MessageEmbed()
+          const errEmbed = new EmbedBuilder()
             .setTitle('Error...')
             .setDescription('First time users must execute the bal command before using other commands')
-            .setColor('RED');
+            .setColor('Red');
           return await interaction.reply({ embeds: [errEmbed] });
         }
 
         const totalPrice = res.currentPrice * quantity;
 
         if (userres.coins < totalPrice) {
-          const errEmbed = new MessageEmbed()
+          const errEmbed = new EmbedBuilder()
             .setTitle('Error...')
             .setDescription('You do not have enough coins to buy this stock!')
-            .setColor('RED');
+            .setColor('Red');
           return await interaction.reply({ embeds: [errEmbed] });
         }
 
@@ -96,12 +90,11 @@ module.exports = {
         }
         res.save().catch(err => console.log(err));
 
-        const successEmbed = new MessageEmbed()
+        const successEmbed = new EmbedBuilder()
           .setTitle('Stock Market!')
           .setDescription(`You have purchased ${quantity} ${stockname} for ${totalPrice} coins!`)
-          .setColor('GREEN');
-        return await interaction.reply({ embeds: [successEmbed] });
-      });
-    });
-  }
-}
+          .setColor('Green');
+        return await interaction.reply({ embeds: [successEmbed] })
+      }
+    }
+  

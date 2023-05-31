@@ -1,31 +1,35 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, EmbedBuilder } = require('discord.js');
 const schema = require("../models/userschema.js")
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('work')
 		.setDescription('Work to earn more money!'),
 	cooldowns: new Set(),
-	cooldown: 60,
+	cooldown: 3600,
 	async execute(interaction) {
-		schema.findOne({
-			userID: interaction.user.id
-		}, (err, res) => {
-			if (err) console.log(err);
+		const res = await schema.findOne({ userID: interaction.user.id })
+		
 			if (!res) {
-			interaction.reply({content: "First time users have to use the bal command to start", ephemeral: true})
+				const errEmbed = new EmbedBuilder()
+				.setTitle('Error')
+				.setDescription('An error has occured')
+				.setFooter('Contact Support.')
+				.setColor('Red')
+				return interaction.reply({embeds: [errEmbed], ephemeral: true})
+
 			} else {
-				if (res.job === "Unemployed") {
+				if (res.job === "unemployed") {
 					interaction.reply({content: "You are unemployed and cannot work!", ephemeral: true})
 				} else if (res.job === "Banker") {
 				const cash = res.coins = res.coins + 300
 				const xp = res.workxp = res.workxp + 20
-				if (res.passive == "Enabled") {
+				if (res.passive === "Enabled") {
 					const cash = cash/2
                     const xp = xp/2
 				}
-					const bankerEmbed = new MessageEmbed()
-						.setColor('RANDOM')
+					const bankerEmbed = new EmbedBuilder()
+						.setColor('Random')
 						.setTitle("Banker")
 						.setDescription(`You worked as a banker and got paid ${cash} coins `)
 						.setTimestamp()
@@ -34,12 +38,12 @@ module.exports = {
 				} else if (res.job === "Accountant") {
 					const cash =  res.coins = res.coins + 600
 					const xp = res.workxp = res.workxp + 40
-					if (res.passive == "Enabled") {
+					if (res.passive === "Enabled") {
 						const cash = cash/2
 						const xp = xp/2
 					}
-					const accountantEmbed = new MessageEmbed()
-						.setColor('RANDOM')
+					const accountantEmbed = new EmbedBuilder()
+						.setColor('Random')
 						.setTitle("Accountant")
 						.setDescription(`You worked as an accountant and got paid ${cash} coins `)
 						.setTimestamp()
@@ -48,12 +52,12 @@ module.exports = {
 				} else if (res.job === "Streamer") {
 					const cash = res.coins = res.coins + 100
 					const xp = res.workxp = res.workxp + 5
-					if (res.passive == "Enabled") {
+					if (res.passive === "Enabled") {
 						const cash = cash/2
 						const xp = xp/2
 					}
-					const streamerEmbed = new MessageEmbed()
-						.setColor('RANDOM')
+					const streamerEmbed = new EmbedBuilder()
+						.setColor('Random')
 						.setTitle("Streamer")
 						.setDescription(`You worked as a streamer and got paid ${cash} coins `)
 						.setTimestamp()
@@ -62,12 +66,12 @@ module.exports = {
 				} else if (res.job === "Taxi Driver") {
 					const cash = res.coins = res.coins + 200
 					const xp = res.workxp = res.workxp + 20
-					if (res.passive == "Enabled") {
+					if (res.passive === "Enabled") {
 						const cash = cash/2
 						const xp = xp/2
 					}
-					const taxiEmbed = new MessageEmbed()
-						.setColor('RANDOM')
+					const taxiEmbed = new EmbedBuilder()
+						.setColor('Random')
 						.setTitle("Taxi Driver")
 						.setDescription(`You worked as a taxi driver and got paid ${cash} coins `)
 						.setTimestamp()
@@ -76,26 +80,28 @@ module.exports = {
 				} else if (res.job === "Police") {
 					const cash = res.coins = res.coins + 200
 				const xp = res.workxp = res.workxp + 15
-				if (res.passive == "Enabled") {
+				if (res.passive === "Enabled") {
 					const cash = cash/2
                     const xp = xp/2
 				}
-					const policeEmbed = new MessageEmbed()
-						.setColor('RANDOM')
+					const policeEmbed = new EmbedBuilder()
+						.setColor('Random')
 						.setTitle("Police")
 						.setDescription(`You worked as a police officer and got paid ${cash} coins `)
 						.setTimestamp()
 					interaction.reply({ embeds: [policeEmbed] });
 					res.save()
+
 				} else if (res.job === "Cashier") {
 					const cash = res.coins = res.coins + 100
 					const xp = res.workxp = res.workxp + 5
-					if (res.passive == "Enabled") {
+					if (res.passive === "Enabled") {
 						const cash = cash/2
 						const xp = xp/2
 					}
-					const cashierEmbed = new MessageEmbed()
-						.setColor('RANDOM')
+
+					const cashierEmbed = new EmbedBuilder()
+						.setColor('Random')
 						.setTitle("Cashier")
 						.setDescription(`You worked as a cashier and got paid ${cash} coins `)
 						.setTimestamp()
@@ -104,6 +110,5 @@ module.exports = {
 				}
 				
 			}
-		});
+		}
 	}
-};

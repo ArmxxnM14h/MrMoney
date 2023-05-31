@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { Discord, MessageButton, MessageActionRow, MessageEmbed } = require('discord.js')
+const { Discord, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 const url = 'https://www.reddit.com/r/meme/hot/.json?limit=100';
 const server = 'https://www.reddit.com/r/meme';
 const https = require('https');
@@ -20,17 +20,17 @@ module.exports = {
                 var response = JSON.parse(body)
                 var index = response.data.children[Math.floor(Math.random() * 99) + 1].data
                 if (index.post_hint !== 'image') {
-                    const yeah = new MessageActionRow()
+                    const yeah = new ActionRowBuilder()
                         .addComponents(
-                            new MessageButton()
+                            new Discord.ButtonBuilder()
                                 .setLabel('View Subreddit')
-                                .setStyle('LINK')
+                                .setStyle(ButtonStyle.Link)
                                 .setURL('https://www.reddit.com/r/meme'),
                         );
                     var text = index.selftext
-                    const textembed = new Discord.MessageEmbed()
+                    const textembed = EmbedBuilder()
                         .setTitle(subRedditName)
-                        .setColor("RANDOM")
+                        .setColor('Random')
                         .setDescription(`[${title}](${link})\n\n${text}`)
                         .setURL(`https://reddit.com/${subRedditName}`)
 
@@ -41,32 +41,32 @@ module.exports = {
                 var link = 'https://reddit.com' + index.permalink
                 var subRedditName = index.subreddit_name_prefixed
                 if (index.post_hint !== 'image') {
-                    const hello = new MessageActionRow()
+                    const hello = new ActionRowBuilder()
                         .addComponents(
-                            new MessageButton()
+                            new ButtonBuilder()
                                 .setLabel('View Subreddit')
-                                .setStyle('LINK')
+                                .setStyle(ButtonStyle.Link)
                                 .setURL('https://www.reddit.com/r/meme'),
                         );
                     const textembed = new Discord.RichEmbed()
                         .setTitle(subRedditName)
-                        .setColor("RANDOM")
+                        .setColor("Random")
                         .setDescription(`[${title}](${link})\n\n${text}`)
                         .setURL(`https://reddit.com/${subRedditName}`)
                     interaction.reply({ embeds: [textembed], components: [hello] })
                 }
-                console.log(image);
-                const hi = new MessageActionRow()
+
+                const hi = new ActionRowBuilder()
                     .addComponents(
-                        new MessageButton()
+                        new ButtonBuilder()
                             .setLabel('View Subreddit')
                             .setStyle('LINK')
                             .setURL('https://www.reddit.com/r/meme'),
                     );
-                const imageembed = new MessageEmbed()
+                const imageembed = new EmbedBuilder()
                     .setTitle(subRedditName)
                     .setImage(image)
-                    .setColor("RANDOM")
+                    .setColor("Random")
                     .setDescription(`[${title}](${link})`)
                     .setURL(`https://reddit.com/${subRedditName}`)
                 interaction.reply({ embeds: [imageembed], components: [hi] })

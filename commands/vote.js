@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, EmbedBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -10,9 +10,9 @@ module.exports = {
 	async execute(interaction) {
 		const botAdd = `[here](https://top.gg/bot/896727173136809994
 )`
-		const pingy = new MessageEmbed()
+		const pingy = new EmbedBuilder()
 			.setColor('RANDOM')
-			.setTitle("Vote for CoinHome!")
+			.setTitle("Vote for MrMoney!")
 			.setDescription(`Thanks for voting for us, 
 
 Top.gg: ${botAdd}`)

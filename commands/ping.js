@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
-
+const { EmbedBuilder } = require('discord.js');
+const ColorsResolvable = require('discord.js')
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
@@ -9,12 +9,12 @@ module.exports = {
 	cooldown: 5,
 	async execute(interaction) {
 		const ping = interaction.client.ws.ping;
-
-		const pingy = new MessageEmbed()
-			.setColor('GREEN')
+		const pingy = new EmbedBuilder()
+			.setColor('Random')
 			.setTitle("Wait a second.. Ping?")
 			.setDescription(`WOAH My response time is \`${ping} ms\``)
 			.setTimestamp()
 		return interaction.reply({ embeds: [pingy] });
+	
 	},
 };

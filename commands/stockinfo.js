@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, EmbedBuilder } = require('discord.js');
 const schema = require("../models/stockschema.js");
 const Chart = require('quickchart-js');
 const ms = require("../utils/humanify-ms.js");
@@ -20,20 +20,18 @@ module.exports = {
 		const stockinfo = interaction.options.getString("stockname");
 
 		if (!stockinfo) {
-			schema.find({}, async (err, res) => {
-				if (err) console.log(err);
-				const stockembed = new MessageEmbed()
+		const res = await schema.find({}) 
+				const stockembed = new EmbedBuilder()
 					.setTitle("Stock Info")
 					.setColor("#0099ff")
 					.setDescription("**Here are the current stocks:**")
-					.setFooter({text: `Last updated: ${ms(Date.now() - global.stockLastUpdated)} ago`});
+					global.stockLastUpdated ? stockembed.setFooter({text: `Last updated: ${ms(Date.now() - global.stockLastUpdated)} ago`}) : "";
 
 				for (let i = 0; i < res.length; i++) {
-					stockembed.addField(`${i + 1}. ${res[i].stockName}`, `Stock ID: ${res[i].stockID}\nCurrent Price: $${res[i].currentPrice}\nChange Percent: ${res[i].changePercent}%\nVolume: ${res[i].volume}`, true);
+					stockembed.addFields({ name: `${i + 1}. ${res[i].stockName}`, value: `Stock ID: ${res[i].stockID}\nCurrent Price: $${res[i].currentPrice}\nChange Percent: ${res[i].changePercent}%\nVolume: ${res[i].volume}`, inline: true});
 				}
 
 				return await interaction.reply({ embeds: [stockembed] });
-			});
 		} else if (stockinfo) {
 			schema.findOne({
 				stockName: stockinfo
@@ -44,7 +42,7 @@ module.exports = {
 					return await interaction.reply("That stock does not exist.");
 				}
 
-				const stockembed = new MessageEmbed()
+				const stockembed = new EmbedBuilder()
 					.setTitle(res.stockName)
 					.setColor("#0099ff")
 					.setDescription(`**Stock ID:** ${res.stockID}\n**Current Price:** $${res.currentPrice}\n**Change Percent:** ${res.changePercent}%\n**Volume:** ${res.volume}`);
@@ -78,5 +76,5 @@ module.exports = {
 				return await interaction.reply({ embeds: [stockembed] });
 			})
 		}
-	},
-};
+	}
+}
