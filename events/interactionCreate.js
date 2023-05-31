@@ -26,7 +26,12 @@ module.exports = {
 
                 const embed = new Discord.EmbedBuilder()
                 .setTitle('Accepted Rules!')
-                .setDescription('SOON:TM:')
+                .setDescription(`:tada: Welcome to Mr Money :tada:
+                > Keep in mind that breaking rules has consequences
+
+                > To start we have put $100 in your account
+                
+                We hope you enjoy our bot and if you ever need help you can run **/support** to gain help`)
                 .setColor('Green')
                await interaction.update({
             embeds: [embed],
