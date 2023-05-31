@@ -1,92 +1,132 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed, EmbedBuilder } = require('discord.js');
+const {
+  SlashCommandBuilder
+} = require('@discordjs/builders');
+const {
+  EmbedBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  Embed,
+  ActionRowBuilder,
+  Collector
+} = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('help')
-    .setDescription('Shows all commands')
-    .addStringOption((option) =>
-      option
-        .setName("category")
-        .setDescription("choose the category that you want to see")
-        .setRequired(true)
-        .addChoices(
-          { name: '🤑 Economy', value: 'economy' },
-          { name: '❓ Misc', value: 'fun' },
-          { name: '😂 Fun', value: 'misc' },
-        )),
-  
+      .setName('help')
+      .setDescription('Shows all commands')
+      .addStringOption((option) =>
+          option
+          .setName("category")
+          .setDescription("choose the category that you want to see")
+          .setRequired(true)
+          .addChoices({
+              name: '🤑 Economy',
+              value: 'economy'
+          }, {
+              name: '❓ Misc',
+              value: 'fun'
+          }, {
+              name: '😂 Fun',
+              value: 'misc'
+          }, )),
+
   cooldowns: new Set(),
   cooldown: 8,
   async execute(interaction) {
-    const choice = interaction.options.getString('category');
-    if (choice === "economy") {
-      msg = 'Help menu for Economy'
-      const economyEmbed = new EmbedBuilder()
-        .setTitle('Economy Commands')
-        .setDescription(`:coin: **Economy commands:**
- 
-**/transfer** - instead of having to withdraw and give you can give straight from the bank
+    
+      const choice = interaction.options.getString('category');
+      if (choice === "economy") {
+          msg = 'Help menu for Economy'
 
-**/bal** - Shows your bank balance, wallet balance and overall networth.
+          let maxPage = 4;
+          let curPage = 1;
 
-**/beg** - Makes you as the user beg and earn a nice little profit!
+          const arrowLeft = new ButtonBuilder()
+              .setCustomId('previous')
+              .setEmoji('⬅️')
+              .setStyle(ButtonStyle.Primary)
+              .setDisabled(true)
 
-**/work** - Makes you work for money because you cant be lazy and expect money!
+          const arrowRight = new ButtonBuilder()
+              .setCustomId('next')
+              .setEmoji('➡️')
+              .setStyle(ButtonStyle.Primary)
 
-**/deposit** - Deposits the money that you earned into your bank account to keep it safe.
+          const row = new ActionRowBuilder()
+              .addComponents(arrowLeft, arrowRight)
 
-**/give** - An optional command where you can give some money to a friend or a friend to you.
+          const page1 = new EmbedBuilder()
+              .setTitle('test')
+              .setDescription('.')
 
-**/withdraw** - Can take money out of your bank account and put it in your wallet...
+          const page2 = new EmbedBuilder()
+              .setTitle('test')
+              .setDescription('PAGE 2')
 
-**/rob** - Allows you to rob from people, but why would you want to do that?
+          const page3 = new EmbedBuilder()
+              .setTitle('test')
+              .setDescription('PAGE 3')
 
-**/bet** - Bet cash and make yourself rich!`)
-        .setColor('Random')
-      return await interaction.reply({ embeds: [economyEmbed] })
-    } else if (choice === "misc") {
-      msg = 'Help menu for Misc'
-      const miscEmbed = new EmbedBuilder()
-        .setTitle('Misc Commands')
-        .setDescription(`
-:wrench: **Misc commands:** 
+          const page4 = new EmbedBuilder()
+              .setTitle('test')
+              .setDescription('PAGE 4')
 
-**/ping** - Check the latency of the bot
+          let pages = [page1, page2, page3, page4]
 
-**/invite** - Invite the bot to your server
+          interaction.reply({
+              embeds: [pages[curPage - 1]],
+              components: [row]
+          })
 
-**/support** - Join the bot support server
 
-**/vote** - Vote for the bot
+          const collector = interaction.channel.createMessageComponentCollector({
+              time: 60000
+          });
 
-**/commands** - Check commands for the bot
+          collector.on('collect', async i => {
+              // check if the author triggered the interaction, handy if you only want it to be used by 1 person
+              if (i.member.id != interaction.user.id) {
+                  return i.reply({
+                      content: `This interaction is not for you`,
+                      ephemeral: true
+                  })
+              }
+              if (i.customId == 'next') {
+                  // defer the interaction
+                  await i.deferUpdate();
 
-**/commandsinfo** - Check commands status`)
-        .setColor('Random')
-      return await interaction.reply({ embeds: [miscEmbed] })
-    } else if (choice === "fun") {
-      msg = 'Help menu for Fun'
-      const funEmbed = new EmbedBuilder()
-        .setTitle('Fun commands')
-        .setDescription(`:joy: **Fun commands:** 
+                  curPage += 1
+                  arrowLeft.setDisabled(false)
+                  arrowRight.setDisabled(false)
 
-**/meme** - Get memes from Reddit
+                  if (curPage == maxPage) {
+                      arrowRight.setDisabled(true)
+                  }
 
-**/gayrate** - Just a funny command to use on friends
+                  i.editReply({
+                      embeds: [pages[curPage - 1]],
+                      components: [row]
+                  })
+              }
 
-**/roast** - Roast others, have some fun 
+              if (i.customId == 'previous') {
+                  // defer the interaction
+                  await i.deferUpdate();
+                
+                  curPage -= 1
+                  arrowLeft.setDisabled(false)
+                  arrowRight.setDisabled(false)
 
-**/say** - Say something using the bot `)
-        .setColor('Random')
-      return await interaction.reply({ embeds: [funEmbed] })
-    } else if (choice === "economy2") {
-      msg = 'Help menu for Economy2'
-      const economy2Embed = new EmbedBuilder()
-        .setTitle('Economy Page 2')
-        .setDescription('Coming Soon :tm:')
-        .setColor('Random')
-      return await interaction.reply({ embeds: [economy2Embed] })
-    }
+                if(curPage = 1){
+                    row.components[0].setDisabled(true)
+                }
 
-  },
-};
+                  i.editReply({
+                      embeds: [pages[curPage - 1]],
+                      components: [row]
+                  })
+              }
+          })
+
+      }
+  }
+}
