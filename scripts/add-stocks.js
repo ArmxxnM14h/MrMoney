@@ -2,8 +2,8 @@ require("../connectToMongo.js");
 const schema = require("../models/stockschema.js");
 
 const newDoc1 = new schema({
-  stockID: "MC",
-  stockName: "Monke Coin",
+  stockID: "CG",
+  stockName: "Cyborg",
   currentPrice: 100,
   priceTable: [0, 100],
   changePercent: 0,
@@ -12,12 +12,12 @@ const newDoc1 = new schema({
   volatility: 3
 });
 newDoc1.save().catch(err => console.log(err)).then(() => {
-  console.log("Added Monke Coin to database");
+  console.log("Added Cyborg to database");
 });
 
 const newDoc2 = new schema({
-  stockID: "WSB",
-  stockName: "Wall Stop",
+  stockID: "UM",
+  stockName: "Urainium",
   currentPrice: 20,
   priceTable: [0, 20],
   changePercent: 0,
@@ -26,12 +26,12 @@ const newDoc2 = new schema({
   volatility: 10
 });
 newDoc2.save().catch(err => console.log(err)).then(() => {
-  console.log("Added Wall Stop to database");
+  console.log("Added Urainium to database");
 });
 
 const newDoc3 = new schema({
-  stockID: "GC",
-  stockName: "Galaxy Coin",
+  stockID: "AO",
+  stockName: "Aloo",
   currentPrice: 50,
   priceTable: [0, 50],
   changePercent: 0,
@@ -40,12 +40,12 @@ const newDoc3 = new schema({
   volatility: 8
 });
 newDoc3.save().catch(err => console.log(err)).then(() => {
-  console.log("Added Galaxy Coin to database");
+  console.log("Added Aloo to database");
 });
 
 const newDoc4 = new schema({
-  stockID: "IC",
-  stockName: "Innovation Coin",
+  stockID: "LC",
+  stockName: "Lunarcoin",
   currentPrice: 200,
   priceTable: [0, 200],
   changePercent: 0,
@@ -54,6 +54,5 @@ const newDoc4 = new schema({
   volatility: 5
 });
 newDoc4.save().catch(err => console.log(err)).then(() => {
-  console.log("Added Innovation Coin to database");
+  console.log("Added Lunarcoins to database");
 });
-
