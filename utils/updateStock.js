@@ -1,8 +1,7 @@
 const stockschema = require("../models/stockschema.js");
 
-function updateStocks() {
-  stockschema.find({}, (err, res) => {
-    if (err) console.log(err);
+async function updateStocks() {
+const res = await stockschema.find({})
 
     if (!res) {
       return console.log("Maybe this might help https://www.youtube.com/watch?v=xvFZjo5PgG0")
@@ -31,8 +30,8 @@ function updateStocks() {
 
       stock.save().catch(err => console.log(err));
     });
-  });
-}
+  }
+
 
 setInterval(() => {
   updateStocks();

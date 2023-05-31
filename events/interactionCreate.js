@@ -8,7 +8,7 @@ module.exports = {
     async execute(client, interaction) {
         const Discord = require("discord.js")
         const prettyMilliseconds = require("pretty-ms")
-
+        if (!interaction.guild) return
         if (interaction.isButton()) {
             if (interaction.customId == "accept_tos") {
                 if(interaction.user.id != interaction.message.interaction.user.id) return interaction.reply({ content: "You can't accept the TOS for someone else!", ephemeral: true })
@@ -61,20 +61,20 @@ module.exports = {
                 let embed = new Discord.EmbedBuilder()
                 .setTitle(
                     "MrMoney - Terms of Service"
-                ).setDescription(stripIndents`
+                ).setDescription(`
                 Welcome to MrMoney - You must follow these rules or it may result in a ban/blacklist.
 
-                    **1. Alting **
-                    - You are not allowed to use alts to gain an advantage in gaining income. 
-    
+                    **1. Alting**
+                    You are not allowed to use alts to gain an advantage in gaining income. 
+                     
                     **2. Scripts**
-                    - You cannot use scripts to maybe spam commands or AFK grind.
-
+                    You cannot use scripts to maybe spam commands or AFK grind.
+                    
                     **3. Scamming**
-                    - You cannot use our bot to scam other users of discord. 
+                    You cannot use our bot to scam other users of discord. 
 
                     **4. Sharing Scripts** 
-                    - Sharing scripts is counted as directly being involved in scripting and will not be tolerated.
+                    Sharing scripts is counted as directly being involved in scripting and will not be tolerated.
                 `)
                  .setColor('Aqua')
                 let row = new Discord.ActionRowBuilder().addComponents(
