@@ -54,4 +54,4 @@ module.exports = {
       return interaction.reply({ content: 'An error occurred while begging.', ephemeral: true });
     }
   },
-};
+}
