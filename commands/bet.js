@@ -1,6 +1,6 @@
 // Defining Random Stuff
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const schema = require("../models/userschema.js");
 const wait = require('util').promisify(setTimeout);
 // All the command info will be listed here
@@ -21,86 +21,79 @@ module.exports = {
     const amount = interaction.options.getInteger("amount");
     const chance = Math.floor(Math.random() * Math.floor(100));
 
-    schema.findOne({
-      userID: interaction.user.id
-    }, async (err, res) => {
-      if (err) console.log(err);
+   const userSchema = await schema.findOne({ userID: interaction.user.id })
+      if (!userSchema) {
 
-      if (!res) {
-        const errEmbed = new MessageEmbed()
-          .setTitle('Error...')
-          .setDescription('First time users must execute the bal command before using other commands')
-          .setColor('RANDOM')
-        
-        await interaction.reply({ embeds: [errEmbed] });
+        const errEmbed = new EmbedBuilder()
+          .setTitle('Error')
+          .setDescription('An error has occured')
+          .setFooter('Contact Support.')
+          .setColor('Red')
+          return interaction.reply({embeds: [errEmbed], ephemeral: true})
       }
       if (amount <= 0) {
-        const Abuser = new MessageEmbed()
-          .setTitle('Lmao you tried abusing the system')
-          .setDescription('Why you tryna abuse the system dude... What have i done to you')
-          .setColor('RANDOM')
+        const Abuser = new EmbedBuilder()
+          .setTitle('Cannot Gamble')
+          .setDescription('You cannot gamble anything below one.')
+          .setColor('Red')
         await interaction.reply({ embeds: [Abuser], ephemeral: true })
 
-      } else if (res.coins < amount) {
-        const AnotherOne = new MessageEmbed()
-          .setTitle("Bruh..")
+      } else if(userSchema.coins < 250) {
+        const belowMinimum  = new EmbedBuilder()
+          .setTitle("Cannot Gamble")
           .setDescription(
-            `Why are you betting more then what you have in balance??`)
+            `You must have above $250 to gamble`)
 
-          .setColor("RANDOM");
+          .setColor("Red");
+
+        await interaction.reply({ embeds: [belowMinimum], ephemeral: true });
+
+        
+      } else if (userSchema.coins < amount) {
+        const AnotherOne = new EmbedBuilder()
+          .setTitle("Cannot Gamble")
+          .setDescription(
+            `You cannot gamble anything more then what you have.`)
+
+          .setColor("Red");
 
         await interaction.reply({ embeds: [AnotherOne], ephemeral: true });
+          } else if (userSchema.coins  > amount){
+        const OOF = new EmbedBuilder()
+        .setTitle('Betting...')
+        .setDescription(`Calculating bet...`)
+        .setColor('Yellow')
+      await interaction.reply({ embeds: [OOF] })
 
-      } else if (chance < 50) {
-        res.coins = res.coins - amount;
-        //Checking if you won or not, reduce a bit of ping with this ig
-        const OOF = new MessageEmbed()
-          .setTitle('You bet some cash, hope you win')
-          .setDescription(`Checking your bet...`)
-          .setColor('RANDOM')
-        await interaction.reply({ embeds: [OOF] })
+      await wait(2000);
+      if (chance < 50) {
+        userSchema.coins = userSchema.coins - amount;
 
-        await wait(2000);
-
-        const OOF1 = new MessageEmbed()
-          //Lmao they lost LOOOOOSERS
-          .setTitle('Your bet failed')
-          .setDescription(`Betting Info
-
-Amount bet: ${amount}
-
-Status: Lost
-
-Current Balance: ${res.coins}`)
-          .setColor('RANDOM')
-        await interaction.editReply({ embeds: [OOF1] });
-        res.save();
-
-      } else if (chance > 50) {
-        res.coins = res.coins + amount;
-        const winningBet = new MessageEmbed()
-          .setTitle('You bet some cash, hope you win')
-          .setDescription(`Checking your bet...`)
-          .setColor('RANDOM')
-        await interaction.reply({ embeds: [winningBet] })
-
-        await wait(2000);
-
-        const winningBet1 = new MessageEmbed()
-          .setTitle('Your bet WON!')
+        const OOF1 = new EmbedBuilder()
+   
+          .setTitle('Failed!')
           .setDescription(`
-Betting Info
+          > You lost $${amount}
 
-Amount bet: ${amount}
+          > Balance is now $${userSchema.coins}`)
+          .setColor('Red')
+        await interaction.editReply({ embeds: [OOF1] });
+        userSchema.save();
+      } else if (chance > 50) {
+        userSchema.coins = userSchema.coins + amount;
+      
+        const winningBet1 = new EmbedBuilder()
+        .setTitle('Winner!')
+        .setDescription(`
+        > You won $${amount}!
+        
+        > Balance is now $${userSchema.coins}`)
 
-Status: Won
-
-Current Balance: ${res.coins}`)
-
-          .setColor('RANDOM')
-        await interaction.editReply({ embeds: [winningBet1] });
-        res.save();
+        .setColor('Green')
+      await interaction.editReply({ embeds: [winningBet1] });
+      userSchema.save();
+      
       }
-    });
-  },
-};
+    }
+    }
+  }

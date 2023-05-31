@@ -1,7 +1,8 @@
 const schema = require("../models/userschema.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const wait = require('util').promisify(setTimeout);
+const colors = require('discord.js')
 // All the command info will be listed here
 module.exports = {
   data: new SlashCommandBuilder()
@@ -21,85 +22,57 @@ module.exports = {
     const user = interaction.options.getUser("user");
 
     if (user) {
-      schema.findOne({
-        userID: user.id
-      }, async (err, res) => {
-        if (err) console.log(err);
+    
+     const userSchema1 = await schema.findOne({userID: user.id})
 
-        if (!res) {
-          const errEmbed = new MessageEmbed()
-            .setColor("RED")
+        if (!userSchema1) {
+          const errEmbed = new EmbedBuilder()
             .setDescription(`${user.username} hasn't used the bot yet!!`)
-            .setTimestamp();
-
+            .setTimestamp()
+            .setColor('Red');
           // Reply to the entire interaction
           await interaction.reply({ embeds: [errEmbed] });
         } else {
-          const networth = res.bank + res.coins
-          const balEmbed = new MessageEmbed()
-            .setColor("GREEN")
+          const networth = userSchema1.bank + userSchema1.coins
+          const balEmbed = new EmbedBuilder()
             .setTitle(`${user.username}'s Balance`)
-            .setDescription(`:purse: Wallet: **$${res.coins}**
-:bank: Bank: **$${res.bank}** 
+            .setDescription(`:purse: Wallet: **$${userSchema1.coins}**
+            
+:bank: Bank: **$${userSchema1.bank}** 
 
 :money_mouth: Networth **$${networth}**`)
-            .setTimestamp();
-
+            .setTimestamp()
+            .setColor('Green')
           // Reply to the entire interaction
           await interaction.reply({ embeds: [balEmbed] });
         }
-      });
-    } else {
-      schema.findOne({
-        userID: interaction.user.id
-      }, async (err, res) => {
-        if (err) console.log(err);
 
-        if (!res) {
-          const newDoc = new schema({
-            userID: interaction.user.id,
-            userName: interaction.user.username,
-            serverID: interaction.guild.id,
-            coins: 100,
-            bank: 0,
-            job: "Unemployed",
-            workxp: 0,
-            inventory: [{ name: "Golden Potato", count: 1 , itemType: "Consumable" }]
-          });
-          newDoc.save().catch(err => console.log(err));
+  } else {
+    const userSchema2 = await schema.findOne({ userID: interaction.user.id })
 
-          const balEmbed = new MessageEmbed()
-            .setColor("GREEN")
-            .setTitle(`Please Wait...`)
-            .setDescription("We are creating your account")
-            .setTimestamp();
-          await interaction.reply({ embeds: [balEmbed] });
+        if (!userSchema2) { 
 
- await wait(1000);
+          const errEmbed = new EmbedBuilder()
+          .setTitle('Error')
+          .setDescription('An error has occured')
+          .setFooter('Contact Support.')
+          .setColor('Red')
+          return interaction.reply({embeds: [errEmbed]})
 
-const balEmbed2 = new MessageEmbed()
-.setColor("GREEN")
-.setTitle("Account created")
-.setDescription("Your account has been created")
-.setTimestamp()
-await interaction.editReply({ embeds: [balEmbed2] });
-
-        } else {
-          const nw = res.coins + res.bank
-          const balEmbed = new MessageEmbed()
-            .setColor("GREEN")
+       } else {
+          const nw = userSchema2.coins + userSchema2.bank
+          const balEmbed = new EmbedBuilder()
             .setTitle(`${interaction.user.username}'s Balance`)
-            .setDescription(`:purse: Wallet: **$${res.coins}**
+            .setDescription(`:purse: Wallet: **$${userSchema2.coins}**
 
-:bank: Bank: **$${res.bank}**
+:bank: Bank: **$${userSchema2.bank}**
 
 :money_mouth: Networth: **$${nw}**`)
-            .setTimestamp();
-
+            .setTimestamp()
+            .setColor('Green')
           // Reply to the entire interaction
           await interaction.reply({ embeds: [balEmbed] });
         }
-      });
+      }
     }
   }
-}
