@@ -14,8 +14,9 @@ module.exports = {
         .setDescription("amount you wanna bet..")
         .setRequired(true)
     ),
-  cooldowns: new Set(),
-  cooldown: 5,
+    cooldown: {
+      duration: 180, // Set the cooldown duration in seconds
+    },
   // Executing the interaction and defining nessessery stuff
   async execute(interaction) {
     const amount = interaction.options.getInteger("amount");

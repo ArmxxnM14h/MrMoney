@@ -6,8 +6,9 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('gayrate')
 		.setDescription('How gay are you?'),
-	cooldowns: new Set(),
-	cooldown: 8,
+		cooldown: {
+            duration: 5, // Set the cooldown duration in seconds
+          },
 	async execute(interaction) {
 		const gay = Math.floor(Math.random() * Math.floor(100));
 		if (interaction.user.id === "465945329968218144") {

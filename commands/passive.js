@@ -15,8 +15,9 @@ module.exports = {
           { name: '❌ Disable', value: 'disable' },
         )),
     
-  cooldowns: new Set(),
-  cooldown: 8,
+        cooldown: {
+          duration: 8, // Set the cooldown duration in seconds
+        },
   async execute(interaction) {
     const choice = interaction.options.getString('option');
    const res = await schema.findOne({ userID: interaction.user.id })

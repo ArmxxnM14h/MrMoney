@@ -5,8 +5,9 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('support')
 		.setDescription('join the support server'),
-	cooldowns: new Set(),
-	cooldown: 5,
+		cooldown: {
+            duration: 4, // Set the cooldown duration in seconds
+          },
 	async execute(interaction) {
 		const botAdd = `[Join our support server!](https://discord.gg/kw4YZJ5j3u
 )`

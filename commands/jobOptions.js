@@ -26,8 +26,9 @@ module.exports = {
         )
       ),
       
-cooldowns : new Set(),
-	    cooldown : 8,
+      cooldown: {
+        duration: 7, // Set the cooldown duration in seconds
+      },
 	async execute(interaction) {
     const res = await schema.findOne({ userID: interaction.user.id })
         const command = interaction.options.getSubcommand();

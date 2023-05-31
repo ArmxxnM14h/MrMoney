@@ -5,8 +5,9 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('work')
 		.setDescription('Work to earn more money!'),
-	cooldowns: new Set(),
-	cooldown: 3600,
+		cooldown: {
+            duration: 3600, // Set the cooldown duration in seconds
+          },
 	async execute(interaction) {
 		const res = await schema.findOne({ userID: interaction.user.id })
 		

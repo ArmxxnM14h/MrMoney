@@ -5,8 +5,9 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('vote')
 		.setDescription('Vote CoinHome on top.gg now!'),
-	cooldowns: new Set(),
-	cooldown: 5,
+		cooldown: {
+            duration: 4, // Set the cooldown duration in seconds
+          },
 	async execute(interaction) {
 		const botAdd = `[here](https://top.gg/bot/896727173136809994
 )`

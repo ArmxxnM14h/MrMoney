@@ -29,8 +29,9 @@ module.exports = {
               value: 'misc'
           }, )),
 
-  cooldowns: new Set(),
-  cooldown: 8,
+          cooldown: {
+            duration: 8, // Set the cooldown duration in seconds
+          },
   async execute(interaction) {
     
       const choice = interaction.options.getString('category');

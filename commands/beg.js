@@ -6,8 +6,9 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('beg')
     .setDescription('Beg to random people on the streets'),
-  cooldowns: new Set(),
-  cooldown: 15,
+    cooldown: {
+      duration: 30, // Set the cooldown duration in seconds
+    },
   async execute(interaction) {
     let amount = Math.floor(Math.random() * Math.floor(50 + 1));
     const coinstoadd = amount;

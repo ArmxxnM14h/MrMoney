@@ -5,8 +5,9 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('ping')
 		.setDescription('Ping, pong, am I online?'),
-	cooldowns: new Set(),
-	cooldown: 5,
+		cooldown: {
+            duration: 3, // Set the cooldown duration in seconds
+          },
 	async execute(interaction) {
 		const ping = interaction.client.ws.ping;
 		const pingy = new EmbedBuilder()
