@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const {  EmbedBuilder } = require('discord.js');
 const userschema = require("../models/userschema.js");
 const stockschema = require("../models/stockschema.js");
+const Chart = require('quickchart-js')
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('stock')
@@ -177,7 +178,7 @@ module.exports = {
                         return await interaction.reply({ embeds: [errEmbed] });
                       }
                 
-                  const stockres = stockschema.findOne({ stockName: stockname })
+                  const stockres = await stockschema.findOne({ stockName: stockname })
                    
                         if (!stockres) {
                           const errEmbed = new EmbedBuilder()

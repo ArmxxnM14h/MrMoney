@@ -109,10 +109,23 @@ module.exports = {
                 const userId = interaction.user.id;
                 const commandName = interaction.commandName
 
+                function formatRemainingTime(seconds) {
+                    if (seconds < 60) {
+                      return `${seconds} seconds)`;
+                    } else if (seconds < 3600) {
+                      const minutes = Math.floor(seconds / 60);
+                      return `${minutes} minutes`;
+                    } else {
+                      const hours = Math.floor(seconds / 3600);
+                      return `${hours} hour(s)`;
+                    }
+                  }
+
                 const cooldown = await Cooldown.findOne({ userId, command: commandName });
                 if (cooldown && cooldown.cooldownExpires > new Date()) {
-                  const remainingTime = Math.ceil((cooldown.cooldownExpires - new Date()) / 1000);
-                  await interaction.reply(`You're on cooldown for this command. Try again in ${remainingTime} seconds.`);
+                    const remainingCooldown = Math.ceil((cooldown.cooldownExpires - new Date()) / 1000);
+                    const cooldownTimestamp = `<t:${Math.round((Date.now() + remainingCooldown * 1000) / 1000)}:R>`;
+                  await interaction.reply({content: `You're on cooldown for this command. Try again in ${cooldownTimestamp}.`, ephemeral: true});
                   return;
                 }
                           
@@ -128,7 +141,8 @@ module.exports = {
                       { upsert: true },
                     );
                   
-                
+                    
+
                 } catch (error) {
                     console.error(error)
                     return interaction.reply({
