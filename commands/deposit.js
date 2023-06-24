@@ -1,6 +1,6 @@
 // Defining Random Stuff
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const schema = require("../models/userschema.js");
 // All the command info will be listed here
 module.exports = {

@@ -168,7 +168,6 @@ else if (choice === "police") {
           return interaction.reply({embeds: [errEmbed], ephemeral: true})
         }
     
-        if (err) console.log(err);
       if(res.workxp < 300) {
     bankEmoji = "<:red:903369899093680169>"
       } else {
@@ -221,7 +220,6 @@ else if (choice === "police") {
           .setColor('Red')
           return interaction.reply({embeds: [errEmbed], ephemeral: true})
             }
-            if (err) console.log(err);
             
             if (res.job === "unemployed") {
                 const errEmbed = new EmbedBuilder()

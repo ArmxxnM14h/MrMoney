@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -11,7 +11,7 @@ module.exports = {
 	async execute(interaction) {
 		const botAdd = `[Thank you for adding me!](https://discord.com/api/oauth2/authorize?client_id=896727173136809994&permissions=0&scope=bot%20applications.commands
 )`
-		const pingy = new MessageEmbed()
+		const pingy = new EmbedBuilder()
 			.setColor('Random')
 			.setTitle("Invite Link!")
 			.setDescription(botAdd)

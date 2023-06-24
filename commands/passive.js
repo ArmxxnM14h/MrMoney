@@ -31,7 +31,7 @@ module.exports = {
           .setColor('Red')
           return interaction.reply({embeds: [errEmbed], ephemeral: true})
       }
-    if (choice === "disab"){
+    if (choice === "disable"){
 if (res.passive === "disabled"){
   interaction.reply({content: "Passive is already disabled", ephemeral: true})
 } else {
@@ -43,7 +43,7 @@ if (res.passive === "disabled"){
   .setColor('Green')
   interaction.reply({embeds: [DisabledEmbed]})
 }
-    } else if (choice === "enab") {
+    } else if (choice === "enable") {
       msg = 'Enable the passive....'
       if(res.passive === "enabled"){
         return interaction.reply({content: "Passive is already enabled", ephemeral: true})
