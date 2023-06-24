@@ -7,7 +7,6 @@ module.exports = {
     once: false,
     async execute(client, interaction) {
         const Discord = require("discord.js")
-        const prettyMilliseconds = require("pretty-ms")
 
 
         if (!interaction.guild) return
