@@ -8,8 +8,9 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('meme')
         .setDescription('Get a meme'),
-    cooldowns: new Set(),
-    cooldown: 10,
+        cooldown: {
+            duration: 6, // Set the cooldown duration in seconds
+          },
     async execute(interaction, client) {
         https.get(url, (result) => {
             var body = ''

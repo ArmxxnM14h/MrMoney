@@ -1,9 +1,9 @@
 const schema = require("../models/userschema.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder } = require('discord.js');
-const wait = require('util').promisify(setTimeout);
-const colors = require('discord.js')
+const  Cooldown  = require('../models/cooldownSchema.js')
 // All the command info will be listed here
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("bal")
@@ -15,15 +15,18 @@ module.exports = {
         .setRequired(false),
 
     ),
-  cooldowns: new Set(),
-  cooldown: 5,
+    cooldown: {
+      duration: 10, // Set the cooldown duration in seconds
+    },
   // Executing the interaction and defining nessessery stuff
   async execute(interaction) {
+
+
     const user = interaction.options.getUser("user");
 
     if (user) {
     
-     const userSchema1 = await schema.findOne({userID: user.id})
+     const userSchema1 = await schema.findOne({ userID: user.id })
 
         if (!userSchema1) {
           const errEmbed = new EmbedBuilder()
@@ -74,5 +77,6 @@ module.exports = {
           await interaction.reply({ embeds: [balEmbed] });
         }
       }
-    }
+    
+      }
   }

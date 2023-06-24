@@ -13,8 +13,9 @@ module.exports = {
         .setRequired(true),
 
     ),
-  cooldowns: new Set(),
-  cooldown: 5,
+    cooldown: {
+      duration: 5, // Set the cooldown duration in seconds
+    },
   // Executing the interaction and defining nessessery stuff
   async execute(interaction) {
     const user = interaction.options.getUser("user");

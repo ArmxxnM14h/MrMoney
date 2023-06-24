@@ -20,8 +20,9 @@ module.exports = {
         .setDescription("choose the amount you want to give")
         .setRequired(true)
     ),
-  cooldowns: new Set(),
-  cooldown: 10,
+    cooldown: {
+      duration: 60, // Set the cooldown duration in seconds
+    },
   // Executing the interaction and defining nessessery stuff
   async execute(interaction) {
     const user = interaction.options.getUser("user");

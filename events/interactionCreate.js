@@ -1,13 +1,15 @@
-const { stripIndents } = require("common-tags")
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Collection} = require("discord.js");
 const usersDb = require("../models/userschema.js")
-const wait = require('util').promisify(setTimeout);
+const Cooldown = require('../models/cooldownSchema.js')
+
 module.exports = {
     name: "interactionCreate",
     once: false,
     async execute(client, interaction) {
         const Discord = require("discord.js")
         const prettyMilliseconds = require("pretty-ms")
+
+
         if (!interaction.guild) return
         if (interaction.isButton()) {
             if (interaction.customId == "accept_tos") {
@@ -50,7 +52,7 @@ module.exports = {
                     serverID: interaction.guild.id,
                     coins: 100,
                     bank: 0,
-                    job: "Unemployed",
+                    job: "unemployed",
                     workxp: 0,
                     inventory: [],
                     acceptedTos: false,
@@ -104,45 +106,32 @@ module.exports = {
                         content: "DAMN COMMAND NOT EXIST MISSION FAILED SHUUUUUSH",
                     })
                 }
-                if (
-                    (command.cooldowns != undefined &&
-                        command.cooldown == undefined) ||
-                    (command.cooldowns == undefined &&
-                        command.cooldown != undefined)
-                ) {
-                    console.error(
-                        `${command.data.name} has not got a cooldowns list but does have a cooldown. Fix this.`
-                    )
+                const userId = interaction.user.id;
+                const commandName = interaction.commandName
+
+
+                const cooldown = await Cooldown.findOne({ userId, command: commandName });
+                if (cooldown && cooldown.cooldownExpires > new Date()) {
+                    const remainingCooldown = Math.ceil((cooldown.cooldownExpires - new Date()) / 1000);
+                    const cooldownTimestamp = `<t:${Math.round((Date.now() + remainingCooldown * 1000) / 1000)}:R>`;
+                  await interaction.reply({content: `You're on cooldown for this command. Try again in ${cooldownTimestamp}.`, ephemeral: true});
+                  return;
                 }
-    
-                if (command.cooldowns != undefined) {
-                    if (command.cooldowns.has(interaction.member.id)) {
-                        const cooldowntime = prettyMilliseconds(
-                            command.cooldown * 1000
-                        )
-                        const CooldownEmbed = new Discord.EmbedBuilder()
-                            .setTitle("CoolDown alert!")
-                            .setDescription(
-                                `Seems your on cooldown, you only need to wait ${cooldowntime}`
-                            )
-                            .setColor("Random")
-                        return await interaction.reply({ embeds: [CooldownEmbed] })
-                    }
-                }
+                          
     
                 try {
                     await command.execute(interaction)
-                    if (
-                        command.cooldowns != undefined &&
-                        command.cooldown != undefined
-                    ) {
-                        command.cooldowns.add(interaction.member.id)
-    
-                        setTimeout(
-                            () => command.cooldowns.delete(interaction.member.id),
-                            command.cooldown * 1000
-                        )
-                    }
+                    // Check if user is on cooldown
+                    const cooldownExpires = new Date();
+                    cooldownExpires.setSeconds(cooldownExpires.getSeconds() + command.cooldown.duration);
+                    await Cooldown.findOneAndUpdate(
+                      { userId, command: commandName },
+                      { cooldownExpires },
+                      { upsert: true },
+                    );
+                  
+                    
+
                 } catch (error) {
                     console.error(error)
                     return interaction.reply({
