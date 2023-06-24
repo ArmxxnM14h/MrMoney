@@ -10,7 +10,9 @@ module.exports = {
       duration: 15, // Set the cooldown duration in seconds
     },
   async execute(interaction) {
-    const person = ['Donald Trump', 'Joe Biden', 'Boris Johnson', 'Rishi Sunak', 'Jake Paul', 'KSI', 'Tommy Fury', 'Willy Wonka', 'TommyInnit', 'Dream', 'AliA']
+    const preson = ['Donald Trump', 'Joe Biden', 'Boris Johnson', 'Rishi Sunak', 'Jake Paul', 'KSI', 'Tommy Fury', 'Willy Wonka', 'TommyInnit', 'Dream', 'AliA']
+    const person = preson[Math.floor(Math.random() * preson.length)];
+    
     const min = 25;
     const max = 250;
     const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
