@@ -12,7 +12,7 @@ module.exports = {
 		const botAdd = `[here](https://top.gg/bot/896727173136809994
 )`
 		const pingy = new EmbedBuilder()
-			.setColor('RANDOM')
+			.setColor('Random')
 			.setTitle("Vote for MrMoney!")
 			.setDescription(`Thanks for voting for us, 
 

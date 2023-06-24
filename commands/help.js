@@ -40,7 +40,7 @@ module.exports = {
 
           let maxPage = 4;
           let curPage = 1;
-
+          let collectorEnded = false;
           const arrowLeft = new ButtonBuilder()
               .setCustomId('previous')
               .setEmoji('⬅️')
@@ -101,6 +101,7 @@ module.exports = {
 
                   if (curPage == maxPage) {
                       arrowRight.setDisabled(true)
+                      arrowLeft.setDisabled(false);
                   }
 
                   i.editReply({
@@ -109,22 +110,38 @@ module.exports = {
                   })
               }
 
-              if (i.customId == 'previous') {
-                  // defer the interaction
-                  await i.deferUpdate();
-                
-                  curPage -= 1
-                  arrowLeft.setDisabled(false)
-                  arrowRight.setDisabled(false)
-
-                if(curPage = 1){
-                    row.components[0].setDisabled(true)
+              if (i.customId === 'previous') {
+                // Defer the interaction
+                await i.deferUpdate();
+      
+                curPage -= 1;
+                arrowLeft.setDisabled(false);
+                arrowRight.setDisabled(false);
+      
+                if (curPage === 1) {
+                  arrowLeft.setDisabled(true);
                 }
-
-                  i.editReply({
-                      embeds: [pages[curPage - 1]],
-                      components: [row]
+      
+                i.editReply({
+                  embeds: [pages[curPage - 1]],
+                  components: [row],
                   })
+
+                  collector.on('end', async () => {
+                    // Update flag variable to indicate collector ended
+                    collectorEnded = true;
+                  });
+            
+                  // Check collector state every 5 seconds and disable buttons if ended
+                  const checkCollectorState = setInterval(() => {
+                    if (collectorEnded) {
+                      row.components.forEach((component) => {
+                        component.setDisabled(true);
+                      });
+                      clearInterval(checkCollectorState);
+                      interaction.editReply({ components: [row] }).catch(console.error);
+                    }
+                  }, 5000);
               }
           })
 

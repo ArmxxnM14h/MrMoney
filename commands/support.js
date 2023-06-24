@@ -12,7 +12,7 @@ module.exports = {
 		const botAdd = `[Join our support server!](https://discord.gg/kw4YZJ5j3u
 )`
 		const pingy = new EmbedBuilder()
-			.setColor('RANDOM')
+			.setColor('Random')
 			.setTitle("Official Support!")
 			.setDescription(botAdd)
 			.setTimestamp()
