@@ -101,7 +101,7 @@ else if (choice === "streamer") {
     .setTitle('Streamer')
     .setDescription(`:moneybag: **Streamer:** :moneybag:
     you have been hired as a streamer!`)
-    .setColor('RANDOM')
+    .setColor('Random')
     return await interaction.reply({embeds: [streamerEmbed]})
 }
 else if (choice === "taxi") {
