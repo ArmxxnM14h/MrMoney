@@ -212,69 +212,61 @@ module.exports = {
 
             switch(command){
                 case 'info':
-                   const stockName = interaction.options.getString('stockname');
+                    const stockinfo = interaction.options.getString("stockname");
 
-                    if (!stockName) {
-                      // Display all stocks
-                      const stocks = await stockschema.find({});
-                      const stockEmbed = new EmbedBuilder()
-                        .setTitle('Stock Info')
-                        .setColor('#0099ff')
-                        .setDescription('Here are the current stocks:');
-            
-                      for (const stock of stocks) {
-                        stockEmbed.addField(stock.stockName, `Stock ID: ${stock.stockID}\nCurrent Price: $${stock.currentPrice}\nChange Percent: ${stock.changePercent}%\nVolume: ${stock.volume}`);
-                      }
-            
-                      return await interaction.reply({ embeds: [stockEmbed] });
-                    } else {
-                      // Display specific stock
-                      const stock = await stockschema.findOne({ stockName: stockName });
-            
-                      if (!stock) {
-                        return await interaction.reply('That stock does not exist.');
-                      }
-            
-                      const stockEmbed = new MessageEmbed()
-                        .setTitle(stock.stockName)
-                        .setColor('#0099ff')
-                        .setDescription(`**Stock ID:** ${stock.stockID}\n**Current Price:** $${stock.currentPrice}\n**Change Percent:** ${stock.changePercent}%\n**Volume:** ${stock.volume}`);
-            
-                      let trimmedTable;
-                      if (stock.priceTable.length > 100) {
-                        trimmedTable = stock.priceTable.slice(-100);
-                      } else {
-                        trimmedTable = stock.priceTable;
-                      }
-            
-                      const chart = new Chart();
-                      chart
-                        .setConfig({
-                          type: 'line',
-                          data: {
-                            labels: trimmedTable.map((_, i) => i),
-                            datasets: [
-                              {
-                                label: 'Price',
-                                data: trimmedTable,
-                              },
-                            ],
-                          },
-                        })
-                        .setWidth(800)
-                        .setHeight(400)
-                        .setBackgroundColor('white');
-            
-                      const chartUrl = await chart.getShortUrl();
-                      stockEmbed.setImage(chartUrl);
-            
-                      return await interaction.reply({ embeds: [stockEmbed] });
-                    }
-            
-                  default:
-                    break;
+		if (!stockinfo) {
+		const res = await stockschema.find({}) 
+				const stockembed = new EmbedBuilder()
+					.setTitle("Stock Info")
+					.setColor("#0099ff")
+					.setDescription("**Here are the current stocks:**")
+					global.stockLastUpdated ? stockembed.setFooter({text: `Last updated: ${ms(Date.now() - global.stockLastUpdated)} ago`}) : "";
+
+				for (let i = 0; i < res.length; i++) {
+					stockembed.addFields({ name: `${i + 1}. ${res[i].stockName}`, value: `Stock ID: ${res[i].stockID}\nCurrent Price: $${res[i].currentPrice}\nChange Percent: ${res[i].changePercent}%\nVolume: ${res[i].volume}`, inline: true});
+				}
+
+				return await interaction.reply({ embeds: [stockembed] });
+		} else if (stockinfo) {
+		const res = await stockschema.findOne({ stockName: stockinfo })
+
+				if (!res) {
+					return await interaction.reply("That stock does not exist.");
+				}
+
+				const stockembed = new EmbedBuilder()
+					.setTitle(res.stockName)
+					.setColor("#0099ff")
+					.setDescription(`**Stock ID:** ${res.stockID}\n**Current Price:** $${res.currentPrice}\n**Change Percent:** ${res.changePercent}%\n**Volume:** ${res.volume}`);
+				
+				let trimmedTable;
+				if(res.priceTable.length > 100) {
+					 trimmedTable = res.priceTable.slice(-100);
+				} else (trimmedTable = res.priceTable);
+
+				const chart = new Chart();
+				chart
+					.setConfig({
+						type: 'line',
+						data: {
+							labels: trimmedTable.map((_, i) => i),
+							datasets: [
+								{
+									label: "Price",
+									data: trimmedTable
+								}
+							]
+						},
+					})
+					.setWidth(800)
+					.setHeight(400)
+					.setBackgroundColor('white');
+
+				const charturl = await chart.getShortUrl();
+				stockembed.setImage(charturl);
+
+				return await interaction.reply({ embeds: [stockembed] });
+			}
 		}
             }
         }
-      
-    
