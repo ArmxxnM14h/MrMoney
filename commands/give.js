@@ -68,10 +68,8 @@ module.exports = {
         await interaction.reply({ embeds: [ErrorEmbed], ephemeral: true });
       } else if (bal >= given) {
         // Entirely new embed
-        schema.findOne({
-          userID: user.id
-        }, async (err2, res2) => {
-          if (err2) console.log(err);
+       const res2 =  schema.findOne({ userID: user.id })
+        
 
           if (!res2) {
             const errEmbed = new EmbedBuilder()
@@ -104,8 +102,8 @@ module.exports = {
               .setTimestamp();
             interaction.reply({ embeds: [balEmbed] });
           }
-        });
+        };
       }
     }
-  }
+  
 
