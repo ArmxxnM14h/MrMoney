@@ -56,4 +56,3 @@ const newDoc4 = new schema({
 newDoc4.save().catch(err => console.log(err)).then(() => {
   console.log("Added Lunarcoins to database");
 });
-
