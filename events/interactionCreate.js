@@ -109,17 +109,6 @@ module.exports = {
                 const userId = interaction.user.id;
                 const commandName = interaction.commandName
 
-                function formatRemainingTime(seconds) {
-                    if (seconds < 60) {
-                      return `${seconds} seconds)`;
-                    } else if (seconds < 3600) {
-                      const minutes = Math.floor(seconds / 60);
-                      return `${minutes} minutes`;
-                    } else {
-                      const hours = Math.floor(seconds / 3600);
-                      return `${hours} hour(s)`;
-                    }
-                  }
 
                 const cooldown = await Cooldown.findOne({ userId, command: commandName });
                 if (cooldown && cooldown.cooldownExpires > new Date()) {
