@@ -3,6 +3,7 @@ const {  EmbedBuilder } = require('discord.js');
 const userschema = require("../models/userschema.js");
 const stockschema = require("../models/stockschema.js");
 const Chart = require('quickchart-js')
+const ms = require('ms')
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('stock')
