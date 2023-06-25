@@ -60,4 +60,3 @@ if (res.passive === "disabled"){
   }
   
     } 
-

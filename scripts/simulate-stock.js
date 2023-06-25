@@ -64,4 +64,3 @@ chart
 
 console.log(stockPrices);
 chart.getShortUrl().then(console.log);
-

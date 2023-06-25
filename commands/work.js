@@ -21,7 +21,7 @@ module.exports = {
 
 			} else {
 				if (res.job === "unemployed") {
-					interaction.reply({content: "You are unemployed and cannot work!", ephemeral: true})
+			         return interaction.reply({content: "You are unemployed and cannot work!", ephemeral: true})
 				} else if (res.job === "Banker") {
 				const cash = res.coins = res.coins + 300
 				const xp = res.workxp = res.workxp + 20
@@ -113,4 +113,3 @@ module.exports = {
 			}
 		}
 	}
-

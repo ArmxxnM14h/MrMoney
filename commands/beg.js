@@ -7,12 +7,16 @@ module.exports = {
     .setName('beg')
     .setDescription('Beg to random people on the streets'),
     cooldown: {
-      duration: 30, // Set the cooldown duration in seconds
+      duration: 15, // Set the cooldown duration in seconds
     },
   async execute(interaction) {
-    let amount = Math.floor(Math.random() * Math.floor(50 + 1));
-    const coinstoadd = amount;
-
+    const preson = ['Donald Trump', 'Joe Biden', 'Boris Johnson', 'Rishi Sunak', 'Jake Paul', 'KSI', 'Tommy Fury', 'Willy Wonka', 'TommyInnit', 'Dream', 'AliA']
+    const person = preson[Math.floor(Math.random() * preson.length)];
+    
+    const min = 25;
+    const max = 250;
+    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    const coinstoadd = randomNumber;
     try {
       const userSchema = await schema.findOne({ userID: interaction.user.id });
 
@@ -26,18 +30,7 @@ module.exports = {
         return interaction.reply({ embeds: [errEmbed], ephemeral: true });
       }
 
-      if (amount > 10) {
-        response = "Damn, that's unlucky...";
-      }
-      if (amount > 20) {
-        response = "At least it was worth it...";
-      }
-      if (amount > 30) {
-        response = "You got lucky!";
-      }
-      if (amount > 40) {
-        response = "You got really lucky!";
-      }
+      
 
       userSchema.coins += coinstoadd;
       await userSchema.save();
@@ -45,8 +38,7 @@ module.exports = {
       const begEmbed = new EmbedBuilder()
         .setColor('Aqua')
         .setTitle(`${interaction.user.username} begged!`)
-        .setDescription(`You begged everyone\n\nEarned: ${amount} coins!`)
-        .setThumbnail(interaction.user.avatarURL())
+        .setDescription(`You begged ${person}\n\nEarned: ${randomNumber} coins!`)
         .setTimestamp();
 
       return interaction.reply({ embeds: [begEmbed] });
@@ -55,4 +47,4 @@ module.exports = {
       return interaction.reply({ content: 'An error occurred while begging.', ephemeral: true });
     }
   },
-};
+}
