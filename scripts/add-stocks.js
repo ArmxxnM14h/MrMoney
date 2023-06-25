@@ -4,7 +4,7 @@ const schema = require("../models/stockschema.js");
 const newDoc1 = new schema({
   stockID: "CG",
   stockName: "Cyborg",
-  currentPrice: 100,
+  currentPrice: 50,
   priceTable: [0, 100],
   changePercent: 0,
   volume: 0,
@@ -18,7 +18,7 @@ newDoc1.save().catch(err => console.log(err)).then(() => {
 const newDoc2 = new schema({
   stockID: "UM",
   stockName: "Urainium",
-  currentPrice: 20,
+  currentPrice: 10,
   priceTable: [0, 20],
   changePercent: 0,
   volume: 0,
@@ -32,7 +32,7 @@ newDoc2.save().catch(err => console.log(err)).then(() => {
 const newDoc3 = new schema({
   stockID: "AO",
   stockName: "Aloo",
-  currentPrice: 50,
+  currentPrice: 25,
   priceTable: [0, 50],
   changePercent: 0,
   volume: 0,
@@ -46,7 +46,7 @@ newDoc3.save().catch(err => console.log(err)).then(() => {
 const newDoc4 = new schema({
   stockID: "LC",
   stockName: "Lunarcoin",
-  currentPrice: 200,
+  currentPrice: 20,
   priceTable: [0, 200],
   changePercent: 0,
   volume: 0,
