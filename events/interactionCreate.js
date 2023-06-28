@@ -8,7 +8,7 @@ module.exports = {
     async execute(client, interaction) {
         const Discord = require("discord.js")
 const banned = userBanned.findOne({ userID: interaction.user.id })
-if (banned){
+if (interaction.user.id === banned){
     return interaction.reply({content: 'You have been banned from Mr Money. Appeal at: https://discord.gg/zUuPtXqx', ephemeral: true})
 }
         if (!interaction.guild) return
