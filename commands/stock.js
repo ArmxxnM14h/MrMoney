@@ -43,11 +43,12 @@ module.exports = {
 				.setRequired(false),
 		)),
         cooldown: {
-            duration: 15, // Set the cooldown duration in seconds
+            duration: 5, // Set the cooldown duration in seconds
           },
         async execute(interaction) {
             const command = interaction.options.getSubcommand();
-
+            const ms = require('ms')
+            
             switch(command){
                 case 'buy':
                     const stockname = interaction.options.getString("stockname");
