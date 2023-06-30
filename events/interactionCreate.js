@@ -1,14 +1,16 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Collection} = require("discord.js");
 const usersDb = require("../models/userschema.js")
 const Cooldown = require('../models/cooldownSchema.js')
-
+const userBanned = require('../models/bannedUsers.js')
 module.exports = {
     name: "interactionCreate",
     once: false,
     async execute(client, interaction) {
         const Discord = require("discord.js")
-
-
+const banned = userBanned.findOne({ userID: interaction.user.id })
+if (interaction.user.id === banned){
+    return interaction.reply({content: 'You have been banned from Mr Money. Appeal at: https://discord.gg/zUuPtXqx', ephemeral: true})
+}
         if (!interaction.guild) return
         if (interaction.isButton()) {
             if (interaction.customId == "accept_tos") {

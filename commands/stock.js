@@ -44,90 +44,79 @@ module.exports = {
 				.setRequired(false),
 		)),
         cooldown: {
-            duration: 15, // Set the cooldown duration in seconds
+            duration: 5, // Set the cooldown duration in seconds
           },
         async execute(interaction) {
             const command = interaction.options.getSubcommand();
-
-            switch(command){
+            const ms = require('ms')
+            
+            switch (command) {
                 case 'buy':
-                    const stockname = interaction.options.getString("stockname");
-                    const quantity = interaction.options.getInteger("quantity");
-                
-                    if (quantity < 1) {
-                      return await interaction.reply("Mf what are you doing!! You can't buy less than 1 stock.");
-                    }
-                
+                  const stockname = interaction.options.getString("stockname");
+                  const quantity = interaction.options.getInteger("quantity");
+              
+                  if (quantity < 1) {
+                    return await interaction.reply("Mf what are you doing!! You can't buy less than 1 stock.");
+                  }
+              
                   const res = await stockschema.findOne({ stockName: stockname })
-                    
-                      if (!res) {
-                        const errEmbed = new EmbedBuilder()
-                          .setTitle('Error...')
-                          .setDescription('That stock or crypto does not exist!')
-                          .setColor('Red');
-                        return await interaction.reply({ embeds: [errEmbed] });
-                      }
-                
+              
+                  if (!res) {
+                    const errEmbed = new EmbedBuilder()
+                      .setTitle('Error...')
+                      .setDescription('That stock or crypto does not exist!')
+                      .setColor('Red');
+                    return await interaction.reply({ embeds: [errEmbed] });
+                  }
+              
                   const userres = await userschema.findOne({ userID: interaction.user.id })
-                
-                        if (!userres) {
-                          const errEmbed = new EmbedBuilder()
-                            .setTitle('An error has occured')
-                            .setDescription('Please contact support.')
-                            .setColor('Red');
-                          return await interaction.reply({ embeds: [errEmbed] });
-                        }
-                
-                        const totalPrice = res.currentPrice * quantity;
-                
-                        if (userres.coins < totalPrice) {
-                          const errEmbed = new EmbedBuilder()
-                            .setTitle('Error...')
-                            .setDescription('You do not have enough coins to buy this stock!')
-                            .setColor('Red');
-                          return await interaction.reply({ embeds: [errEmbed] });
-                        }
-                
-                        userres.coins = userres.coins - totalPrice;  
-                
-                        if (userres.inventory.some(item => item.name == stockname)) {
-                          userres.inventory.forEach(item => {
-                            if (item.name == stockname) {
-                              item.count = item.count + quantity;
-                            }
-                          });
-                          userres.save().catch(err => console.log(err));
-                        } else {
-                          userres.inventory.push({
-                            name: stockname,
-                            count: quantity,
-                            itemType: "Stock"
-                          });
-                          userres.save().catch(err => console.log(err));
-                        }
-                
-                        res.volume = res.volume + quantity;
-                        if(totalPrice >= res.volume) {
-                          const newPrice = totalPrice - res.volume;
-                          const oldPrice = res.currentPrice;
-                          res.currentPrice = newPrice;
-                          res.changePercent = (newPrice - oldPrice) / oldPrice * 100;
-                          res.changePercent = Math.round(res.changePercent * 100) / 100;
-                          res.priceTable.push(newPrice);
-                          res.health += 1;
-                        }
-                        res.save().catch(err => console.log(err));
-                
-                        const successEmbed = new EmbedBuilder()
-                          .setTitle('Stock Market!')
-                          .setDescription(`You have purchased ${quantity} ${stockname} for ${totalPrice} coins!`)
-                          .setColor('Green');
-                        return await interaction.reply({ embeds: [successEmbed] })
-            }
-
-
-
-
+              
+                  if (!userres) {
+                    const errEmbed = new EmbedBuilder()
+                      .setTitle('An error has occurred')
+                      .setDescription('Please contact support.')
+                      .setColor('Red');
+                    return await interaction.reply({ embeds: [errEmbed] });
+                  }
+              
+                  const totalPrice = res.currentPrice * quantity;
+              
+                  if (userres.coins < totalPrice) {
+                    const errEmbed = new EmbedBuilder()
+                      .setTitle('Error...')
+                      .setDescription('You do not have enough coins to buy this stock!')
+                      .setColor('Red');
+                    return await interaction.reply({ embeds: [errEmbed] });
+                  }
+              
+                  if (userres.inventory.some(item => item.name == stockname)) {
+                    userres.inventory.forEach(item => {
+                      if (item.name == stockname) {
+                        item.count = item.count + quantity;
+                      }
+                    });
+                    userres.save().catch(err => console.log(err));
+                  } else {
+                    userres.inventory.push({
+                      name: stockname,
+                      count: quantity,
+                      itemType: "Stock"
+                    });
+                    userres.save().catch(err => console.log(err));
+                  }
+              
+                  userres.coins = userres.coins - totalPrice; // Deduct the total price from the user's coins
+                  userres.save().catch(err => console.log(err));
+              
+                  // No need to change the rest of the code since we want the change percent and stock price to continue fluctuating over time.
+              
+                  const successEmbed = new EmbedBuilder()
+                    .setTitle('Stock Market!')
+                    .setDescription(`You have purchased ${quantity} ${stockname} for ${totalPrice} coins!`)
+                    .setColor('Green');
+                  return await interaction.reply({ embeds: [successEmbed] })
+              }
+              
 
             switch(command){
                 case 'sell':
@@ -204,11 +193,6 @@ module.exports = {
                         return await interaction.reply({ embeds: [embed] });
                       
             }
-
-
-
-
-
 
 
             switch(command){
