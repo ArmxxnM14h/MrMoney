@@ -36,14 +36,14 @@ module.exports = {
         const Abuser = new EmbedBuilder()
           .setTitle('Unable to withdraw')
           .setDescription('You cannot withdraw anything under 0')
-          .setColor('RANDOM')
+          .setColor('Random')
         return interaction.reply({ embeds: [Abuser], ephemeral: true })
 
       } else if (res.bank < subtract) {
         const ErrorEmbed = new EmbedBuilder()
           .setTitle('Error In Transaction')
           .setDescription('**Text:** Your balance is too low to transfer your money to the bank')
-          .setColor('RANDOM')
+          .setColor('Random')
         return interaction.reply({ embeds: [ErrorEmbed], ephemeral: true })
       }
 
@@ -53,7 +53,7 @@ module.exports = {
         res.bank = res.bank - subtract
         res.save();
         const balEmbed = new EmbedBuilder()
-          .setColor("GREEN")
+          .setColor("Green")
           .setTitle(`Bank Withdrawal`)
           .setDescription(` Cash has successfully been taken out:
 
