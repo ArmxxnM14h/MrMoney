@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mongoURL = 'mongodb+srv://MrMoney:armaanmiah2@cluster0.hrd5w.mongodb.net/Economy?retryWrites=true&w=majority';
+const mongoURL = 'mongodb://admin:armaanmiah2@144.172.80.146:1027/';
 
 mongoose.connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
   console.log('Mongoose connected');
