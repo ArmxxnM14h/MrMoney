@@ -6,7 +6,7 @@ const Chart = require('quickchart-js')
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('stock')
-		.setDescription('stock options')
+		.setDescription('Options for stock commands!')
     .addSubcommand(group => group.setName('buy').setDescription('Buy totally amazing stock.')
       .setName('buy')
       .setDescription('buy the amazing stock.')
