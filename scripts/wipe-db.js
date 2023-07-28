@@ -1,5 +1,13 @@
 const mongoose = require('mongoose');
 
-mongoose.connect("mongodb+srv://MrMoney:armaanmiah2@cluster0.hrd5w.mongodb.net/Economy?retryWrites=true&w=majority", function() {
-  mongoose.connection.db.dropDatabase().then(() => { console.log("Database Wiped...") }).catch(err => console.log(err));
-})
+async function wipeDatabase() {
+  try {
+    await mongoose.connect("mongodb://admin:armxxn34@144.172.80.145:25565/", { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connection.db.dropDatabase();
+    console.log("Database Wiped...");
+  } catch (err) {
+    console.error("Error connecting to the database:", err);
+  }
+}
+
+wipeDatabase();
