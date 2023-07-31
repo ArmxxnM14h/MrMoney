@@ -21,7 +21,7 @@ module.exports = {
         .setRequired(true)
     ),
     cooldown: {
-      duration: 60, // Set the cooldown duration in seconds
+      duration: 40, // Set the cooldown duration in seconds
     },
   // Executing the interaction and defining nessessery stuff
   async execute(interaction) {

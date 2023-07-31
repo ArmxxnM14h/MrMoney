@@ -4,7 +4,7 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('invite')
-		.setDescription('invite the bot'),
+		.setDescription('Invite MrMoney to your guild!'),
 		cooldown: {
             duration: 2, // Set the cooldown duration in seconds
           },
