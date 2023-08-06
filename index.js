@@ -39,9 +39,7 @@ app.post('/topggwebhook', (req, res) => {
   
     // Get the desired channel by ID and send the embed message
     const channel = client.channels.cache.get(CHANNEL_ID);
-    if (channel && channel instanceof Discord.TextChannel) {
       channel.send(embed);
-    }
   
     res.sendStatus(200);
   });
