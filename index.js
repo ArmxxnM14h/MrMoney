@@ -39,8 +39,5 @@ app.post(
   })
 ); 
 app.listen(3000); 
-  
-
-
 client.login(token);
 require('./utils/updateStock.js');
