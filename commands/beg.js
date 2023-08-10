@@ -37,7 +37,7 @@ module.exports = {
 
       const begEmbed = new EmbedBuilder()
         .setColor('Aqua')
-        .setTitle(`${interaction.user.username} begged!`)
+        .setTitle(`${interaction.user.username} has begged!`)
         .setDescription(`You begged ${person}\n\nEarned: ${randomNumber} coins!`)
         .setTimestamp();
 
