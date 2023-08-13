@@ -18,7 +18,7 @@ module.exports = {
         .setName('work')
         .setDescription('Work to earn more money!'),
     cooldown: {
-        duration: 2, // Set the cooldown duration in seconds
+        duration: 3600, // Set the cooldown duration in seconds
     },
 
     async execute(interaction) {
