@@ -34,10 +34,12 @@ app.post(
     // Get the desired channel by ID and send the embed message
     const channel = client.channels.cache.get(CHANNEL_ID);
       channel.send(embed);
+
     
     console.log(vote.user); 
   })
 ); 
 app.listen(3000); 
+
 client.login(token);
 require('./utils/updateStock.js');
