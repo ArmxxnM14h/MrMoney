@@ -25,9 +25,11 @@ async function artistGame(interaction, jobEarningData) {
       .setDescription(`Identify the color based on its RGB values.\n\nRGB: ${selectedColor.rgb.join(', ')}`)
       .setFooter({ text: 'Reply with the name of the color.'})
       .setTimestamp();
-
-    await interaction.reply({ embeds: [embed] });
-
+      if (interaction.replied) {
+    await interaction.followUp({ embeds: [embed] });
+      } else {
+        await interaction.reply({ embeds: [embed] });
+      }
     const filter = (response) => response.author.id === interaction.user.id;
     const collector = interaction.channel.createMessageCollector({ filter, time: 30000 });
 
@@ -47,7 +49,7 @@ async function artistGame(interaction, jobEarningData) {
           .setColor(`#${selectedColor.rgb.map(val => val.toString(16).padStart(2, '0')).join('')}`)
           .setTitle('Correct!')
           .setDescription(`You've identified the color correctly: **${selectedColor.name}**
-          
+
           > Earned: $${earned}`)
           .setTimestamp();
 
